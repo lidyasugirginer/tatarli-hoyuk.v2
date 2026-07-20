@@ -1,0 +1,346 @@
+.hero {
+  position: relative;
+  height: 120vh;
+  background: #15130f;
+}
+
+.stickyWrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 720px;
+  overflow: hidden;
+  color: #ffffff;
+  background: #15130f;
+  isolation: isolate;
+}
+
+.backgroundVideo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  transform-origin: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(242, 236, 225, 0.6) 0%,
+      rgba(242, 236, 225, 0.22) 18%,
+      rgba(18, 16, 12, 0.05) 42%,
+      rgba(12, 10, 8, 0.48) 76%,
+      rgba(8, 7, 5, 0.76) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(8, 8, 6, 0.66) 0%,
+      rgba(8, 8, 6, 0.32) 34%,
+      rgba(8, 8, 6, 0.08) 66%,
+      rgba(8, 8, 6, 0.03) 100%
+    );
+}
+
+.contentAnimation {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.content {
+  position: absolute;
+  top: 31%;
+  left: max(110px, calc((100vw - 1460px) / 2 + 75px));
+
+  width: min(720px, calc(100vw - 180px));
+
+  pointer-events: auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 22px;
+
+  color: rgba(255, 255, 255, 0.86);
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.content h1 {
+  margin: 0;
+  margin-top: 24px;
+
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: clamp(64px, 6vw, 104px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+
+  text-shadow: 0 5px 30px rgba(0, 0, 0, 0.22);
+}
+
+.content p {
+  max-width: 620px;
+  margin: 30px 0 0;
+
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: clamp(21px, 1.8vw, 31px);
+  line-height: 1.35;
+
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.26);
+}
+
+.bottomFade {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 2;
+
+  height: clamp(110px, 16vh, 180px);
+
+  pointer-events: none;
+
+  background: linear-gradient(
+    180deg,
+    rgba(246, 241, 232, 0) 0%,
+    rgba(246, 241, 232, 0) 42%,
+    rgba(246, 241, 232, 0.08) 58%,
+    rgba(246, 241, 232, 0.28) 74%,
+    rgba(246, 241, 232, 0.64) 88%,
+    #f6f1e8 100%
+  );
+
+  will-change: opacity, transform;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 210px;
+  min-height: 60px;
+  padding: 0 28px;
+
+  border: 1px solid transparent;
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  transition:
+    transform 220ms ease,
+    color 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.primaryButton {
+  color: #211d16;
+  background: #c8a963;
+}
+
+.primaryButton:hover {
+  background: #d8bc7a;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+}
+
+.secondaryButton {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(20, 18, 14, 0.12);
+  backdrop-filter: blur(5px);
+}
+
+.secondaryButton:hover {
+  color: #211d16;
+  border-color: #ffffff;
+  background: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+}
+
+.scrollArrow {
+  position: absolute;
+  z-index: 3;
+  right: 50%;
+  bottom: 28px;
+
+  width: 42px;
+  height: 42px;
+
+  color: #ffffff;
+
+  transform: translateX(50%);
+}
+
+.scrollArrow::before {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+
+  width: 1px;
+  height: 28px;
+
+  content: "";
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.8)
+  );
+
+  transform: translateX(-50%);
+}
+
+.scrollArrow span {
+  position: absolute;
+  top: 7px;
+  left: 11px;
+
+  width: 18px;
+  height: 18px;
+
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+
+  transform: rotate(45deg);
+  animation: arrowBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  50% {
+    transform: translateY(7px) rotate(45deg);
+  }
+}
+
+@media (max-width: 1000px) {
+  .hero {
+    height: 165vh;
+  }
+
+  .stickyWrapper {
+    min-height: 680px;
+  }
+
+  .content {
+    left: 72px;
+    width: calc(100vw - 130px);
+  }
+
+  .content h1 {
+    font-size: clamp(58px, 8vw, 82px);
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    height: 145vh;
+  }
+
+  .stickyWrapper {
+    min-height: 700px;
+  }
+
+  .backgroundVideo {
+    object-position: 58% center;
+  }
+
+  .content {
+    top: 50%;
+    right: 22px;
+    left: 22px;
+
+    width: auto;
+  }
+
+  .eyebrow {
+    margin-bottom: 18px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  .content h1 {
+    font-size: clamp(45px, 13vw, 62px);
+    line-height: 0.96;
+  }
+
+  .content p {
+    margin-top: 24px;
+    font-size: 20px;
+  }
+
+  .desktopBreak {
+    display: none;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 34px;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    min-width: 0;
+    min-height: 56px;
+  }
+
+  .scrollArrow {
+    bottom: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollArrow span {
+    animation: none;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    transition: none;
+  }
+}

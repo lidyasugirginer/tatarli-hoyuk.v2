@@ -1,0 +1,391 @@
+.news {
+  min-width: 0;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+}
+
+.headingGroup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.headingGroup h2 {
+  margin: 0;
+
+  color: #33291f;
+
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.headingLine {
+  display: block;
+
+  width: 34px;
+  height: 1px;
+
+  background: #b78b3d;
+}
+
+.newsLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.85fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* =========================================================
+   ÖNE ÇIKAN HABER
+   ========================================================= */
+
+.featuredCard {
+  min-width: 0;
+}
+
+.featuredImageWrapper {
+  position: relative;
+
+  display: block;
+  min-height: 330px;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+
+  background: #d8d0c3;
+}
+
+.image {
+  object-fit: cover;
+
+  transition:
+    transform 600ms ease,
+    filter 400ms ease;
+}
+
+.featuredImageWrapper:hover .image,
+.secondaryImageWrapper:hover .image {
+  transform: scale(1.045);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15, 13, 10, 0.05) 18%,
+      rgba(15, 13, 10, 0.26) 50%,
+      rgba(15, 13, 10, 0.86) 100%
+    );
+}
+
+.dateBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 60px;
+  min-height: 78px;
+  padding: 8px 6px;
+
+  color: #ffffff;
+  background: rgba(27, 23, 18, 0.9);
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dateBox strong {
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.dateBox span {
+  margin-top: 5px;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.dateBox small {
+  margin-top: 3px;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 8px;
+  letter-spacing: 0.05em;
+}
+
+.featuredContent {
+  position: absolute;
+  right: 25px;
+  bottom: 24px;
+  left: 25px;
+  z-index: 2;
+
+  color: #ffffff;
+}
+
+.featuredContent h3 {
+  margin: 0;
+
+  max-width: 420px;
+
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.featuredContent p {
+  max-width: 470px;
+  margin: 9px 0 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.readLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-top: 17px;
+
+  color: #dfbe72;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.readLink span {
+  transition: transform 180ms ease;
+}
+
+.featuredImageWrapper:hover .readLink span {
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   KÜÇÜK HABERLER
+   ========================================================= */
+
+.secondaryList {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.secondaryCard {
+  display: grid;
+  grid-template-columns: 90px 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+
+  padding: 0 0 17px;
+  margin-bottom: 17px;
+
+  border-bottom: 1px solid rgba(66, 54, 41, 0.13);
+}
+
+.secondaryImageWrapper {
+  position: relative;
+
+  display: block;
+  width: 90px;
+  height: 70px;
+
+  overflow: hidden;
+
+  border-radius: 4px;
+
+  background: #d8d0c3;
+}
+
+.secondaryDate {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+
+  color: #3c3127;
+}
+
+.secondaryDate strong {
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.secondaryDate > span {
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 2px;
+
+  color: #6c6257;
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.secondaryDate small {
+  margin-top: 3px;
+
+  color: #999085;
+
+  font-size: 7px;
+  font-weight: 500;
+}
+
+.secondaryContent {
+  min-width: 0;
+}
+
+.secondaryContent h3 {
+  margin: 0;
+
+  color: #33291f;
+
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.secondaryContent h3 a {
+  color: inherit;
+
+  transition: color 180ms ease;
+}
+
+.secondaryContent h3 a:hover {
+  color: #a77f37;
+}
+
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-top: 8px;
+
+  color: #a77f37;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.secondaryLink span,
+.allNewsLink span {
+  transition: transform 180ms ease;
+}
+
+.secondaryLink:hover span,
+.allNewsLink:hover span {
+  transform: translateX(4px);
+}
+
+.allNewsLink {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+
+  margin-top: auto;
+  padding-top: 3px;
+
+  color: #a77f37;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1180px) {
+  .newsLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .secondaryList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .secondaryCard {
+    grid-template-columns: 84px 38px minmax(0, 1fr);
+
+    margin-bottom: 0;
+  }
+
+  .allNewsLink {
+    grid-column: 1 / -1;
+
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 720px) {
+  .headingGroup h2 {
+    font-size: 19px;
+  }
+
+  .featuredImageWrapper {
+    min-height: 320px;
+  }
+
+  .featuredContent {
+    right: 20px;
+    bottom: 21px;
+    left: 20px;
+  }
+
+  .featuredContent h3 {
+    font-size: 21px;
+  }
+
+  .secondaryList {
+    grid-template-columns: 1fr;
+  }
+
+  .secondaryCard {
+    grid-template-columns: 82px 38px minmax(0, 1fr);
+  }
+}

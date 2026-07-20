@@ -1,0 +1,436 @@
+.languageSwitch {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  isolation: isolate;
+}
+
+/* =========================================================
+   ANA DİL SEÇİCİ
+   Navbar ile aynı sade görünüm
+   ========================================================= */
+
+.trigger {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  height: 34px;
+  padding: 0 3px 7px;
+
+  border: 0;
+  border-radius: 0;
+
+  color: rgba(255, 255, 255, 0.92);
+  background: transparent;
+
+  font: inherit;
+  cursor: pointer;
+
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.38);
+
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+/* Navbar bağlantılarındaki gibi ince alt çizgi */
+
+.trigger::after {
+  position: absolute;
+  right: 0;
+  bottom: 1px;
+  left: 0;
+
+  height: 1px;
+
+  content: "";
+
+  border-radius: 999px;
+
+  background: #d5b36d;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition:
+    transform 220ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+/* =========================================================
+   İKON, YAZI VE OK
+   ========================================================= */
+
+.globeIcon {
+  flex: 0 0 auto;
+
+  width: 17px;
+  height: 17px;
+
+  color: rgba(213, 179, 109, 0.88);
+
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+
+  transition:
+    color 180ms ease,
+    transform 200ms ease;
+}
+
+.currentLanguage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 21px;
+
+  color: rgba(255, 255, 255, 0.94);
+
+  font-family: var(--font-inter), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.08em;
+
+  transition:
+    color 180ms ease;
+}
+
+.chevron {
+  flex: 0 0 auto;
+
+  width: 13px;
+  height: 13px;
+
+  color: rgba(213, 179, 109, 0.88);
+
+  transition:
+    color 180ms ease,
+    transform 220ms ease;
+}
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.trigger:hover {
+  color: #ffffff;
+}
+
+.trigger:hover::after {
+  transform: scaleX(1);
+
+  background: #e4c47f;
+
+  box-shadow:
+    0 0 7px rgba(228, 196, 127, 0.32);
+}
+
+.trigger:hover .globeIcon,
+.trigger:hover .chevron {
+  color: #e4c47f;
+}
+
+.trigger:hover .globeIcon {
+  transform: rotate(7deg);
+}
+
+.trigger:hover .currentLanguage {
+  color: #ffffff;
+}
+
+/* =========================================================
+   AÇIK DURUM
+   ========================================================= */
+
+.triggerOpen {
+  color: #ffffff;
+}
+
+.triggerOpen::after {
+  transform: scaleX(1);
+
+  background: #e4c47f;
+
+  box-shadow:
+    0 0 7px rgba(228, 196, 127, 0.28);
+}
+
+.triggerOpen .globeIcon,
+.triggerOpen .chevron {
+  color: #e4c47f;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.trigger:focus-visible {
+  outline: 1px solid rgba(228, 196, 127, 0.9);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   DROPDOWN
+   Küçük, sade ve müze estetiğine uygun
+   ========================================================= */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -12px;
+  z-index: 100;
+
+  width: 166px;
+  padding: 6px;
+
+  visibility: hidden;
+  opacity: 0;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(213, 179, 109, 0.25);
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(36, 31, 25, 0.94),
+      rgba(20, 18, 15, 0.96)
+    );
+
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transform: translateY(-6px);
+  transform-origin: top right;
+
+  pointer-events: none;
+
+  transition:
+    opacity 170ms ease,
+    visibility 170ms ease,
+    transform 200ms ease;
+}
+
+.dropdownOpen {
+  visibility: visible;
+  opacity: 1;
+
+  transform: translateY(0);
+
+  pointer-events: auto;
+}
+
+/* =========================================================
+   DROPDOWN SEÇENEKLERİ
+   ========================================================= */
+
+.option {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 25px 1fr 17px;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 43px;
+  padding: 7px 9px;
+
+  border: 0;
+  border-radius: 4px;
+
+  color: rgba(255, 255, 255, 0.78);
+  background: transparent;
+
+  font: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.option:hover {
+  color: #ffffff;
+
+  background: rgba(213, 179, 109, 0.09);
+}
+
+.option:focus-visible {
+  outline: 1px solid rgba(228, 196, 127, 0.8);
+  outline-offset: -1px;
+}
+
+.activeOption {
+  color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* =========================================================
+   BAYRAKLAR
+   ========================================================= */
+
+.flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.22);
+
+  transition:
+    transform 170ms ease,
+    box-shadow 170ms ease;
+}
+
+.flagIcon {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+}
+
+.option:hover .flag {
+  transform: scale(1.04);
+
+  box-shadow:
+    0 3px 7px rgba(0, 0, 0, 0.28);
+}
+
+/* =========================================================
+   DROPDOWN YAZISI VE TİK
+   ========================================================= */
+
+.optionText {
+  color: rgba(255, 255, 255, 0.8);
+
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+
+  transition:
+    color 160ms ease;
+}
+
+.option:hover .optionText,
+.activeOption .optionText {
+  color: #ffffff;
+}
+
+.optionMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 17px;
+  height: 17px;
+}
+
+.checkIcon {
+  width: 16px;
+  height: 16px;
+
+  color: #d5b36d;
+
+  filter:
+    drop-shadow(0 0 4px rgba(213, 179, 109, 0.24));
+}
+
+/* İki dil arasındaki ince ayırıcı */
+
+.divider {
+  width: calc(100% - 18px);
+  height: 1px;
+  margin: 2px auto;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .trigger {
+    gap: 6px;
+
+    height: 32px;
+    padding-bottom: 6px;
+  }
+
+  .globeIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .currentLanguage {
+    font-size: 11px;
+  }
+
+  .chevron {
+    width: 12px;
+    height: 12px;
+  }
+
+  .dropdown {
+    right: -8px;
+
+    width: 156px;
+  }
+
+  .option {
+    min-height: 41px;
+
+    grid-template-columns: 23px 1fr 16px;
+  }
+
+  .flag {
+    width: 22px;
+    height: 22px;
+  }
+
+  .optionText {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   HAREKET AZALTMA
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .trigger::after,
+  .globeIcon,
+  .chevron,
+  .dropdown,
+  .option,
+  .flag {
+    transition: none;
+  }
+}
