@@ -1,12 +1,55 @@
+"use client";
+
+import { ChevronDown, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import LanguageSwitch from "./language-switch";
 import styles from "./header.module.css";
 
+const navItems = [
+  {
+    href: "/hakkinda",
+    label: "Hakkında",
+  },
+  {
+    href: "/buluntular",
+    label: "Buluntular",
+  },
+  {
+    href: "/yayinlar",
+    label: "Yayınlar",
+  },
+  {
+    href: "/galeri",
+    label: "Galeri",
+  },
+  {
+    href: "/iletisim",
+    label: "İletişim",
+  },
+];
+
 export default function Header() {
+  const pathname = usePathname();
+
+  const isHomePage = pathname === "/";
+
+  const isActiveLink = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${
+        isHomePage ? styles.homeHeader : styles.innerHeader
+      }`}
+    >
       <div className={styles.container}>
         <div className={styles.brands}>
           <Link href="/" className={styles.brand}>
@@ -45,14 +88,74 @@ export default function Header() {
         </div>
 
         <nav className={styles.nav} aria-label="Ana menü">
-          <Link href="/hakkinda">Hakkında</Link>
-          <Link href="/kizzuwatna">
-            Kizzuwatna Araştırma Projeleri
+          <Link
+            href="/hakkinda"
+            className={isActiveLink("/hakkinda") ? styles.activeLink : undefined}
+          >
+            Hakkında
           </Link>
-          <Link href="/buluntular">Buluntular</Link>
-          <Link href="/yayinlar">Yayınlar</Link>
-          <Link href="/galeri">Galeri</Link>
-          <Link href="/iletisim">İletişim</Link>
+
+          <div className={styles.dropdown}>
+            <Link
+              href="/kizzuwatna"
+              className={`${styles.dropdownTrigger} ${
+                isActiveLink("/kizzuwatna") ? styles.activeLink : ""
+              }`}
+            >
+              Kizzuwatna Araştırma Projeleri
+
+              <ChevronDown className={styles.dropdownArrow} strokeWidth={2.2} />
+            </Link>
+
+           <div className={styles.dropdownMenu}>
+            <div className={styles.dropdownSection}>
+              <Link href="/kizzuwatna" >
+                 Hakkında
+              </Link>
+
+            <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
+               Bileç Höyük Kurtarma Kazısı
+            </Link>
+
+          <div className={styles.submenu}>
+            <Link
+              href="/kizzuwatna/yuzey-arastirmalari"
+              className={styles.submenuTrigger}
+           >
+          <span>Yüzey Araştırmaları</span>
+
+        <ChevronRight
+          className={styles.submenuArrow}
+          strokeWidth={1.8}
+          aria-hidden="true"
+        />
+      </Link>
+
+      <div className={styles.submenuPanel}>
+        <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
+          Adana İli Yüzey Araştırmaları
+        </Link>
+
+        <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
+          Kayseri İli Yüzey Araştırmaları
+        </Link>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+
+          {navItems
+            .filter((item) => item.href !== "/hakkinda")
+            .map((item) => (
+              <Link
+                href={item.href}
+                key={item.href}
+                className={isActiveLink(item.href) ? styles.activeLink : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
         </nav>
 
         <div className={styles.languageArea}>

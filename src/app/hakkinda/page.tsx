@@ -24,16 +24,33 @@ export default function AboutPage() {
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        <header className={styles.pageHeader}>
-          <nav className={styles.breadcrumb} aria-label="Sayfa yolu">
-            <Link href="/">Ana Sayfa</Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page">Hakkında</span>
-          </nav>
-          <p className={styles.eyebrow}>Tatarlı Höyük Kazısı</p>
-          <h1>Hakkında</h1>
-          <div className={styles.titleLine} aria-hidden="true" />
-        </header>
+      <header className={styles.pageHeader}>
+  <div className={styles.headerText}>
+    <nav className={styles.breadcrumb} aria-label="Sayfa yolu">
+      <Link href="/">Ana Sayfa</Link>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">Hakkında</span>
+    </nav>
+
+    <p className={styles.eyebrow}>Tatarlı Höyük Kazısı</p>
+
+    <h1>Hakkında</h1>
+
+    <div className={styles.titleLine} aria-hidden="true" />
+  </div>
+
+  <div className={styles.frieze} aria-hidden="true">
+    {[1, 2, 3].map((item) => (
+      <Image
+        key={item}
+        src="/images/hakkinda/cizim0.png"
+        alt=""
+        width={520}
+        height={230}
+      />
+    ))}
+  </div>
+</header>
 
         <section className={styles.introSection}>
           <div className={styles.introText}>

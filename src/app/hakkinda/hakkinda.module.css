@@ -1,16 +1,19 @@
 .page {
   min-height: 100vh;
-  padding-top: 138px;
+  padding-top: 120px;
   background:
-    radial-gradient(circle at 90% 10%, rgba(183, 145, 75, 0.08), transparent 32rem),
+    radial-gradient(
+      circle at 88% 12%,
+      rgba(183, 145, 75, 0.035),
+      transparent 34rem
+    ),
     #f6f1e8;
   color: #2a2119;
 }
-
 .container {
   width: min(1440px, calc(100% - 96px));
   margin: 0 auto;
-  padding: 28px 0 96px;
+  padding: 34px 0 96px;
 }
 
 .breadcrumb {
@@ -28,11 +31,80 @@
 .breadcrumb a:hover { color: #2a2119; }
 
 .pageHeader {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.72fr) minmax(620px, 1.28fr);
+  gap: 36px;
+  align-items: end;
+
+  min-height: 205px;
+  margin-bottom: 46px;
+  overflow: hidden;
+}
+
+.headerText {
+  position: relative;
+  z-index: 2;
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 18px;
-  margin-bottom: 72px;
+  gap: 16px;
+
+  padding-bottom: 18px;
+}
+
+.frieze {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+
+  height: 190px;
+  padding: 0 0 0 48px;
+  overflow: visible;
+
+  pointer-events: none;
+
+  padding-left:48px;
+  transform: translateY(-12px);
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 96%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 96%,
+    transparent 100%
+  );
+}
+
+.frieze img {
+  display: block;
+  width: clamp(240px, 21vw, 330px);
+  height: auto;
+  flex: 0 0 auto;
+
+  mix-blend-mode: multiply;
+
+  opacity: 0.09;
+  filter:
+    sepia(100%)
+    saturate(240%)
+    hue-rotate(-14deg)
+    brightness(1.38)
+    contrast(0.48)
+    blur(0.2px);
 }
 
 .eyebrow {
@@ -51,6 +123,8 @@
   font-weight: 400;
   line-height: 1;
 }
+
+
 
 .titleLine { width: 55px; height: 1px; margin-top: 4px; background: #b9974f; }
 
@@ -173,8 +247,17 @@
 .tableNote { margin: 11px 0 0; color: #8c8176; font-size: 11px; }
 
 @media (max-width: 1180px) {
-  .page { padding-top: 122px; }
-  .container { width: min(100% - 56px, 1200px); }
+  .page {
+    padding-top: 122px;
+  }
+
+  .container {
+    width: min(100% - 56px, 1200px);
+  }
+
+  .pageHeader {
+    min-height: 300px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -189,6 +272,14 @@
   .landscapeImage {
     width: 100%;
   }
+  .pageHeader {
+  min-height: 285px;
+}
+
+.headerText {
+  width: 100%;
+}
+
 }
 
 @media (max-width: 620px) {
@@ -207,4 +298,8 @@
   }
   .tableWrapper th,
   .tableWrapper td { padding: 10px; font-size: 12px; }
+  .pageHeader {
+  min-height: 260px;
+}
+
 }
