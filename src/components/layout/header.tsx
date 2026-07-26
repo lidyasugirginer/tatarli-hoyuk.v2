@@ -51,7 +51,6 @@ export default function Header() {
           </Link>
           <Link href="/buluntular">Buluntular</Link>
           <Link href="/yayinlar">Yayınlar</Link>
-          <Link href="/projeler">Projeler</Link>
           <Link href="/galeri">Galeri</Link>
           <Link href="/iletisim">İletişim</Link>
         </nav>
