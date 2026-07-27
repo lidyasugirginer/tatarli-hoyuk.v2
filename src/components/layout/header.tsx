@@ -82,7 +82,7 @@ export default function Header() {
 
             <div className={styles.brandText}>
               <strong>Kizzuwatna</strong>
-              <span>Araştırma Projesi</span>
+              <span>Araştırmaları Projesi</span>
             </div>
           </Link>
         </div>
@@ -102,7 +102,7 @@ export default function Header() {
                 isActiveLink("/kizzuwatna") ? styles.activeLink : ""
               }`}
             >
-              Kizzuwatna Araştırma Projeleri
+              Kizzuwatna Araştırmaları Projesi
 
               <ChevronDown className={styles.dropdownArrow} strokeWidth={2.2} />
             </Link>
