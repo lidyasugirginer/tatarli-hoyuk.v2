@@ -1,0 +1,160 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 30px 32px;
+  background: #ffffff;
+  border: 1px solid #e5e1d8;
+  border-radius: 15px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #9a8050;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  margin: 0;
+  color: #171714;
+  font-size: 27px;
+  line-height: 1.2;
+}
+
+.description {
+  max-width: 650px;
+  margin: 10px 0 0;
+  color: #77746d;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px;
+  color: #ffffff;
+  background: #262219;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+.primaryButton:hover {
+  background: #3b3427;
+  transform: translateY(-1px);
+}
+
+.contentCard {
+  min-height: 440px;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e5e1d8;
+  border-radius: 15px;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ebe8e1;
+}
+
+.cardLabel {
+  margin: 0 0 5px;
+  color: #9a8050;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tableHeader h3 {
+  margin: 0;
+  color: #1b1b18;
+  font-size: 19px;
+}
+
+.recordCount {
+  color: #88847c;
+  font-size: 13px;
+}
+
+.emptyState {
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 17px;
+  color: #8e774a;
+  background: #f2efe8;
+  border-radius: 13px;
+}
+
+.emptyState h3 {
+  margin: 0;
+  color: #24231f;
+  font-size: 17px;
+}
+
+.emptyState p {
+  max-width: 430px;
+  margin: 8px 0 0;
+  color: #88847c;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.emptyLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 20px;
+  color: #6f5c37;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.emptyLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  .heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .primaryButton {
+    width: 100%;
+  }
+}

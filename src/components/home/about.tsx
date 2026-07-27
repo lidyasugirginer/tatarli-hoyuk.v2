@@ -26,7 +26,7 @@ export default function About() {
 
         <div className={styles.imageWrapper}>
           <Image
-            src="/images/anasayfa-hakkinda.jpg"
+            src="/images/anasayfa-hakkinda.JPG"
             alt="Tatarlı Höyük hava görünümü"
             fill
             className={styles.image}
