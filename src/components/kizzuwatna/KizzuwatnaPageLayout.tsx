@@ -13,9 +13,10 @@ type ContentSection = {
 
 type KizzuwatnaPageLayoutProps = {
   breadcrumb: string;
-  eyebrow?: string;
+  eyebrow: string;
   title: string;
   sections?: ContentSection[];
+  textOnly?: boolean;
 };
 
 export default function KizzuwatnaPageLayout({
@@ -23,6 +24,7 @@ export default function KizzuwatnaPageLayout({
   eyebrow = "Kizzuwatna Araştırma Projeleri",
   title,
   sections = [],
+  textOnly = false,
 }: KizzuwatnaPageLayoutProps) {
   return (
     <main className={styles.page}>

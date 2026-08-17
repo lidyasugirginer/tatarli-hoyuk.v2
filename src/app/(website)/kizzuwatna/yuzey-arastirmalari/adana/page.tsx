@@ -9,23 +9,35 @@ export default function AdanaYuzeyArastirmalariPage() {
       sections={[
         {
           number: "01",
-          title: "Araştırmanın Kapsamı",
+          title: "Araştırmanın Kapsamı ve Amacı",
           paragraphs: [
-            "Bu alana Adana ili yüzey araştırmalarının kapsamı ve amacıyla ilgili içerik gelecek.",
+            "Çukurova Üniversitesi’nden Doç. Dr. K. Serdar Girginer tarafından \"Kizzuwatna Araştırmaları\" adı altında 2002 yılında başlatılmıştır. Bu geniş kapsamlı çalışmanın temel hedefi, M.Ö. II. binyılda bölgede egemen olan Kizzuwatna Ülkesi’nin yerleşimlerini saptamaktır. Araştırmalar süresince kuzeydeki dağlık Tufanbeyli ve Saimbeyli ilçelerinden, güneydeki ovalık Kozan ve Ceyhan bölgelerine kadar uzanan yaklaşık 41.310 km²’lik oldukça geniş bir alan taranmıştır.",
           ],
+          image: "/images/kizzuwatna/adana/adana-0.jpg",
+          imageAlt: "",
         },
         {
           number: "02",
-          title: "Çalışma Alanları",
+          title: "Tufanbeyli ve Saimbeyli Araştırmaları",
           paragraphs: [
-            "Bu alana araştırma bölgeleri ve belgelenen yerleşimlerle ilgili içerik gelecek.",
+            "Tufanbeyli (2002) ve Saimbeyli (2003) araştırmaları, bölgenin Kapadokya ile Kilikya arasındaki kültürel geçiş konumunu belgeler niteliktedir. Tufanbeyli'de, antik Hitit metinlerinde geçen kutsal kent Kummanni ile lokalize edilen Şar Köyü (Kapadokya Komanası) ve çevresindeki Gala Tepe, Küçük Sarı Fakı Höyük gibi merkezlerde Kalkolitik Çağ’dan itibaren iskan izlerine rastlanmıştır.",
+            "Saimbeyli'de ise sarp coğrafya nedeniyle yerleşimlerin daha çok nehir ve dere kenarlarında yoğunlaştığı, özellikle Roma ve Bizans dönemlerine ait anıtsal kaya mezarları (heroonlar), kaleler ve kiliselerin bölge mimarisinde baskın olduğu saptanmıştır. Ayrıca Saimbeyli'nin antik dönemlerden itibaren demir, alüminyum ve çinko gibi maden yatakları açısından zengin bir ekonomik potansiyele sahip olduğu verilerle desteklenmiştir.",
           ],
         },
         {
           number: "03",
-          title: "Araştırma Sonuçları",
+          title: "Kozan ve Ceyhan Araştırmaları",
           paragraphs: [
-            "Bu alana araştırma sonuçları ve başlıca değerlendirmeler eklenecek.",
+            "Kozan (2004) ve Ceyhan (2005-2006) çalışmalarının odak noktası olan \"Yukarı Ova\" bölgesi, Neolitik Çağ’dan itibaren kesintisiz ve yoğun bir iskan tablosu sunmaktadır. Kozan'da Çiriş Tepe, Tılan Höyük ve Alapınar Höyük gibi merkezlerde Kalkolitik'ten Roma Dönemine kadar uzanan buluntular derlenirken, Ceyhan'da Hacılar Höyük, Yarımhöyük ve Mercin-Boz Höyük gibi stratejik noktalar incelenmiştir.",
+            "Bu araştırmalarda elde edilen en önemli verilerden biri, bölgenin Roma İmparatoru Vespasianus Döneminde inşa edilen yol ağı üzerindeki lojistik ve tarımsal üretim merkezi rolünün belgelenmesidir. Ayrıca Ceyhan ve Kozan höyüklerinden toplanan Hellenistik dönem kalıp yapımı kabartmalı kaseler (Megara kaseleri), bölgenin Akdeniz dünyası ile olan ticari ve sanatsal bağlarını kanıtlamaktadır.",
+          ],
+        },
+        {
+          number: "04",
+          title: "Arkeolojik Tahribat ve Koruma",
+          paragraphs: [
+            "Araştırmaların ortaya koyduğu bir diğer kritik veri ise, bölgedeki arkeolojik dokunun maruz kaldığı hızlı tahribattır. Özellikle Ceyhan Ovası'ndaki höyüklerin ve antik yerleşimlerin, tarım arazisi açma çalışmaları, iş makineleri, sulama kanalları ve sanayileşme nedeniyle %90'a varan oranlarda yok edildiği saptanmıştır.",
+            "Örneğin, Ekenler Çiftliği ve Çokça Höyük gibi merkezlerin tarımsal ve endüstriyel faaliyetler sonucu büyük ölçüde zarar gördüğü rapor edilmiştir. Bu durum, Kizzuwatna Araştırmalarının sadece bir envanter çalışması değil, aynı zamanda hızla yok olan bir kültürel mirasın kayıt altına alınması adına bir koruma görevi de üstlendiğini göstermektedir.",
           ],
         },
       ]}

@@ -3,12 +3,23 @@ import Link from "next/link";
 
 import styles from "./inner-page-layout.module.css";
 
+type SectionImage = {
+  src: string;
+  alt: string;
+  fit?: "cover" | "contain";
+};
+
 type ContentSection = {
   number: string;
   title: string;
   paragraphs?: string[];
+
+  // Eski sayfalar bozulmasın diye bunları koruyoruz
   image?: string;
   imageAlt?: string;
+
+  // Yeni çoklu görsel desteği
+  images?: SectionImage[];
 };
 
 type InnerPageLayoutProps = {
@@ -67,7 +78,29 @@ export default function InnerPageLayout({
             </div>
 
             <div className={styles.visualArea}>
-              {section.image ? (
+              {section.images && section.images.length > 0 ? (
+                <div className={styles.imageStack}>
+                  {section.images.map((image, index) => (
+                    <div
+                      key={`${image.src}-${index}`}
+                      className={styles.imageFrame}
+                    >
+                      <Image
+                        className={`${styles.contentImage} ${
+                          image.fit === "contain"
+                            ? styles.imageContain
+                            : styles.imageCover
+                        }`}
+                        src={image.src}
+                        alt={image.alt}
+                        width={1400}
+                        height={900}
+                        sizes="(max-width: 900px) 100vw, 55vw"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : section.image ? (
                 <Image
                   className={styles.contentImage}
                   src={section.image}
