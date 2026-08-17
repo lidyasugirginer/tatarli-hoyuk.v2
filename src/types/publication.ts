@@ -6,6 +6,7 @@ export type PublicationItem = {
   publication_type: string;
   cover_image_url: string;
   publication_url: string;
+  sort_order: number;
 };
 
 export type PublicationFormValues = {

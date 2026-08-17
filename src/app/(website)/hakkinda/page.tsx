@@ -58,7 +58,7 @@ export default function AboutPage() {
             <h2>Tatarlı Höyük</h2>
             <p>Tatarlı Höyük, Adana ilinin Ceyhan ilçesinin yaklaşık 40 kilometre doğusunda, Doğu Ovalık Kilikya’nın verimli düzlüklerinde yer alan önemli bir arkeolojik yerleşimdir.</p>
             <p>Neolitik Çağ’dan Roma Dönemi’ne kadar uzanan yaklaşık yedi bin yıllık kesintisiz iskân geçmişiyle Tatarlı Höyük, Çukurova’nın en uzun süre yaşamın devam ettiği merkezlerden biridir.</p>
-            <p>2007 yılından bu yana Çukurova Üniversitesi adına ve T.C. Kültür ve Turizm Bakanlığının izin ve destekleriyle sürdürülen kazılar, yerleşimin tarih öncesinden tarihî dönemlere uzanan gelişimini ortaya koymaktadır.</p>
+            <p>2007 yılından bu yana Doç. Dr. K. Serdar Girginer'in Başkanlığında Çukurova Üniversitesi ve T.C. Kültür ve Turizm Bakanlığı adına, Adana Büyükşehir Belediyesi destekleriyle sürdürülen kazılar, yerleşimin tarih öncesinden tarihî dönemlere uzanan gelişimini ortaya koymaktadır.</p>
             <p>Kazılarda ortaya çıkarılan mimari kalıntılar, seramikler, mühürler, figürinler ve diğer arkeolojik buluntular, Tatarlı Höyük’ün tarih boyunca farklı kültürlerin buluştuğu önemli bir merkez olduğunu göstermektedir.</p>
           </div>
 

@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +16,9 @@ import {
   ImagePlus,
   LoaderCircle,
   Save,
+  X,
 } from "lucide-react";
+
 
 import { createClient } from "@/lib/supabase/client";
 
@@ -108,6 +111,22 @@ export default function PublicationForm({
     setPreviewUrl(URL.createObjectURL(file));
   }
 
+  function handleRemoveImage() {
+  if (previewUrl.startsWith("blob:")) {
+    URL.revokeObjectURL(previewUrl);
+  }
+
+  setImageFile(null);
+
+  if (publication?.cover_image_url) {
+    setPreviewUrl(publication.cover_image_url);
+  } else {
+    setPreviewUrl("");
+  }
+
+  setErrorMessage("");
+}
+
   async function uploadCoverImage() {
     if (!imageFile) {
       return values.cover_image_url;
@@ -193,23 +212,48 @@ export default function PublicationForm({
           throw error;
         }
       } else {
-        const { error } = await supabase
-          .from("publications")
-          .insert(payload);
+  const publicationYear = Number(values.publication_year);
 
-        if (error) {
-          throw error;
-        }
-      }
+  const { data: lastPublication, error: orderError } =
+    await supabase
+      .from("publications")
+      .select("sort_order")
+      .eq("publication_year", publicationYear)
+      .order("sort_order", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+  if (orderError) {
+    throw orderError;
+  }
+
+  const nextSortOrder =
+    lastPublication?.sort_order != null
+      ? lastPublication.sort_order + 1
+      : 0;
+
+  const { error } = await supabase
+    .from("publications")
+    .insert({
+      ...payload,
+      sort_order: nextSortOrder,
+    });
+
+  if (error) {
+    throw error;
+  }
+}
 
       router.push("/site-yonetimi/yayinlar");
       router.refresh();
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Yayın kaydedilirken bir hata oluştu."
-      );
+  console.error("Yayın kaydetme hatası:", error);
+
+  setErrorMessage(
+    error instanceof Error
+      ? error.message
+      : JSON.stringify(error)
+  );
     } finally {
       setIsSaving(false);
     }
@@ -244,7 +288,7 @@ export default function PublicationForm({
             <Save size={18} />
           )}
 
-          Yayını kaydet
+          {publication ? "Değişiklikleri kaydet" : "Yayını kaydet"}
         </button>
       </div>
 
@@ -391,17 +435,30 @@ export default function PublicationForm({
               className={styles.imageUpload}
             >
               {previewUrl ? (
-                <div className={styles.imagePreview}>
-                  <Image
-                    src={previewUrl}
-                    alt="Yayın kapak görseli"
-                    fill
-                    sizes="360px"
-                  />
-                </div>
-              ) : (
+  <div className={styles.imagePreview}>
+    <Image
+      src={previewUrl}
+      alt="Yayın kapak görseli"
+      fill
+      sizes="360px"
+    />
+
+    <button
+      type="button"
+      className={styles.removeImageButton}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        handleRemoveImage();
+      }}
+      aria-label="Kapak görselini kaldır"
+      title="Görseli kaldır"
+    >
+      <X size={17} />
+    </button>
+  </div>
+) : (
                 <div className={styles.imagePlaceholder}>
-                  <BookOpen size={29} />
                   <ImagePlus size={20} />
                   <strong>Kapak görseli seçin</strong>
                   <span>

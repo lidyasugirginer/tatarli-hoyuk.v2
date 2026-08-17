@@ -1,27 +1,110 @@
-import InnerPageLayout from "@/components/shared/InnerPageLayout";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function GaleriPage() {
+import { createClient } from "@/lib/supabase/server";
+import type { GalleryAlbum } from "@/types/gallery";
+
+import styles from "./page.module.css";
+
+export default async function GaleriPage() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("gallery_albums")
+    .select(
+      `
+        id,
+        title,
+        slug,
+        description,
+        cover_image_url,
+        sort_order,
+        created_at,
+        updated_at
+      `
+    )
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  const albums = (data ?? []) as GalleryAlbum[];
+
   return (
-    <InnerPageLayout
-      breadcrumb="Galeri"
-      eyebrow="Tatarlı Höyük Kazısı"
-      title="Galeri"
-      sections={[
-        {
-          number: "01",
-          title: "Kazı Çalışmaları",
-          paragraphs: [
-            "Kazı sezonlarına ait fotoğraflar bu bölümde yer alacak.",
-          ],
-        },
-        {
-          number: "02",
-          title: "Buluntular ve Mimari",
-          paragraphs: [
-            "Buluntular, mimari kalıntılar ve arazi görüntüleri daha sonra eklenecek.",
-          ],
-        },
-      ]}
-    />
+    <main className={styles.page}>
+      <div className={styles.container}>
+        <header className={styles.pageHeader}>
+          <div>
+            <nav className={styles.breadcrumb}>
+              <Link href="/">Ana Sayfa</Link>
+              <span>/</span>
+              <span>Galeri</span>
+            </nav>
+
+            <p className={styles.eyebrow}>
+              Tatarlı Höyük Kazısı
+            </p>
+
+            <h1>Galeri</h1>
+
+            <div className={styles.titleLine} />
+          </div>
+
+          <div className={styles.frieze} aria-hidden="true">
+            {[1, 2, 3].map((item) => (
+              <Image
+                key={item}
+                src="/images/hakkinda/cizim0.png"
+                alt=""
+                width={520}
+                height={230}
+              />
+            ))}
+          </div>
+        </header>
+
+        {error ? (
+          <section className={styles.emptyState}>
+            <p>Galeri şu anda yüklenemiyor.</p>
+          </section>
+        ) : albums.length === 0 ? (
+          <section className={styles.emptyState}>
+            <p>Henüz galeri albümü eklenmedi.</p>
+          </section>
+        ) : (
+          <section className={styles.albumGrid}>
+            {albums.map((album) => (
+              <Link
+                key={album.id}
+                href={`/galeri/${album.slug}`}
+                className={styles.albumCard}
+              >
+                <div className={styles.coverWrapper}>
+                  {album.cover_image_url ? (
+                    <Image
+                      src={album.cover_image_url}
+                      alt={`${album.title} albüm kapağı`}
+                      fill
+                      sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                      className={styles.cover}
+                    />
+                  ) : (
+                    <div className={styles.coverPlaceholder} />
+                  )}
+
+                  <div className={styles.overlay} />
+
+                  <div className={styles.albumInfo}>
+                    <h2>{album.title}</h2>
+
+                    {album.description ? (
+                      <p>{album.description}</p>
+                    ) : null}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </section>
+        )}
+      </div>
+    </main>
   );
 }

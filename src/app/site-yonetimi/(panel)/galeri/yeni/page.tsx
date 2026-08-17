@@ -1,8 +1,5 @@
-export default function YeniGorselPage() {
-  return (
-    <div>
-      <h2>Galeriye Görsel Ekle</h2>
-      <p>Görsel yükleme formu bu ekranda oluşturulacak.</p>
-    </div>
-  );
+import GalleryAlbumForm from "../_components/gallery-album-form";
+
+export default function YeniGaleriAlbumuPage() {
+  return <GalleryAlbumForm />;
 }
