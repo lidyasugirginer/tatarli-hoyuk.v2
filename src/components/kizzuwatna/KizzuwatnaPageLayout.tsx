@@ -2,13 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./kizzuwatna-page-layout.module.css";
+import ImageCollage from "@/components/shared/ImageCollage";
 
 type ContentSection = {
   number: string;
   title: string;
   paragraphs?: string[];
+
   image?: string;
   imageAlt?: string;
+
+  images?: {
+    src: string;
+    alt: string;
+  }[];
 };
 
 type KizzuwatnaPageLayoutProps = {
@@ -78,7 +85,9 @@ export default function KizzuwatnaPageLayout({
               </div>
 
               <div className={styles.visualArea}>
-                {section.image ? (
+                {section.images && section.images.length > 0 ? (
+                  <ImageCollage images={section.images} />
+                ) : section.image ? (
                   <Image
                     className={styles.contentImage}
                     src={section.image}
