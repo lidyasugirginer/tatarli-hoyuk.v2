@@ -13,8 +13,12 @@ export default function AdanaYuzeyArastirmalariPage() {
           paragraphs: [
             "Çukurova Üniversitesi’nden Doç. Dr. K. Serdar Girginer tarafından \"Kizzuwatna Araştırmaları\" adı altında 2002 yılında başlatılmıştır. Bu geniş kapsamlı çalışmanın temel hedefi, M.Ö. II. binyılda bölgede egemen olan Kizzuwatna Ülkesi’nin yerleşimlerini saptamaktır. Araştırmalar süresince kuzeydeki dağlık Tufanbeyli ve Saimbeyli ilçelerinden, güneydeki ovalık Kozan ve Ceyhan bölgelerine kadar uzanan yaklaşık 41.310 km²’lik oldukça geniş bir alan taranmıştır.",
           ],
-          image: "/images/adana-yuzey-arastirmalari/adana-0.jpg",
-          imageAlt: "",
+          images: [
+            {
+              src: "/images/adana-yuzey-arastirmalari/adana-0.jpg",
+              alt: "Adana yüzey araştırmaları",
+            }
+          ]
         },
         {
           number: "02",

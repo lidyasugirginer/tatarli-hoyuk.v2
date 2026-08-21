@@ -1,7 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
 import styles from "./Hero.module.css";
 
@@ -13,62 +18,48 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const videoScale = useTransform(
-    scrollYProgress,
-    [0, 0.8],
-    [1.08, 1]
-  );
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 24,
+    mass: 0.35,
+  });
 
-  const videoOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.75, 1],
-    [1, 0.72, 0]
+  const videoScale = useTransform(
+    smoothProgress,
+    [0, 1],
+    [1.02, 1]
   );
 
   const contentOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.25, 0.8],
-    [1, 1, 0]
+    smoothProgress,
+    [0, 0.65, 1],
+    [1, 1, 0.82]
   );
 
   const contentY = useTransform(
-    scrollYProgress,
-    [0, 0.8],
-    [0, -260]
-  );
-
-  const overlayOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.8],
-    [1, 0.2]
+    smoothProgress,
+    [0, 1],
+    [0, -35]
   );
 
   const arrowOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2],
+    smoothProgress,
+    [0, 0.15],
     [1, 0]
   );
 
   const arrowY = useTransform(
-    scrollYProgress,
-    [0, 0.2],
-    [0, 30]
+    smoothProgress,
+    [0, 0.15],
+    [0, 12]
   );
 
-  const fadeOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.45, 0.85],
-    [0, 0.35, 1]
-  );
-
-  const fadeY = useTransform(
-    scrollYProgress,
-    [0, 0.85],
-    [40, 0]
-  );
 
   return (
-    <section ref={heroRef} className={styles.hero}>
+    <section
+      ref={heroRef}
+      className={styles.hero}
+    >
       <div className={styles.stickyWrapper}>
         <motion.video
           className={styles.backgroundVideo}
@@ -80,18 +71,15 @@ export default function Hero() {
           poster="/images/hero.jpg"
           style={{
             scale: videoScale,
-            opacity: videoOpacity,
           }}
         >
-          <source src="/video/hero.mp4" type="video/mp4" />
+          <source
+            src="/video/hero.mp4"
+            type="video/mp4"
+          />
         </motion.video>
 
-        <motion.div
-          className={styles.overlay}
-          style={{
-            opacity: overlayOpacity,
-          }}
-        />
+        <div className={styles.overlay} />
 
         <motion.div
           className={styles.contentAnimation}
@@ -126,14 +114,6 @@ export default function Hero() {
         >
           <span />
         </motion.a>
-
-        <motion.div
-          className={styles.bottomFade}
-          style={{
-            opacity: fadeOpacity,
-            y: fadeY,
-          }}
-        />
       </div>
     </section>
   );

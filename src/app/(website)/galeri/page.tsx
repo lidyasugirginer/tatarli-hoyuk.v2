@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { GalleryAlbum } from "@/types/gallery";
 
 import styles from "./page.module.css";
+import PageHeader from "@/components/shared/PageHeader";
 
 export default async function GaleriPage() {
   const supabase = await createClient();
@@ -31,35 +32,11 @@ export default async function GaleriPage() {
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        <header className={styles.pageHeader}>
-          <div>
-            <nav className={styles.breadcrumb}>
-              <Link href="/">Ana Sayfa</Link>
-              <span>/</span>
-              <span>Galeri</span>
-            </nav>
-
-            <p className={styles.eyebrow}>
-              Tatarlı Höyük Kazısı
-            </p>
-
-            <h1>Galeri</h1>
-
-            <div className={styles.titleLine} />
-          </div>
-
-          <div className={styles.frieze} aria-hidden="true">
-            {[1, 2, 3].map((item) => (
-              <Image
-                key={item}
-                src="/images/hakkinda/cizim0.png"
-                alt=""
-                width={520}
-                height={230}
-              />
-            ))}
-          </div>
-        </header>
+        <PageHeader
+  breadcrumb="Galeri"
+  eyebrow="Tatarlı Höyük Kazısı"
+  title="Galeri"
+/>
 
         {error ? (
           <section className={styles.emptyState}>

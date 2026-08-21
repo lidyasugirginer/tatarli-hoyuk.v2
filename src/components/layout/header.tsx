@@ -46,9 +46,8 @@ export default function Header() {
 
   return (
     <header
-      className={`${styles.header} ${
-        isHomePage ? styles.homeHeader : styles.innerHeader
-      }`}
+      className={`${styles.header} ${isHomePage ? styles.homeHeader : styles.innerHeader
+        }`}
     >
       <div className={styles.container}>
         <div className={styles.brands}>
@@ -90,7 +89,16 @@ export default function Header() {
         <nav className={styles.nav} aria-label="Ana menü">
           <Link
             href="/hakkinda"
-            className={isActiveLink("/hakkinda") ? styles.activeLink : undefined}
+            className={
+              isActiveLink("/hakkinda")
+                ? styles.activeLink
+                : undefined
+            }
+            aria-current={
+              isActiveLink("/hakkinda")
+                ? "page"
+                : undefined
+            }
           >
             Hakkında
           </Link>
@@ -98,51 +106,50 @@ export default function Header() {
           <div className={styles.dropdown}>
             <Link
               href="/kizzuwatna"
-              className={`${styles.dropdownTrigger} ${
-                isActiveLink("/kizzuwatna") ? styles.activeLink : ""
-              }`}
+              className={`${styles.dropdownTrigger} ${isActiveLink("/kizzuwatna") ? styles.activeLink : ""
+                }`}
             >
               Kizzuwatna Araştırmaları Projesi
 
               <ChevronDown className={styles.dropdownArrow} strokeWidth={2.2} />
             </Link>
 
-           <div className={styles.dropdownMenu}>
-            <div className={styles.dropdownSection}>
-              <Link href="/kizzuwatna" >
-                 Hakkında
-              </Link>
+            <div className={styles.dropdownMenu}>
+              <div className={styles.dropdownSection}>
+                <Link href="/kizzuwatna" >
+                  Hakkında
+                </Link>
 
-            <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
-               Bileç Höyük Kurtarma Kazısı
-            </Link>
+                <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
+                  Bileç Höyük Kurtarma Kazısı
+                </Link>
 
-          <div className={styles.submenu}>
-            <Link
-              href="/kizzuwatna/yuzey-arastirmalari"
-              className={styles.submenuTrigger}
-           >
-          <span>Yüzey Araştırmaları</span>
+                <div className={styles.submenu}>
+                  <Link
+                    href="/kizzuwatna/yuzey-arastirmalari"
+                    className={styles.submenuTrigger}
+                  >
+                    <span>Yüzey Araştırmaları</span>
 
-        <ChevronRight
-          className={styles.submenuArrow}
-          strokeWidth={1.8}
-          aria-hidden="true"
-        />
-      </Link>
+                    <ChevronRight
+                      className={styles.submenuArrow}
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+                  </Link>
 
-      <div className={styles.submenuPanel}>
-        <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
-          Adana İli Yüzey Araştırmaları
-        </Link>
+                  <div className={styles.submenuPanel}>
+                    <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
+                      Adana İli Yüzey Araştırmaları
+                    </Link>
 
-        <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
-          Kayseri İli Yüzey Araştırmaları
-        </Link>
-      </div>
-    </div>
-  </div>
-</div>
+                    <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
+                      Kayseri İli Yüzey Araştırmaları
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {navItems
@@ -159,7 +166,7 @@ export default function Header() {
         </nav>
 
         <div className={styles.languageArea}>
-          <LanguageSwitch />
+          <LanguageSwitch isHomePage={isHomePage} />
         </div>
       </div>
     </header>

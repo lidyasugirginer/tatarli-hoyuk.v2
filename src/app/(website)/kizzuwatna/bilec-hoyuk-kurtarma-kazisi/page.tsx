@@ -6,6 +6,7 @@ export default function BilecHoyukKurtarmaKazisiPage() {
       breadcrumb="Kizzuwatna / Bileç Höyük Kurtarma Kazısı"
       eyebrow="Kizzuwatna Araştırmaları Projesi"
       title="Bileç Höyük Kurtarma Kazısı"
+      variant="kizzuwatna"
       sections={[
         {
           number: "01",

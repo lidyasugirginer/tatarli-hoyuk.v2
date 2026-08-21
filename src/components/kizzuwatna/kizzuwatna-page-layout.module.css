@@ -25,14 +25,17 @@
   position: relative;
 
   display: grid;
-  grid-template-columns: minmax(320px, 0.72fr) minmax(620px, 1.28fr);
-  gap: 36px;
-  align-items: end;
+  grid-template-columns: minmax(360px, 0.82fr) minmax(560px, 1.18fr);
+  gap: 32px;
+  align-items: center;
 
-  min-height: 205px;
-  margin-bottom: 46px;
+  min-height: 170px;
+  margin-bottom: 42px;
+  padding-bottom: 30px;
 
-  overflow: hidden;
+  overflow: visible;
+
+  border-bottom: 1px solid rgba(83, 62, 39, 0.09);
 }
 
 .headerText {
@@ -42,9 +45,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
+  gap: 12px;
 
-  padding-bottom: 18px;
+  padding-bottom: 8px;
 }
 
 .breadcrumb {
@@ -73,29 +76,31 @@
 }
 
 .eyebrow {
-  margin: 8px 0 0;
+  margin: 4px 0 0;
 
   color: #a27c3d;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .pageHeader h1 {
-  max-width: 650px;
+  max-width: 720px;
   margin: 0;
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(44px, 5vw, 74px);
+
+  font-size: clamp(38px, 3.8vw, 58px);
   font-weight: 400;
-  line-height: 1.02;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
 }
 
 .titleLine {
-  width: 55px;
+  width: 48px;
   height: 1px;
-  margin-top: 4px;
+  margin-top: 3px;
 
   background: #b9974f;
 }
@@ -112,12 +117,12 @@
   justify-content: flex-end;
   gap: 0;
 
-  height: 190px;
-  padding-left: 48px;
+  height: 155px;
+  padding-left: 36px;
 
   overflow: visible;
 
-  transform: translateY(-12px);
+  transform: none;
 
   pointer-events: none;
 
@@ -140,11 +145,11 @@
 
 .frieze img {
   display: block;
-  width: clamp(240px, 21vw, 330px);
+  width: clamp(220px, 18vw, 300px);
   height: auto;
   flex: 0 0 auto;
 
-  opacity: 0.09;
+  opacity: 0.085;
 
   mix-blend-mode: multiply;
 
@@ -222,12 +227,6 @@
 .visualArea {
   align-self: center;
   width: 100%;
-}
-
-.contentImage {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 .imagePlaceholder {

@@ -5,6 +5,7 @@ export default function KizzuwatnaPage() {
       breadcrumb="Kizzuwatna / Hakkında"
       eyebrow="Kizzuwatna Araştırmaları Projesi"
       title="Kizzuwatna Araştırmaları Projesi"
+      variant="kizzuwatna"
       sections={[
         {
           number: "01",

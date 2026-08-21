@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { PublicationItem } from "@/types/publication";
 
 import styles from "./page.module.css";
+import PageHeader from "@/components/shared/PageHeader";
 
 export default async function YayinlarPage() {
   const supabase = await createClient();
@@ -31,35 +32,11 @@ export default async function YayinlarPage() {
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        <header className={styles.pageHeader}>
-          <div>
-            <nav className={styles.breadcrumb}>
-              <Link href="/">Ana Sayfa</Link>
-              <span>/</span>
-              <span>Yayınlar</span>
-            </nav>
-
-            <p className={styles.eyebrow}>
-              Tatarlı Höyük Kazısı
-            </p>
-
-            <h1>Yayınlar</h1>
-
-            <div className={styles.titleLine} />
-          </div>
-
-          <div className={styles.frieze} aria-hidden="true">
-            {[1, 2, 3].map((item) => (
-              <Image
-                key={item}
-                src="/images/hakkinda/cizim0.png"
-                alt=""
-                width={520}
-                height={230}
-              />
-            ))}
-          </div>
-        </header>
+        <PageHeader
+  breadcrumb="Yayınlar"
+  eyebrow="Tatarlı Höyük Kazısı"
+  title="Yayınlar"
+/>
 
         {error ? (
           <section className={styles.emptyState}>
