@@ -6,12 +6,18 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   color: #171713;
   background: #f4efe5;
   font-family: var(--font-inter), Arial, sans-serif;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 a {

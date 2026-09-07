@@ -240,79 +240,104 @@
 
 @media (max-width: 1000px) {
   .hero {
-    height: 145vh;
-  }
-
-  .stickyWrapper {
+    height: 100svh;
     min-height: 680px;
   }
 
+  .stickyWrapper {
+    height: 100%;
+    min-height: inherit;
+  }
+
   .content {
-    left: 72px;
-    width: calc(100vw - 130px);
+    top: 36%;
+    left: 56px;
+
+    width: min(650px, calc(100vw - 112px));
   }
 
   .content h1 {
-    font-size: clamp(58px, 8vw, 82px);
+    font-size: clamp(54px, 8vw, 76px);
+  }
+
+  .content p {
+    font-size: clamp(20px, 2.8vw, 27px);
   }
 }
 
 @media (max-width: 700px) {
   .hero {
-    height: 145vh;
+    height: 100svh;
+    min-height: 620px;
   }
 
   .stickyWrapper {
-    min-height: 700px;
+    height: 100%;
+    min-height: inherit;
   }
 
   .backgroundVideo {
     object-position: 58% center;
   }
 
+  .overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(20, 18, 14, 0.3) 0%,
+        rgba(18, 16, 12, 0.08) 30%,
+        rgba(12, 10, 8, 0.38) 65%,
+        rgba(8, 7, 5, 0.72) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(8, 8, 6, 0.48) 0%,
+        rgba(8, 8, 6, 0.15) 75%,
+        rgba(8, 8, 6, 0.05) 100%
+      );
+  }
+
   .content {
-    top: 50%;
-    right: 22px;
-    left: 22px;
+    top: 43%;
+    right: 24px;
+    left: 24px;
 
     width: auto;
   }
 
   .eyebrow {
-    margin-bottom: 18px;
-    font-size: 10px;
-    letter-spacing: 0.18em;
+    margin-bottom: 16px;
+
+    font-size: 9px;
+    letter-spacing: 0.2em;
   }
 
   .content h1 {
-    font-size: clamp(45px, 13vw, 62px);
-    line-height: 0.96;
+    margin-top: 16px;
+
+    font-size: clamp(42px, 12vw, 58px);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
   }
 
   .content p {
-    margin-top: 24px;
-    font-size: 20px;
+    max-width: 430px;
+
+    margin-top: 22px;
+
+    font-size: clamp(18px, 5vw, 21px);
+    line-height: 1.4;
   }
 
   .desktopBreak {
     display: none;
   }
 
-  .actions {
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 34px;
-  }
-
-  .primaryButton,
-  .secondaryButton {
-    width: 100%;
-    min-width: 0;
-    min-height: 56px;
-  }
-
   .scrollArrow {
-    bottom: 24px;
+    bottom: 22px;
+
+    width: 38px;
+    height: 38px;
   }
 }
 
