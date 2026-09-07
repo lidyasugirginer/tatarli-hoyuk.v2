@@ -498,8 +498,25 @@
 
 .submenuTrigger {
   justify-content: space-between;
-
   gap: 18px;
+
+  color: #2f261f;
+
+  font-family: var(--font-inter), Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+
+  text-transform: none;
+
+  cursor: default;
+
+  transition: color 180ms ease;
+}
+
+.submenuTrigger:hover {
+  color: #9a7135;
 }
 
 .submenuArrow {
