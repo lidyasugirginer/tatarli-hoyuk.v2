@@ -3,11 +3,9 @@
   padding-top: 120px;
 
   background:
-    radial-gradient(
-      circle at 88% 12%,
+    radial-gradient(circle at 88% 12%,
       rgba(183, 145, 75, 0.035),
-      transparent 34rem
-    ),
+      transparent 34rem),
     #f6f1e8;
 
   color: #2a2119;
@@ -23,7 +21,9 @@
 
 .pageHeader {
   display: grid;
-  grid-template-columns: minmax(320px, 0.72fr) minmax(620px, 1.28fr);
+  grid-template-columns:
+    minmax(320px, 0.72fr) minmax(620px, 1.28fr);
+
   gap: 34px;
   align-items: end;
 
@@ -41,6 +41,7 @@
   margin-bottom: 24px;
 
   color: #9d7d45;
+
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -55,6 +56,7 @@
   margin: 0 0 16px;
 
   color: #a27c3d;
+
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -85,8 +87,8 @@
   justify-content: flex-end;
 
   height: 190px;
-  overflow: hidden;
 
+  overflow: hidden;
   pointer-events: none;
 }
 
@@ -99,27 +101,25 @@
   mix-blend-mode: multiply;
 
   filter:
-    sepia(100%)
-    saturate(240%)
-    hue-rotate(-14deg)
-    brightness(1.38)
-    contrast(0.48);
+    sepia(100%) saturate(240%) hue-rotate(-14deg) brightness(1.38) contrast(0.48);
 }
 
 /* PUBLICATIONS */
 
 .publicationList {
-  max-width: 980px;
+  width: 100%;
+  max-width: 920px;
   margin: 0;
 }
 
 .publicationItem {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr);
-  gap: 28px;
+  grid-template-columns: 100px minmax(0, 1fr);
+
+  gap: 24px;
   align-items: center;
 
-  padding: 28px 0;
+  padding: 24px 0;
 
   border-bottom: 1px solid rgba(83, 62, 39, 0.12);
 }
@@ -129,14 +129,15 @@
 }
 
 .coverWrapper {
-  width: 110px;
   display: flex;
   justify-content: flex-start;
+
+  width: 100px;
 }
 
 .cover {
-  width: 96px;
-  height: 138px;
+  width: 88px;
+  height: 126px;
 
   object-fit: cover;
 
@@ -149,34 +150,32 @@
 
 .publicationInfo {
   min-width: 0;
+  max-width: 690px;
 }
 
 .publicationTitle {
-  display: inline-block;
+  margin: 0;
 
-  max-width: 720px;
-
-  color: #2a2119;
-
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(22px, 2vw, 29px);
-  font-weight: 400;
-  line-height: 1.28;
-
-  text-decoration: none;
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: clamp(18px, 1.25vw, 23px);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.008em;
 
   transition: color 180ms ease;
 }
+
 .publicationTitle:hover {
   color: #a27c3d;
 }
 
 .authors {
-  margin: 10px 0 5px;
+  margin: 9px 0 4px;
 
   color: #62574d;
-  font-size: 14px;
-  line-height: 1.5;
+
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .meta {
@@ -185,6 +184,7 @@
   gap: 7px;
 
   color: #948372;
+
   font-size: 12px;
   letter-spacing: 0.02em;
 }
@@ -195,11 +195,13 @@
 
 .emptyState {
   padding: 48px 0;
+
   color: #7d7165;
+
   font-size: 15px;
 }
 
-/* RESPONSIVE */
+/* TABLET */
 
 @media (max-width: 900px) {
   .page {
@@ -211,13 +213,25 @@
   }
 
   .pageHeader {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
+
+    min-height: auto;
   }
 
   .frieze {
     justify-content: flex-start;
+
+    width: 100%;
+    max-width: 100%;
     height: 100px;
+
+    overflow: hidden;
+  }
+
+  .frieze img {
+    width: min(100%, 250px);
+    max-width: 100%;
   }
 
   .publicationList {
@@ -225,19 +239,31 @@
   }
 
   .publicationItem {
-    grid-template-columns: 110px minmax(0, 1fr);
-    gap: 24px;
+    grid-template-columns: 96px minmax(0, 1fr);
+
+    gap: 22px;
+    padding: 24px 0;
   }
 
   .coverWrapper {
-    width: 110px;
+    width: 96px;
   }
 
   .cover {
-    width: 100px;
-    height: 145px;
+    width: 90px;
+    height: 130px;
+  }
+
+  .publicationInfo {
+    max-width: 100%;
+  }
+
+  .publicationTitle {
+    font-size: clamp(20px, 3vw, 25px);
   }
 }
+
+/* MOBILE */
 
 @media (max-width: 560px) {
   .page {
@@ -246,33 +272,39 @@
 
   .container {
     width: min(100% - 28px, 560px);
+    padding-bottom: 64px;
   }
 
   .publicationItem {
-    grid-template-columns: 82px minmax(0, 1fr);
-    gap: 18px;
-    padding: 28px 0;
+    grid-template-columns: 74px minmax(0, 1fr);
+
+    gap: 16px;
+    align-items: start;
+
+    padding: 22px 0;
   }
 
   .coverWrapper {
-    width: 82px;
+    width: 74px;
   }
 
   .cover {
-    width: 78px;
-    height: 112px;
+    width: 70px;
+    height: 101px;
   }
 
   .publicationTitle {
-    font-size: 21px;
+    font-size: 18px;
+    line-height: 1.2;
   }
 
   .authors {
-    margin-top: 9px;
-    font-size: 13px;
+    margin-top: 8px;
+
+    font-size: 12px;
   }
 
   .meta {
-    font-size: 12px;
+    font-size: 11px;
   }
 }

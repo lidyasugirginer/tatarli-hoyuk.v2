@@ -22,10 +22,10 @@
   color: #33291f;
 
   font-family: var(--font-lora), Georgia, serif;
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 500;
   line-height: 1;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
 }
 
@@ -41,13 +41,13 @@
 .publicationGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+
+  gap: 26px;
 }
 
 .publicationCard {
   min-width: 0;
-
-  text-align: center;
+  text-align: left;
 }
 
 .coverLink {
@@ -131,28 +131,39 @@
 }
 
 .publicationInfo {
-  padding-top: 15px;
+  padding-top: 14px;
 }
 
 .year {
   display: block;
 
-  color: #887b6e;
+  color: #8a7a69;
 
+  font-family: var(--font-inter), Arial, sans-serif;
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
 }
 
 .publicationInfo h3 {
   margin: 7px 0 0;
 
+  min-height: calc(12px * 1.38 * 3);
+
   color: #33291f;
 
   font-family: var(--font-lora), Georgia, serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.38;
+  letter-spacing: -0.005em;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+
+  overflow: hidden;
 }
 
 .publicationInfo h3 a {
@@ -168,12 +179,14 @@
 .type {
   display: block;
 
-  margin-top: 6px;
+  margin-top: 7px;
 
   color: #746b61;
 
+  font-family: var(--font-inter), Arial, sans-serif;
   font-size: 9px;
-  letter-spacing: 0.04em;
+  line-height: 1.3;
+  letter-spacing: 0.045em;
 }
 
 .allPublicationsLink {
