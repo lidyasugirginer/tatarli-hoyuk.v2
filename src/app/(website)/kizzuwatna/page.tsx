@@ -16,6 +16,9 @@ export default function KizzuwatnaPage() {
             "Projenin çalışmalarından biri de Kayseri’nin Develi ilçesi sınırları içinde yer alan Bileç Höyük kurtarma kazısıdır. 2007 yılında üç ay süreyle kurtarma kazıları gerçekleştirilmiş ve Bileç Höyük literatüre kazandırılmıştır.",
             "Projenin bir diğer çalışması ise 2007 yılında başlayan Adana, Ceyhan, Tatarlı Mahallesi’ndeki Tatarlı Höyük kazı çalışmalarıdır.",
           ],
+
+        image: "/images/kizzuwatna/kizzuwatna-hakkinda.jpg",
+        imageAlt: "Kizzuwatna Araştırmaları Projesi",
         },
       ]}
     />

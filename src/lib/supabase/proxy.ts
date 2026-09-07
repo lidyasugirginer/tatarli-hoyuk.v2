@@ -40,13 +40,13 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  const isAdminRoute = pathname.startsWith("/site-yonetimi");
-  const isLoginRoute = pathname === "/site-yonetimi/giris";
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isLoginRoute = pathname === "/admin/login";
 
   if (isAdminRoute && !isLoginRoute && !isLoggedIn) {
     const loginUrl = request.nextUrl.clone();
 
-    loginUrl.pathname = "/site-yonetimi/giris";
+    loginUrl.pathname = "/admin/login";
 
     return NextResponse.redirect(loginUrl);
   }
@@ -54,7 +54,7 @@ export async function updateSession(request: NextRequest) {
   if (isLoginRoute && isLoggedIn) {
     const panelUrl = request.nextUrl.clone();
 
-    panelUrl.pathname = "/site-yonetimi";
+    panelUrl.pathname = "/admin";
 
     return NextResponse.redirect(panelUrl);
   }

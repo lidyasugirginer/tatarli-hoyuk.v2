@@ -10,7 +10,13 @@ import {
 
 import styles from "./Hero.module.css";
 
-export default function Hero() {
+type HeroProps = {
+  language?: "tr" | "en";
+};
+
+export default function Hero({
+  language = "tr",
+}: HeroProps) {
   const heroRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -54,6 +60,28 @@ export default function Hero() {
     [0, 12]
   );
 
+  const content =
+    language === "en"
+      ? {
+          eyebrow: "Kizzuwatna Research",
+          title: "Tatarlı Höyük",
+          descriptionLine1:
+            "Bringing thousands of years of Eastern Cilicia's past",
+          descriptionLine2:
+            "to light.",
+          arrowLabel:
+            "Scroll to the about section",
+        }
+      : {
+          eyebrow: "Kizzuwatna Araştırmaları",
+          title: "Tatarlı Höyük",
+          descriptionLine1:
+            "Doğu Kilikya’nın binlerce yıllık geçmişini",
+          descriptionLine2:
+            "gün ışığına çıkarıyoruz.",
+          arrowLabel:
+            "Hakkında bölümüne kaydır",
+        };
 
   return (
     <section
@@ -90,15 +118,15 @@ export default function Hero() {
         >
           <div className={styles.content}>
             <span className={styles.eyebrow}>
-              Kizzuwatna Araştırmaları
+              {content.eyebrow}
             </span>
 
-            <h1>Tatarlı Höyük</h1>
+            <h1>{content.title}</h1>
 
             <p>
-              Doğu Kilikya’nın binlerce yıllık geçmişini
+              {content.descriptionLine1}
               <br className={styles.desktopBreak} />
-              gün ışığına çıkarıyoruz.
+              {content.descriptionLine2}
             </p>
           </div>
         </motion.div>
@@ -106,7 +134,7 @@ export default function Hero() {
         <motion.a
           href="#about"
           className={styles.scrollArrow}
-          aria-label="Hakkında bölümüne kaydır"
+          aria-label={content.arrowLabel}
           style={{
             opacity: arrowOpacity,
             y: arrowY,

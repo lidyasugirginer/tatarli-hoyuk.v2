@@ -1,9 +1,16 @@
 "use client";
 
-import { ChevronDown, ChevronRight } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Menu,
+  X,
+} from "lucide-react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import LanguageSwitch from "./language-switch";
 import styles from "./header.module.css";
@@ -34,7 +41,11 @@ const navItems = [
 export default function Header() {
   const pathname = usePathname();
 
-  const isHomePage = pathname === "/";
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileKizzuwatnaOpen, setMobileKizzuwatnaOpen] =
+    useState(false);
+
+  const isHomePage = pathname === "/" || pathname === "/en";
 
   const isActiveLink = (href: string) => {
     if (href === "/") {
@@ -43,6 +54,19 @@ export default function Header() {
 
     return pathname === href || pathname.startsWith(`${href}/`);
   };
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setMobileKizzuwatnaOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <header
@@ -86,17 +110,13 @@ export default function Header() {
           </Link>
         </div>
 
+        {/* MASAÜSTÜ NAVBAR */}
         <nav className={styles.nav} aria-label="Ana menü">
           <Link
             href="/hakkinda"
             className={
               isActiveLink("/hakkinda")
                 ? styles.activeLink
-                : undefined
-            }
-            aria-current={
-              isActiveLink("/hakkinda")
-                ? "page"
                 : undefined
             }
           >
@@ -106,17 +126,22 @@ export default function Header() {
           <div className={styles.dropdown}>
             <Link
               href="/kizzuwatna"
-              className={`${styles.dropdownTrigger} ${isActiveLink("/kizzuwatna") ? styles.activeLink : ""
+              className={`${styles.dropdownTrigger} ${isActiveLink("/kizzuwatna")
+                  ? styles.activeLink
+                  : ""
                 }`}
             >
               Kizzuwatna Araştırmaları Projesi
 
-              <ChevronDown className={styles.dropdownArrow} strokeWidth={2.2} />
+              <ChevronDown
+                className={styles.dropdownArrow}
+                strokeWidth={2.2}
+              />
             </Link>
 
             <div className={styles.dropdownMenu}>
               <div className={styles.dropdownSection}>
-                <Link href="/kizzuwatna" >
+                <Link href="/kizzuwatna">
                   Hakkında
                 </Link>
 
@@ -125,10 +150,7 @@ export default function Header() {
                 </Link>
 
                 <div className={styles.submenu}>
-                  <Link
-                    href="/kizzuwatna/yuzey-arastirmalari"
-                    className={styles.submenuTrigger}
-                  >
+                  <div className={styles.submenuTrigger}>
                     <span>Yüzey Araştırmaları</span>
 
                     <ChevronRight
@@ -136,7 +158,7 @@ export default function Header() {
                       strokeWidth={1.8}
                       aria-hidden="true"
                     />
-                  </Link>
+                  </div>
 
                   <div className={styles.submenuPanel}>
                     <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
@@ -158,7 +180,11 @@ export default function Header() {
               <Link
                 href={item.href}
                 key={item.href}
-                className={isActiveLink(item.href) ? styles.activeLink : undefined}
+                className={
+                  isActiveLink(item.href)
+                    ? styles.activeLink
+                    : undefined
+                }
               >
                 {item.label}
               </Link>
@@ -168,7 +194,134 @@ export default function Header() {
         <div className={styles.languageArea}>
           <LanguageSwitch isHomePage={isHomePage} />
         </div>
+
+        {/* HAMBURGER */}
+        <button
+          type="button"
+          className={styles.menuButton}
+          onClick={() => setMobileMenuOpen(true)}
+          aria-label="Menüyü aç"
+          aria-expanded={mobileMenuOpen}
+        >
+          <Menu strokeWidth={1.8} />
+        </button>
       </div>
+
+      {/* MOBİL ARKA PLAN */}
+      <button
+        type="button"
+        className={`${styles.mobileBackdrop} ${mobileMenuOpen ? styles.mobileBackdropOpen : ""
+          }`}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-label="Menüyü kapat"
+      />
+
+      {/* MOBİL YAN MENÜ */}
+      <aside
+        className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ""
+          }`}
+      >
+        <div className={styles.mobileMenuHeader}>
+          <div className={styles.mobileMenuTitle}>
+            <span className={styles.mobileMenuEyebrow}>
+              Tatarlı Höyük
+            </span>
+
+            <strong>
+              Kizzuwatna Araştırmaları Projesi
+            </strong>
+          </div>
+
+          <button
+            type="button"
+            className={styles.mobileCloseButton}
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Menüyü kapat"
+          >
+            <X strokeWidth={1.7} />
+          </button>
+        </div>
+
+        <nav
+          className={styles.mobileNav}
+          aria-label="Mobil menü"
+        >
+          <Link href="/hakkinda">
+            Hakkında
+          </Link>
+
+          <div className={styles.mobileKizzuwatna}>
+            <button
+              type="button"
+              className={styles.mobileKizzuwatnaTrigger}
+              onClick={() =>
+                setMobileKizzuwatnaOpen(
+                  (current) => !current
+                )
+              }
+              aria-expanded={mobileKizzuwatnaOpen}
+            >
+              <span>Kizzuwatna Araştırmaları Projesi</span>
+
+              <ChevronDown
+                className={
+                  mobileKizzuwatnaOpen
+                    ? styles.mobileChevronOpen
+                    : undefined
+                }
+                strokeWidth={1.8}
+              />
+            </button>
+
+            <div
+              className={`${styles.mobileSubmenu} ${mobileKizzuwatnaOpen
+                  ? styles.mobileSubmenuOpen
+                  : ""
+                }`}
+            >
+              <Link href="/kizzuwatna">
+                Hakkında
+              </Link>
+
+              <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
+                Bileç Höyük Kurtarma Kazısı
+              </Link>
+
+              <p className={styles.mobileSubmenuHeading}>
+                Yüzey Araştırmaları
+              </p>
+
+              <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
+                Adana İli Yüzey Araştırmaları
+              </Link>
+
+              <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
+                Kayseri İli Yüzey Araştırmaları
+              </Link>
+            </div>
+          </div>
+
+          <Link href="/buluntular">
+            Buluntular
+          </Link>
+
+          <Link href="/yayinlar">
+            Yayınlar
+          </Link>
+
+          <Link href="/galeri">
+            Galeri
+          </Link>
+
+          <Link href="/iletisim">
+            İletişim
+          </Link>
+        </nav>
+
+        <div className={styles.mobileLanguage}>
+          <LanguageSwitch isHomePage={false} />
+        </div>
+      </aside>
     </header>
   );
 }

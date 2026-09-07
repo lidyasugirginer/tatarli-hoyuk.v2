@@ -15,7 +15,7 @@ export default function AdanaYuzeyArastirmalariPage() {
           ],
           images: [
             {
-              src: "/images/adana-yuzey-arastirmalari/adana-0.jpg",
+              src: "/images/adana-yuzey-arastirmalari/adana-kapsam-amac-0.jpg",
               alt: "Adana yüzey araştırmaları",
             }
           ]
@@ -59,6 +59,16 @@ export default function AdanaYuzeyArastirmalariPage() {
             "Araştırmaların ortaya koyduğu bir diğer kritik veri ise, bölgedeki arkeolojik dokunun maruz kaldığı hızlı tahribattır. Özellikle Ceyhan Ovası'ndaki höyüklerin ve antik yerleşimlerin, tarım arazisi açma çalışmaları, iş makineleri, sulama kanalları ve sanayileşme nedeniyle %90'a varan oranlarda yok edildiği saptanmıştır.",
             "Örneğin, Ekenler Çiftliği ve Çokça Höyük gibi merkezlerin tarımsal ve endüstriyel faaliyetler sonucu büyük ölçüde zarar gördüğü rapor edilmiştir. Bu durum, Kizzuwatna Araştırmalarının sadece bir envanter çalışması değil, aynı zamanda hızla yok olan bir kültürel mirasın kayıt altına alınması adına bir koruma görevi de üstlendiğini göstermektedir.",
           ],
+          images: [
+            {
+              src: "/images/adana-yuzey-arastirmalari/adana-tahribat-0.jpg",
+              alt: ""
+            },
+            {
+              src: "/images/adana-yuzey-arastirmalari/adana-tahribat-1.jpg",
+              alt: ""
+            },
+          ]
         },
       ]}
     />

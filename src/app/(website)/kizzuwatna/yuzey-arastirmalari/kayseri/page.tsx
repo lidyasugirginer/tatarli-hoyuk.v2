@@ -20,6 +20,16 @@ export default function KayseriYuzeyArastirmalariPage() {
           paragraphs: [
             "2004 yılında gerçekleştirilen Sarız araştırmalarında, bölgenin antik ticaret yolları üzerindeki stratejik önemi belgelenmiştir. Araştırmalarda özellikle Hitit metinlerinde adı geçen Kussara şehri ile lokalize edilen Kemer Höyük ve çevresindeki Darıdere, Sarız Höyük, Yeşilkent (Yalak) Höyük gibi merkezlerde M.Ö. II. binyıl ve Asur Ticaret Kolonileri Çağı'na ait yoğun seramik buluntuları saptanmıştır. Bu veriler, Sarız'ın Kültepe-Kanes'ten başlayıp güneye, Suriye ve Mezopotamya'ya uzanan \"ATKÇ kervan yolu\" ve \"Hitit Dağ Yolu\"nun kilit bir noktasını oluşturduğunu kanıtlamaktadır.",
           ],
+          images : [
+            {
+              src: "/images/kayseri-yuzey-arastirmalari/sariz-0.jpg",
+              alt: "Develi yüzey araştırmaları",
+            },
+            {
+              src: "/images/kayseri-yuzey-arastirmalari/sariz-1.jpg",
+              alt: "Develi yüzey araştırmaları",
+            }
+          ]
         },
         {
           number: "03",

@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/site-yonetimi/(panel)/page.module.tcss"  ],
+, "src/app/admin/(panel)/page.module.tcss"  ],
   "exclude": ["node_modules"]
 }
