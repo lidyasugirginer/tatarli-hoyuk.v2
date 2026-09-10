@@ -1,7 +1,5 @@
 "use client";
 
-import { Globe2 } from "lucide-react";
-
 import styles from "./language-switch.module.css";
 
 type LanguageSwitchProps = {
@@ -14,19 +12,10 @@ export default function LanguageSwitch({
   return (
     <div
       className={`${styles.languageSwitch} ${
-        isHomePage
-          ? styles.home
-          : styles.inner
+        isHomePage ? styles.home : styles.inner
       }`}
       aria-label="Dil seçimi"
     >
-      <Globe2
-        className={styles.globeIcon}
-        size={15}
-        strokeWidth={1.7}
-        aria-hidden="true"
-      />
-
       <span className={styles.activeLanguage}>
         TR
       </span>

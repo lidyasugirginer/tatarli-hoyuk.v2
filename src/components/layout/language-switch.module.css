@@ -1,71 +1,102 @@
 .languageSwitch {
   display: inline-flex;
-  align-items: center;
-  gap: 5px;
 
-  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 36px;
+
+  padding: 0 14px;
 
   font-family: var(--font-inter), Arial, sans-serif;
-  font-size: 11px;
+
+  font-size: 12px;
   font-weight: 600;
+
   line-height: 1;
 
-  letter-spacing: 0.06em;
+  letter-spacing: 0.055em;
 
   white-space: nowrap;
-}
 
-.globeIcon {
-  width: 15px;
-  height: 15px;
+  border-radius: 999px;
 
-  flex-shrink: 0;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 /* ANA SAYFA */
 
 .home {
-  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  background: rgba(24, 22, 18, 0.22);
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.home .globeIcon {
-  color: #d2ad5b;
+.home:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+
+  background: rgba(24, 22, 18, 0.28);
 }
 
 .home .activeLanguage {
-  color: #ffffff;
+  color: #d6b35f;
 }
 
 .home .separator {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.38);
 }
 
 .home .disabledLanguage {
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.82);
 }
 
-/* İÇ SAYFALAR */
+/* İÇ SAYFA */
 
 .inner {
-  color: #44392f;
+  min-height: 34px;
+
+  padding: 0 12px;
+
+  font-size: 11px;
+
+  border: 1px solid rgba(111, 86, 55, 0.14);
+
+  background: rgba(255, 252, 247, 0.52);
+
+  box-shadow:
+    0 2px 10px rgba(63, 45, 27, 0.035);
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
-.inner .globeIcon {
-  color: #a87d38;
+.inner:hover {
+  border-color: rgba(111, 86, 55, 0.22);
+
+  background: rgba(255, 252, 247, 0.68);
 }
 
 .inner .activeLanguage {
-  color: #3f352c;
+  color: #9b7336;
 }
 
 .inner .separator {
-  color: rgba(63, 53, 44, 0.45);
+  color: rgba(63, 53, 44, 0.27);
 }
 
 .inner .disabledLanguage {
-  color: rgba(63, 53, 44, 0.52);
+  color: rgba(63, 53, 44, 0.65);
 }
 
 /* METİNLER */
@@ -74,11 +105,26 @@
   font-weight: 700;
 }
 
-.separator,
-.disabledLanguage {
-  font-weight: 500;
+.separator {
+  font-weight: 400;
 }
 
 .disabledLanguage {
+  font-weight: 500;
+
   cursor: default;
+}
+
+/* MOBİL MENÜ İÇİN */
+
+@media (max-width: 1100px) {
+  .languageSwitch {
+    min-height: 34px;
+
+    padding: 0 12px;
+
+    gap: 8px;
+
+    font-size: 11px;
+  }
 }

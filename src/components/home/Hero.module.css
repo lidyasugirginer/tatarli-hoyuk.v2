@@ -1,5 +1,6 @@
 .hero {
   position: relative;
+
   height: 100vh;
   min-height: 720px;
 
@@ -16,13 +17,15 @@
   overflow: hidden;
 
   color: #ffffff;
+
   background: #15130f;
+
   isolation: isolate;
 }
 
-
 .backgroundVideo {
   position: absolute;
+
   inset: 0;
   z-index: 0;
 
@@ -33,12 +36,14 @@
   object-position: center;
 
   transform-origin: center;
+
   pointer-events: none;
   user-select: none;
 }
 
 .overlay {
   position: absolute;
+
   inset: 0;
   z-index: 1;
 
@@ -47,23 +52,24 @@
   background:
     linear-gradient(
       180deg,
-      rgba(242, 236, 225, 0.6) 0%,
-      rgba(242, 236, 225, 0.22) 18%,
-      rgba(18, 16, 12, 0.05) 42%,
+      rgba(242, 236, 225, 0.52) 0%,
+      rgba(242, 236, 225, 0.18) 18%,
+      rgba(18, 16, 12, 0.04) 42%,
       rgba(12, 10, 8, 0.48) 76%,
       rgba(8, 7, 5, 0.76) 100%
     ),
     linear-gradient(
       90deg,
-      rgba(8, 8, 6, 0.66) 0%,
-      rgba(8, 8, 6, 0.32) 34%,
-      rgba(8, 8, 6, 0.08) 66%,
+      rgba(8, 8, 6, 0.62) 0%,
+      rgba(8, 8, 6, 0.29) 34%,
+      rgba(8, 8, 6, 0.07) 66%,
       rgba(8, 8, 6, 0.03) 100%
     );
 }
 
 .contentAnimation {
   position: absolute;
+
   inset: 0;
   z-index: 2;
 
@@ -72,116 +78,85 @@
 
 .content {
   position: absolute;
-  top: 31%;
-  left: max(110px, calc((100vw - 1460px) / 2 + 75px));
 
-  width: min(720px, calc(100vw - 180px));
+  top: 29%;
+
+  left: max(
+    35px,
+    calc((100vw - 1460px) / 2)
+  );
+
+  width: min(
+    650px,
+    calc(100vw - 96px)
+  );
 
   pointer-events: auto;
 }
 
 .eyebrow {
   display: inline-block;
-  margin-bottom: 22px;
 
-  color: rgba(255, 255, 255, 0.86);
+  margin-bottom: 16px;
 
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+
+  font-family: var(--font-inter), Arial, sans-serif;
+
+  font-size: 11px;
   font-weight: 600;
+
   line-height: 1;
-  letter-spacing: 0.24em;
+
+  letter-spacing: 0.22em;
+
   text-transform: uppercase;
 }
 
 .content h1 {
-  margin: 0;
-  margin-top: 24px;
+  margin: 16px 0 0;
+
+  color: #ffffff;
 
   font-family: var(--font-lora), Georgia, serif;
-  font-size: clamp(64px, 6vw, 104px);
+
+  font-size: clamp(58px, 5.1vw, 82px);
   font-weight: 500;
-  line-height: 0.92;
-  letter-spacing: 0.015em;
+
+  line-height: 0.96;
+
+  letter-spacing: 0.008em;
+
   text-transform: uppercase;
 
-  text-shadow: 0 5px 30px rgba(0, 0, 0, 0.22);
+  text-shadow:
+    0 5px 30px rgba(0, 0, 0, 0.22);
 }
 
 .content p {
-  max-width: 620px;
-  margin: 30px 0 0;
+  max-width: 570px;
+
+  margin: 25px 0 0;
+
+  color: rgba(255, 255, 255, 0.92);
 
   font-family: var(--font-lora), Georgia, serif;
-  font-size: clamp(21px, 1.8vw, 31px);
-  line-height: 1.35;
 
-  color: rgba(255, 255, 255, 0.94);
-  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.26);
+  font-size: clamp(19px, 1.45vw, 25px);
+
+  line-height: 1.42;
+
+  text-shadow:
+    0 3px 20px rgba(0, 0, 0, 0.26);
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 42px;
-}
-
-.primaryButton,
-.secondaryButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 210px;
-  min-height: 60px;
-  padding: 0 28px;
-
-  border: 1px solid transparent;
-
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  text-transform: uppercase;
-
-  transition:
-    transform 220ms ease,
-    color 220ms ease,
-    background-color 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease;
-}
-
-.primaryButton {
-  color: #211d16;
-  background: #c8a963;
-}
-
-.primaryButton:hover {
-  background: #d8bc7a;
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
-}
-
-.secondaryButton {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.7);
-  background: rgba(20, 18, 14, 0.12);
-  backdrop-filter: blur(5px);
-}
-
-.secondaryButton:hover {
-  color: #211d16;
-  border-color: #ffffff;
-  background: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
-}
+/* SCROLL OKU */
 
 .scrollArrow {
   position: absolute;
+
   z-index: 3;
+
   right: 50%;
   bottom: 28px;
 
@@ -195,6 +170,7 @@
 
 .scrollArrow::before {
   position: absolute;
+
   top: -28px;
   left: 50%;
 
@@ -203,17 +179,19 @@
 
   content: "";
 
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.8)
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.8)
+    );
 
   transform: translateX(-50%);
 }
 
 .scrollArrow span {
   position: absolute;
+
   top: 7px;
   left: 11px;
 
@@ -224,55 +202,77 @@
   border-bottom: 2px solid currentColor;
 
   transform: rotate(45deg);
-  animation: arrowBounce 1.8s ease-in-out infinite;
+
+  animation:
+    arrowBounce 1.8s ease-in-out infinite;
 }
 
 @keyframes arrowBounce {
   0%,
   100% {
-    transform: translateY(0) rotate(45deg);
+    transform:
+      translateY(0)
+      rotate(45deg);
   }
 
   50% {
-    transform: translateY(7px) rotate(45deg);
+    transform:
+      translateY(7px)
+      rotate(45deg);
   }
 }
+
+/* TABLET */
 
 @media (max-width: 1000px) {
   .hero {
     height: 100svh;
+
     min-height: 680px;
   }
 
   .stickyWrapper {
     height: 100%;
+
     min-height: inherit;
   }
 
   .content {
-    top: 36%;
-    left: 56px;
+    top: 34%;
 
-    width: min(650px, calc(100vw - 112px));
+    left: 42px;
+
+    width: min(
+      620px,
+      calc(100vw - 84px)
+    );
   }
 
   .content h1 {
-    font-size: clamp(54px, 8vw, 76px);
+    font-size:
+      clamp(50px, 7vw, 68px);
   }
 
   .content p {
-    font-size: clamp(20px, 2.8vw, 27px);
+    max-width: 530px;
+
+    font-size:
+      clamp(19px, 2.5vw, 24px);
   }
 }
+
+/* TELEFON */
 
 @media (max-width: 700px) {
   .hero {
     height: 100svh;
+
     min-height: 620px;
   }
 
   .stickyWrapper {
     height: 100%;
+
     min-height: inherit;
   }
 
@@ -299,6 +299,7 @@
 
   .content {
     top: 43%;
+
     right: 24px;
     left: 24px;
 
@@ -309,14 +310,18 @@
     margin-bottom: 16px;
 
     font-size: 9px;
+
     letter-spacing: 0.2em;
   }
 
   .content h1 {
     margin-top: 16px;
 
-    font-size: clamp(42px, 12vw, 58px);
+    font-size:
+      clamp(42px, 12vw, 58px);
+
     line-height: 0.98;
+
     letter-spacing: 0.005em;
   }
 
@@ -325,7 +330,9 @@
 
     margin-top: 22px;
 
-    font-size: clamp(18px, 5vw, 21px);
+    font-size:
+      clamp(18px, 5vw, 21px);
+
     line-height: 1.4;
   }
 
@@ -341,13 +348,28 @@
   }
 }
 
+/* ÇOK KÜÇÜK TELEFON */
+
+@media (max-width: 420px) {
+  .content {
+    top: 42%;
+
+    right: 20px;
+    left: 20px;
+  }
+
+  .content h1 {
+    font-size:
+      clamp(38px, 11.5vw, 48px);
+  }
+
+  .content p {
+    font-size: 17px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scrollArrow span {
     animation: none;
-  }
-
-  .primaryButton,
-  .secondaryButton {
-    transition: none;
   }
 }
