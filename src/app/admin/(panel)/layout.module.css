@@ -1,18 +1,31 @@
 .panel {
+  position: relative;
+
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 270px minmax(0, 1fr);
+
   background: #f5f4f1;
   color: #181714;
 }
 
 .sidebar {
-  position: sticky;
+   position: fixed;
+
   top: 0;
+  left: 0;
+  bottom: 0;
+
+  z-index: 100;
+
+  width: 270px;
   height: 100vh;
+
   display: flex;
   flex-direction: column;
+
   padding: 28px 20px 22px;
+
+  overflow-y: auto;
+
   background: #191814;
   color: #ffffff;
 }
@@ -141,7 +154,10 @@
 }
 
 .mainArea {
+  width: calc(100% - 270px);
   min-width: 0;
+
+  margin-left: 270px;
 }
 
 .topbar {

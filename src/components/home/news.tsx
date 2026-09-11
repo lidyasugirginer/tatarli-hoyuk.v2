@@ -5,13 +5,18 @@ import { createClient } from "@/lib/supabase/server";
 
 import styles from "./news.module.css";
 
+type NewsTranslation = {
+  title: string;
+  summary: string | null;
+  slug: string;
+  language: "tr";
+};
+
 type NewsItem = {
   id: string;
-  title_tr: string;
-  summary_tr: string;
   cover_image_url: string;
-  url: string;
   published_at: string;
+  news_translations: NewsTranslation[];
 };
 
 function formatDate(dateValue: string) {
@@ -41,19 +46,24 @@ export default async function News() {
     .select(
       `
         id,
-        title_tr,
-        summary_tr,
         cover_image_url,
-        url,
-        published_at
+        published_at,
+        news_translations!inner (
+          title,
+          summary,
+          slug,
+          language
+        )
       `
     )
-    .order("published_at", { ascending: false })
+    .eq("status", "published")
+    .eq("news_translations.language", "tr")
+    .order("published_at", {
+      ascending: false,
+    })
     .limit(3);
 
   if (error) {
-    console.error("Haberler alınamadı:", error.message);
-
     return (
       <div className={styles.news}>
         <div className={styles.headingRow}>
@@ -68,10 +78,14 @@ export default async function News() {
     );
   }
 
-  const newsItems = (data ?? []) as NewsItem[];
+  const newsItems =
+    (data ?? []) as NewsItem[];
 
-  const featuredNews = newsItems[0];
-  const secondaryNews = newsItems.slice(1);
+  const featuredNews =
+    newsItems[0];
+
+  const secondaryNews =
+    newsItems.slice(1);
 
   return (
     <div className={styles.news}>
@@ -86,112 +100,197 @@ export default async function News() {
         <p>Henüz haber eklenmedi.</p>
       ) : (
         <div className={styles.newsLayout}>
-          {featuredNews && (
-            <article className={styles.featuredCard}>
-              <Link
-                href={featuredNews.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.featuredImageWrapper}
-                aria-label={featuredNews.title_tr}
-              >
-                <Image
-                  src={featuredNews.cover_image_url}
-                  alt={featuredNews.title_tr}
-                  fill
-                  sizes="(max-width: 760px) 100vw, 420px"
-                  className={styles.image}
-                />
+          {featuredNews &&
+            featuredNews.news_translations[0] && (
+              <article className={styles.featuredCard}>
+                <Link
+                  href={`/haberler/${featuredNews.news_translations[0].slug}`}
+                  className={
+                    styles.featuredImageWrapper
+                  }
+                  aria-label={
+                    featuredNews.news_translations[0]
+                      .title
+                  }
+                >
+                  <Image
+                    src={
+                      featuredNews.cover_image_url
+                    }
+                    alt={
+                      featuredNews.news_translations[0]
+                        .title
+                    }
+                    fill
+                    sizes="(max-width: 760px) 100vw, 420px"
+                    className={styles.image}
+                  />
 
-                <div className={styles.imageOverlay} />
+                  <div
+                    className={styles.imageOverlay}
+                  />
 
-                <div className={styles.dateBox}>
-                  <strong>
-                    {formatDate(featuredNews.published_at).day}
-                  </strong>
+                  <div className={styles.dateBox}>
+                    <strong>
+                      {
+                        formatDate(
+                          featuredNews.published_at
+                        ).day
+                      }
+                    </strong>
 
-                  <span>
-                    {formatDate(featuredNews.published_at).month}
-                  </span>
+                    <span>
+                      {
+                        formatDate(
+                          featuredNews.published_at
+                        ).month
+                      }
+                    </span>
 
-                  <small>
-                    {formatDate(featuredNews.published_at).year}
-                  </small>
-                </div>
+                    <small>
+                      {
+                        formatDate(
+                          featuredNews.published_at
+                        ).year
+                      }
+                    </small>
+                  </div>
 
-                <div className={styles.featuredContent}>
-                  <h3>{featuredNews.title_tr}</h3>
+                  <div
+                    className={
+                      styles.featuredContent
+                    }
+                  >
+                    <h3>
+                      {
+                        featuredNews
+                          .news_translations[0]
+                          .title
+                      }
+                    </h3>
 
-                  <p>{featuredNews.summary_tr}</p>
+                    {featuredNews.news_translations[0]
+                      .summary ? (
+                      <p>
+                        {
+                          featuredNews
+                            .news_translations[0]
+                            .summary
+                        }
+                      </p>
+                    ) : null}
 
-                  <span className={styles.readLink}>
-                    Haberi oku
-                    <span aria-hidden="true">→</span>
-                  </span>
-                </div>
-              </Link>
-            </article>
-          )}
+                    <span
+                      className={styles.readLink}
+                    >
+                      Haberi oku
+                      <span aria-hidden="true">
+                        →
+                      </span>
+                    </span>
+                  </div>
+                </Link>
+              </article>
+            )}
 
           <div className={styles.secondaryList}>
             {secondaryNews.map((item) => {
-              const formattedDate = formatDate(item.published_at);
+              const translation =
+                item.news_translations[0];
+
+              if (!translation) {
+                return null;
+              }
+
+              const formattedDate =
+                formatDate(
+                  item.published_at
+                );
 
               return (
-                <article key={item.id} className={styles.secondaryCard}>
+                <article
+                  key={item.id}
+                  className={
+                    styles.secondaryCard
+                  }
+                >
                   <Link
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.secondaryImageWrapper}
-                    aria-label={item.title_tr}
+                    href={`/haberler/${translation.slug}`}
+                    className={
+                      styles.secondaryImageWrapper
+                    }
+                    aria-label={
+                      translation.title
+                    }
                   >
                     <Image
-                      src={item.cover_image_url}
-                      alt={item.title_tr}
+                      src={
+                        item.cover_image_url
+                      }
+                      alt={
+                        translation.title
+                      }
                       fill
                       sizes="110px"
                       className={styles.image}
                     />
                   </Link>
 
-                  <div className={styles.secondaryDate}>
-                    <strong>{formattedDate.day}</strong>
+                  <div
+                    className={
+                      styles.secondaryDate
+                    }
+                  >
+                    <strong>
+                      {formattedDate.day}
+                    </strong>
 
                     <span>
                       {formattedDate.month}
-                      <small>{formattedDate.year}</small>
+
+                      <small>
+                        {formattedDate.year}
+                      </small>
                     </span>
                   </div>
 
-                  <div className={styles.secondaryContent}>
+                  <div
+                    className={
+                      styles.secondaryContent
+                    }
+                  >
                     <h3>
                       <Link
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={`/haberler/${translation.slug}`}
                       >
-                        {item.title_tr}
+                        {translation.title}
                       </Link>
                     </h3>
 
                     <Link
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.secondaryLink}
+                      href={`/haberler/${translation.slug}`}
+                      className={
+                        styles.secondaryLink
+                      }
                     >
                       Devamı
-                      <span aria-hidden="true">→</span>
+                      <span aria-hidden="true">
+                        →
+                      </span>
                     </Link>
                   </div>
                 </article>
               );
             })}
 
-            <Link href="/haberler" className={styles.allNewsLink}>
+            <Link
+              href="/haberler"
+              className={styles.allNewsLink}
+            >
               Tüm haberler
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">
+                →
+              </span>
             </Link>
           </div>
         </div>

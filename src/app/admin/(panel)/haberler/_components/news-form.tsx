@@ -8,6 +8,7 @@ import {
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "./rich-text-editor";
 
 import {
   ArrowLeft,
@@ -21,8 +22,10 @@ import { createClient } from "@/lib/supabase/client";
 import { slugify } from "@/lib/utils/slugify";
 
 import type {
+  NewsContentType,
   NewsFormValues,
   NewsItem,
+  NewsLanguage,
   NewsStatus,
 } from "@/types/news";
 
@@ -34,52 +37,121 @@ type NewsFormProps = {
   news?: NewsItem;
 };
 
-const initialValues: NewsFormValues = {
-  title_tr: "",
-  title_en: "",
-  summary_tr: "",
-  summary_en: "",
-  cover_image_url: "",
-  url: "",
-  published_at: new Date().toISOString().slice(0, 10),
-  status: "published",
-};
+function getInitialValues(
+  news?: NewsItem
+): NewsFormValues {
+  const turkish = news?.translations?.find(
+    (translation) =>
+      translation.language === "tr"
+  );
+
+  const english = news?.translations?.find(
+    (translation) =>
+      translation.language === "en"
+  );
+
+  return {
+    cover_image_url:
+      news?.cover_image_url ?? "",
+
+    published_at:
+      news?.published_at ??
+      new Date()
+        .toISOString()
+        .slice(0, 10),
+
+    status:
+      news?.status ?? "published",
+
+    content_type:
+      news?.content_type ?? "news",
+
+    translations: {
+      tr: {
+        title:
+          turkish?.title ?? "",
+
+        summary:
+          turkish?.summary ?? "",
+
+        content:
+          turkish?.content ?? "",
+      },
+
+      en: {
+        title:
+          english?.title ?? "",
+
+        summary:
+          english?.summary ?? "",
+
+        content:
+          english?.content ?? "",
+      },
+    },
+  };
+}
 
 export default function NewsForm({
   news,
 }: NewsFormProps) {
   const router = useRouter();
+
   const supabase = createClient();
 
-  const [values, setValues] = useState<NewsFormValues>(
-    news
-      ? {
-          title_tr: news.title_tr,
-          title_en: news.title_en,
-          summary_tr: news.summary_tr,
-          summary_en: news.summary_en,
-          cover_image_url: news.cover_image_url,
-          url: news.url,
-          published_at: news.published_at,
-          status: news.status,
-        }
-      : initialValues
-  );
+  const [values, setValues] =
+    useState<NewsFormValues>(() =>
+      getInitialValues(news)
+    );
 
-  const [imageFile, setImageFile] = useState<File | null>(
-    null
-  );
+  const [
+    activeLanguage,
+    setActiveLanguage,
+  ] =
+    useState<NewsLanguage>("tr");
 
-  const [previewUrl, setPreviewUrl] = useState(
-    news?.cover_image_url ?? ""
-  );
+  const [
+    imageFile,
+    setImageFile,
+  ] =
+    useState<File | null>(null);
 
-  const [isSaving, setIsSaving] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [
+    previewUrl,
+    setPreviewUrl,
+  ] =
+    useState(
+      news?.cover_image_url ?? ""
+    );
 
-  function updateField(
-    field: keyof NewsFormValues,
+  const [
+    isSaving,
+    setIsSaving,
+  ] =
+    useState(false);
+
+  const [
+    isDeleting,
+    setIsDeleting,
+  ] =
+    useState(false);
+
+  const [
+    errorMessage,
+    setErrorMessage,
+  ] =
+    useState("");
+
+  const activeTranslation =
+    values.translations[
+    activeLanguage
+    ];
+
+  function updateSharedField(
+    field:
+      | "published_at"
+      | "status"
+      | "content_type",
     value: string
   ) {
     setValues((current) => ({
@@ -88,79 +160,124 @@ export default function NewsForm({
     }));
   }
 
-  function handleTurkishTitleChange(
-    event: ChangeEvent<HTMLInputElement>
+  function updateTranslationField(
+    field:
+      | "title"
+      | "summary"
+      | "content",
+    value: string
   ) {
-    const value = event.target.value;
-
     setValues((current) => ({
       ...current,
-      title_tr: value,
-      url:
-        news || current.url
-          ? current.url
-          : slugify(value),
+
+      translations: {
+        ...current.translations,
+
+        [activeLanguage]: {
+          ...current.translations[
+          activeLanguage
+          ],
+
+          [field]: value,
+        },
+      },
     }));
   }
 
   function handleImageChange(
     event: ChangeEvent<HTMLInputElement>
   ) {
-    const file = event.target.files?.[0];
+    const file =
+      event.target.files?.[0];
 
     if (!file) {
       return;
     }
 
-    if (!file.type.startsWith("image/")) {
-      setErrorMessage("Lütfen bir görsel dosyası seçin.");
+    if (
+      !file.type.startsWith(
+        "image/"
+      )
+    ) {
+      setErrorMessage(
+        "Lütfen bir görsel dosyası seçin."
+      );
+
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (
+      file.size >
+      5 * 1024 * 1024
+    ) {
       setErrorMessage(
         "Kapak görseli en fazla 5 MB olabilir."
       );
+
       return;
     }
 
     setErrorMessage("");
+
     setImageFile(file);
-    setPreviewUrl(URL.createObjectURL(file));
-  }
 
-async function uploadCoverImage() {
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  console.log("SUPABASE USER:", user);
-  console.log("SUPABASE USER ERROR:", userError);
-
-  if (userError || !user) {
-    throw new Error(
-      "Supabase oturumu bulunamadı. Yönetim panelinden çıkış yapıp tekrar giriş yapın."
+    setPreviewUrl(
+      URL.createObjectURL(file)
     );
   }
 
-  if (!imageFile) {
-    return values.cover_image_url;
-  }
+  async function uploadCoverImage() {
+    const {
+      data: { user },
+      error: userError,
+    } =
+      await supabase.auth.getUser();
+
+    if (
+      userError ||
+      !user
+    ) {
+      throw new Error(
+        "Supabase oturumu bulunamadı. Yönetim panelinden çıkış yapıp tekrar giriş yapın."
+      );
+    }
+
+    if (!imageFile) {
+      return (
+        values.cover_image_url
+      );
+    }
 
     const extension =
-      imageFile.name.split(".").pop()?.toLowerCase() ??
+      imageFile.name
+        .split(".")
+        .pop()
+        ?.toLowerCase() ??
       "jpg";
 
-    const fileName = `${crypto.randomUUID()}.${extension}`;
-    const filePath = `news/${fileName}`;
+    const fileName =
+      `${crypto.randomUUID()}.${extension}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from(STORAGE_BUCKET)
-      .upload(filePath, imageFile, {
-        cacheControl: "3600",
-        upsert: false,
-      });
+    const filePath =
+      `news/${fileName}`;
+
+    const {
+      error: uploadError,
+    } =
+      await supabase.storage
+        .from(
+          STORAGE_BUCKET
+        )
+        .upload(
+          filePath,
+          imageFile,
+          {
+            cacheControl:
+              "3600",
+
+            upsert: false,
+          }
+        );
 
     if (uploadError) {
       throw new Error(
@@ -168,11 +285,105 @@ async function uploadCoverImage() {
       );
     }
 
-    const { data } = supabase.storage
-      .from(STORAGE_BUCKET)
-      .getPublicUrl(filePath);
+    const { data } =
+      supabase.storage
+        .from(
+          STORAGE_BUCKET
+        )
+        .getPublicUrl(
+          filePath
+        );
 
     return data.publicUrl;
+  }
+
+  async function saveTranslation(
+    newsId: string,
+    language: NewsLanguage
+  ) {
+    const translation =
+      values.translations[
+      language
+      ];
+
+    const isCompletelyEmpty =
+      !translation.title.trim() &&
+      !translation.summary.trim() &&
+      !translation.content.trim();
+
+    /*
+      Bu dil hiç doldurulmamışsa
+      translation kaydı oluşturmuyoruz.
+    */
+
+    if (
+      isCompletelyEmpty
+    ) {
+      return;
+    }
+
+    /*
+      Dil kullanılacaksa başlık
+      zorunlu.
+    */
+
+    if (
+      !translation.title.trim()
+    ) {
+      throw new Error(
+        language === "tr"
+          ? "Türkçe içerik için başlık zorunludur."
+          : "İngilizce içerik için başlık zorunludur."
+      );
+    }
+
+    const slug =
+      slugify(
+        translation.title
+      );
+
+    const payload = {
+      news_id: newsId,
+
+      language,
+
+      title:
+        translation.title.trim(),
+
+      summary:
+        translation.summary.trim() ||
+        null,
+
+      content:
+        translation.content.trim() ||
+        null,
+
+      slug,
+
+      updated_at:
+        new Date().toISOString(),
+    };
+
+    const {
+      error,
+    } =
+      await supabase
+        .from(
+          "news_translations"
+        )
+        .upsert(
+          payload,
+          {
+            onConflict:
+              "news_id,language",
+          }
+        );
+
+    if (error) {
+      throw new Error(
+        error.message
+      );
+    }
   }
 
   async function handleSubmit(
@@ -180,69 +391,245 @@ async function uploadCoverImage() {
   ) {
     event.preventDefault();
 
-    setErrorMessage("");
-
     if (
-      !values.title_tr.trim() ||
-      !values.title_en.trim() ||
-      !values.summary_tr.trim() ||
-      !values.summary_en.trim() ||
-      !values.url.trim() ||
-      !values.published_at
+      isSaving ||
+      isDeleting
     ) {
-      setErrorMessage(
-        "Lütfen zorunlu alanların tamamını doldurun."
-      );
       return;
     }
 
-    if (!imageFile && !values.cover_image_url) {
-      setErrorMessage("Lütfen bir kapak görseli seçin.");
+    setErrorMessage("");
+
+    const turkish =
+      values.translations.tr;
+
+    const english =
+      values.translations.en;
+
+    /*
+      En az bir dilde başlık
+      olmak zorunda.
+    */
+
+    if (
+      !turkish.title.trim() &&
+      !english.title.trim()
+    ) {
+      setErrorMessage(
+        "En az bir dil için haber başlığı girin."
+      );
+
+      return;
+    }
+
+    if (
+      !values.published_at
+    ) {
+      setErrorMessage(
+        "Lütfen yayın tarihini seçin."
+      );
+
+      return;
+    }
+
+    if (
+      !imageFile &&
+      !values.cover_image_url
+    ) {
+      setErrorMessage(
+        "Lütfen bir kapak görseli seçin."
+      );
+
       return;
     }
 
     setIsSaving(true);
 
-    try {
-      const coverImageUrl = await uploadCoverImage();
+    /*
+      Yeni haber kaydı oluşturulduktan sonra
+      translation aşamasında hata çıkarsa
+      bu ID ile yarım kalan kaydı sileceğiz.
+    */
+    let createdNewsId:
+      | string
+      | null = null;
 
-      const payload = {
-        title_tr: values.title_tr.trim(),
-        title_en: values.title_en.trim(),
-        summary_tr: values.summary_tr.trim(),
-        summary_en: values.summary_en.trim(),
-        cover_image_url: coverImageUrl,
-        url: slugify(values.url),
-        published_at: values.published_at,
-        status: values.status,
+    try {
+      const coverImageUrl =
+        await uploadCoverImage();
+
+      const newsPayload = {
+        cover_image_url:
+          coverImageUrl,
+
+        published_at:
+          values.published_at,
+
+        status:
+          values.status,
+
+        content_type:
+          values.content_type,
+
+        updated_at:
+          new Date()
+            .toISOString(),
       };
 
-      if (news) {
-        const { error } = await supabase
-          .from("news")
-          .update(payload)
-          .eq("id", news.id);
+      let newsId =
+        news?.id;
+
+      /*
+        VAR OLAN HABERİ
+        GÜNCELLE
+      */
+
+      if (newsId) {
+        const {
+          error,
+        } =
+          await supabase
+            .from("news")
+            .update(
+              newsPayload
+            )
+            .eq(
+              "id",
+              newsId
+            );
 
         if (error) {
-          throw error;
-        }
-      } else {
-        const { error } = await supabase
-          .from("news")
-          .insert(payload);
-
-        if (error) {
-          throw error;
+          throw new Error(
+            error.message
+          );
         }
       }
 
-      router.push("/admin/haberler");
+      /*
+        YENİ HABER
+      */
+
+      else {
+        const {
+          data,
+          error,
+        } =
+          await supabase
+            .from("news")
+            .insert(
+              newsPayload
+            )
+            .select("id")
+            .single();
+
+        if (error) {
+          throw new Error(
+            error.message
+          );
+        }
+
+        if (!data?.id) {
+          throw new Error(
+            "Haber kaydı oluşturulamadı."
+          );
+        }
+
+        newsId =
+          data.id;
+
+        createdNewsId =
+          data.id;
+      }
+
+      if (!newsId) {
+        throw new Error(
+          "Haber kaydı oluşturulamadı."
+        );
+      }
+
+      /*
+        TR
+      */
+
+      await saveTranslation(
+        newsId,
+        "tr"
+      );
+
+      /*
+        EN
+      */
+
+      await saveTranslation(
+        newsId,
+        "en"
+      );
+
+      /*
+        HER ŞEY BAŞARILI
+      */
+
+      router.push(
+        "/admin/haberler"
+      );
+
       router.refresh();
     } catch (error) {
-      setErrorMessage(
+      let message =
+        "Haber kaydedilirken bir hata oluştu.";
+
+      if (
         error instanceof Error
-          ? error.message
-          : "Haber kaydedilirken bir hata oluştu."
+      ) {
+        message =
+          error.message;
+      } else if (
+        typeof error ===
+        "object" &&
+        error !== null &&
+        "message" in error
+      ) {
+        message =
+          String(
+            (
+              error as {
+                message: unknown;
+              }
+            ).message
+          );
+      }
+
+      /*
+        Sadece YENİ haber eklerken
+        oluşturulan ana kayıt varsa
+        ve işlem tamamlanmadıysa sil.
+      */
+
+      if (
+        createdNewsId
+      ) {
+        const {
+          error:
+          cleanupError,
+        } =
+          await supabase
+            .from("news")
+            .delete()
+            .eq(
+              "id",
+              createdNewsId
+            );
+
+        if (
+          cleanupError
+        ) {
+          message +=
+            " Yarım kalan haber kaydı otomatik olarak temizlenemedi.";
+        }
+      }
+
+      setErrorMessage(
+        message
       );
     } finally {
       setIsSaving(false);
@@ -254,35 +641,61 @@ async function uploadCoverImage() {
       return;
     }
 
-    const confirmed = window.confirm(
-      "Bu haberi silmek istediğinizden emin misiniz?"
-    );
+    if (
+      isDeleting ||
+      isSaving
+    ) {
+      return;
+    }
+
+    const confirmed =
+      window.confirm(
+        "Bu haberi silmek istediğinizden emin misiniz?"
+      );
 
     if (!confirmed) {
       return;
     }
 
     setIsDeleting(true);
+
     setErrorMessage("");
 
     try {
-      const { error } = await supabase
-        .from("news")
-        .delete()
-        .eq("id", news.id);
+      const {
+        error,
+      } =
+        await supabase
+          .from("news")
+          .delete()
+          .eq(
+            "id",
+            news.id
+          );
 
       if (error) {
-        throw error;
+        throw new Error(
+          error.message
+        );
       }
 
-      router.push("/admin/haberler");
+      router.push(
+        "/admin/haberler"
+      );
+
       router.refresh();
     } catch (error) {
-      setErrorMessage(
+      if (
         error instanceof Error
-          ? error.message
-          : "Haber silinirken bir hata oluştu."
-      );
+      ) {
+        setErrorMessage(
+          error.message
+        );
+      } else {
+        setErrorMessage(
+          "Haber silinirken bir hata oluştu."
+        );
+      }
     } finally {
       setIsDeleting(false);
     }
@@ -290,34 +703,64 @@ async function uploadCoverImage() {
 
   return (
     <form
-      className={styles.form}
-      onSubmit={handleSubmit}
+      className={
+        styles.form
+      }
+      onSubmit={
+        handleSubmit
+      }
     >
-      <div className={styles.pageHeader}>
+      <div
+        className={
+          styles.pageHeader
+        }
+      >
         <button
           type="button"
-          className={styles.backButton}
-          onClick={() => router.back()}
+          className={
+            styles.backButton
+          }
+          onClick={() =>
+            router.back()
+          }
         >
-          <ArrowLeft size={17} />
+          <ArrowLeft
+            size={17}
+          />
+
           Geri dön
         </button>
 
-        <div className={styles.headerActions}>
+        <div
+          className={
+            styles.headerActions
+          }
+        >
           {news ? (
             <button
               type="button"
-              className={styles.deleteButton}
-              onClick={handleDelete}
-              disabled={isDeleting || isSaving}
+              className={
+                styles.deleteButton
+              }
+              onClick={
+                handleDelete
+              }
+              disabled={
+                isDeleting ||
+                isSaving
+              }
             >
               {isDeleting ? (
                 <LoaderCircle
-                  className={styles.spinner}
+                  className={
+                    styles.spinner
+                  }
                   size={17}
                 />
               ) : (
-                <Trash2 size={17} />
+                <Trash2
+                  size={17}
+                />
               )}
 
               Haberi sil
@@ -326,147 +769,321 @@ async function uploadCoverImage() {
 
           <button
             type="submit"
-            className={styles.saveButton}
-            disabled={isSaving || isDeleting}
+            className={
+              styles.saveButton
+            }
+            disabled={
+              isSaving ||
+              isDeleting
+            }
           >
             {isSaving ? (
               <LoaderCircle
-                className={styles.spinner}
+                className={
+                  styles.spinner
+                }
                 size={18}
               />
             ) : (
-              <Save size={18} />
+              <Save
+                size={18}
+              />
             )}
 
-            {news ? "Değişiklikleri kaydet" : "Haberi kaydet"}
+            {news
+              ? "Değişiklikleri kaydet"
+              : "Haberi kaydet"}
           </button>
         </div>
       </div>
 
       {errorMessage ? (
-        <div className={styles.errorMessage}>
+        <div
+          className={
+            styles.errorMessage
+          }
+        >
           {errorMessage}
         </div>
       ) : null}
 
-      <div className={styles.formGrid}>
-        <div className={styles.mainColumn}>
-          <section className={styles.formCard}>
-            <div className={styles.cardHeading}>
-              <p>Türkçe içerik</p>
-              <h2>Haber bilgileri</h2>
+      <div
+        className={
+          styles.formGrid
+        }
+      >
+        <div
+          className={
+            styles.mainColumn
+          }
+        >
+          <section
+            className={
+              styles.formCard
+            }
+          >
+            <div
+              className={
+                styles.cardHeading
+              }
+            >
+              <p>
+                Haber içeriği
+              </p>
+
+              <h2>
+                {activeLanguage ===
+                  "tr"
+                  ? "Türkçe içerik"
+                  : "English content"}
+              </h2>
             </div>
 
-            <div className={styles.field}>
-              <label htmlFor="title_tr">
-                Türkçe başlık
+            <div
+              className={
+                styles.languageTabs
+              }
+            >
+              <button
+                type="button"
+                className={`${styles.languageTab} ${activeLanguage ===
+                    "tr"
+                    ? styles.languageTabActive
+                    : ""
+                  }`}
+                onClick={() =>
+                  setActiveLanguage(
+                    "tr"
+                  )
+                }
+              >
+                Türkçe
+              </button>
+
+              <button
+                type="button"
+                className={`${styles.languageTab} ${activeLanguage ===
+                    "en"
+                    ? styles.languageTabActive
+                    : ""
+                  }`}
+                onClick={() =>
+                  setActiveLanguage(
+                    "en"
+                  )
+                }
+              >
+                English
+              </button>
+            </div>
+
+            <div
+              className={
+                styles.field
+              }
+            >
+              <label
+                htmlFor="title"
+              >
+                Başlık
                 <span>*</span>
               </label>
 
               <input
-                id="title_tr"
-                value={values.title_tr}
-                onChange={handleTurkishTitleChange}
-                placeholder="Haber başlığını yazın"
+                id="title"
+                value={
+                  activeTranslation.title
+                }
+                onChange={(
+                  event
+                ) =>
+                  updateTranslationField(
+                    "title",
+                    event
+                      .target
+                      .value
+                  )
+                }
+                placeholder={
+                  activeLanguage ===
+                    "tr"
+                    ? "Haber başlığını yazın"
+                    : "Enter the news title"
+                }
               />
             </div>
 
-            <div className={styles.field}>
-              <label htmlFor="summary_tr">
-                Türkçe özet
-                <span>*</span>
+            <div
+              className={
+                styles.field
+              }
+            >
+              <label
+                htmlFor="summary"
+              >
+                Özet
               </label>
 
               <textarea
-                id="summary_tr"
-                value={values.summary_tr}
-                onChange={(event) =>
-                  updateField(
-                    "summary_tr",
-                    event.target.value
+                id="summary"
+                value={
+                  activeTranslation.summary
+                }
+                onChange={(
+                  event
+                ) =>
+                  updateTranslationField(
+                    "summary",
+                    event
+                      .target
+                      .value
                   )
                 }
-                placeholder="Haberin Türkçe özetini yazın"
-                rows={7}
-              />
-            </div>
-          </section>
-
-          <section className={styles.formCard}>
-            <div className={styles.cardHeading}>
-              <p>English content</p>
-              <h2>İngilizce içerik</h2>
-            </div>
-
-            <div className={styles.field}>
-              <label htmlFor="title_en">
-                İngilizce başlık
-                <span>*</span>
-              </label>
-
-              <input
-                id="title_en"
-                value={values.title_en}
-                onChange={(event) =>
-                  updateField(
-                    "title_en",
-                    event.target.value
-                  )
+                placeholder={
+                  activeLanguage ===
+                    "tr"
+                    ? "Haberin kısa özetini yazın"
+                    : "Enter a short summary"
                 }
-                placeholder="Enter the news title"
+                rows={5}
               />
             </div>
 
-            <div className={styles.field}>
-              <label htmlFor="summary_en">
-                İngilizce özet
-                <span>*</span>
+            <div
+              className={
+                styles.field
+              }
+            >
+              <label
+                htmlFor="content"
+              >
+                Haber içeriği
               </label>
 
-              <textarea
-                id="summary_en"
-                value={values.summary_en}
-                onChange={(event) =>
-                  updateField(
-                    "summary_en",
-                    event.target.value
+              <RichTextEditor
+                key={activeLanguage}
+                value={activeTranslation.content}
+                onChange={(html) =>
+                  updateTranslationField(
+                    "content",
+                    html
                   )
                 }
-                placeholder="Enter the news summary"
-                rows={7}
               />
             </div>
           </section>
         </div>
 
-        <div className={styles.sideColumn}>
-          <section className={styles.formCard}>
-            <div className={styles.cardHeading}>
-              <p>Yayın bilgileri</p>
-              <h2>Durum ve tarih</h2>
+        <div
+          className={
+            styles.sideColumn
+          }
+        >
+          <section
+            className={
+              styles.formCard
+            }
+          >
+            <div
+              className={
+                styles.cardHeading
+              }
+            >
+              <p>
+                Yayın bilgileri
+              </p>
+
+              <h2>
+                Durum ve tarih
+              </h2>
             </div>
 
-            <div className={styles.field}>
-              <label htmlFor="status">Yayın durumu</label>
+            <div
+              className={
+                styles.field
+              }
+            >
+              <label
+                htmlFor="content_type"
+              >
+                İçerik türü
+              </label>
 
               <select
-                id="status"
-                value={values.status}
-                onChange={(event) =>
-                  updateField(
-                    "status",
-                    event.target.value as NewsStatus
+                id="content_type"
+                value={
+                  values.content_type
+                }
+                onChange={(
+                  event
+                ) =>
+                  updateSharedField(
+                    "content_type",
+                    event
+                      .target
+                      .value as NewsContentType
                   )
                 }
               >
-                <option value="published">Yayında</option>
-                <option value="draft">Taslak</option>
-                <option value="archived">Arşiv</option>
+                <option value="news">
+                  Haber
+                </option>
+
+                <option value="announcement">
+                  Duyuru
+                </option>
               </select>
             </div>
 
-            <div className={styles.field}>
-              <label htmlFor="published_at">
+            <div
+              className={
+                styles.field
+              }
+            >
+              <label
+                htmlFor="status"
+              >
+                Yayın durumu
+              </label>
+
+              <select
+                id="status"
+                value={
+                  values.status
+                }
+                onChange={(
+                  event
+                ) =>
+                  updateSharedField(
+                    "status",
+                    event
+                      .target
+                      .value as NewsStatus
+                  )
+                }
+              >
+                <option value="published">
+                  Yayında
+                </option>
+
+                <option value="draft">
+                  Taslak
+                </option>
+
+                <option value="archived">
+                  Arşiv
+                </option>
+              </select>
+            </div>
+
+            <div
+              className={
+                styles.field
+              }
+            >
+              <label
+                htmlFor="published_at"
+              >
                 Yayın tarihi
                 <span>*</span>
               </label>
@@ -474,64 +1091,82 @@ async function uploadCoverImage() {
               <input
                 id="published_at"
                 type="date"
-                value={values.published_at}
-                onChange={(event) =>
-                  updateField(
+                value={
+                  values.published_at
+                }
+                onChange={(
+                  event
+                ) =>
+                  updateSharedField(
                     "published_at",
-                    event.target.value
+                    event
+                      .target
+                      .value
                   )
                 }
               />
             </div>
-
-            <div className={styles.field}>
-              <label htmlFor="url">
-                Haber adresi
-                <span>*</span>
-              </label>
-
-              <div className={styles.slugInput}>
-                <span>/haberler/</span>
-
-                <input
-                  id="url"
-                  value={values.url}
-                  onChange={(event) =>
-                    updateField(
-                      "url",
-                      slugify(event.target.value)
-                    )
-                  }
-                  placeholder="haber-adresi"
-                />
-              </div>
-            </div>
           </section>
 
-          <section className={styles.formCard}>
-            <div className={styles.cardHeading}>
-              <p>Medya</p>
-              <h2>Kapak görseli</h2>
+          <section
+            className={
+              styles.formCard
+            }
+          >
+            <div
+              className={
+                styles.cardHeading
+              }
+            >
+              <p>
+                Medya
+              </p>
+
+              <h2>
+                Kapak görseli
+              </h2>
             </div>
 
             <label
               htmlFor="cover_image"
-              className={styles.imageUpload}
+              className={
+                styles.imageUpload
+              }
             >
               {previewUrl ? (
-                <div className={styles.imagePreview}>
+                <div
+                  className={
+                    styles.imagePreview
+                  }
+                >
                   <Image
-                    src={previewUrl}
+                    src={
+                      previewUrl
+                    }
                     alt="Haber kapak görseli"
                     fill
                     sizes="360px"
                   />
                 </div>
               ) : (
-                <div className={styles.imagePlaceholder}>
-                  <ImagePlus size={29} />
-                  <strong>Görsel seçin</strong>
-                  <span>JPG, PNG veya WebP — en fazla 5 MB</span>
+                <div
+                  className={
+                    styles.imagePlaceholder
+                  }
+                >
+                  <ImagePlus
+                    size={29}
+                  />
+
+                  <strong>
+                    Görsel seçin
+                  </strong>
+
+                  <span>
+                    JPG, PNG veya
+                    WebP — en fazla
+                    5 MB
+                  </span>
                 </div>
               )}
 
@@ -539,7 +1174,9 @@ async function uploadCoverImage() {
                 id="cover_image"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                onChange={handleImageChange}
+                onChange={
+                  handleImageChange
+                }
               />
             </label>
           </section>

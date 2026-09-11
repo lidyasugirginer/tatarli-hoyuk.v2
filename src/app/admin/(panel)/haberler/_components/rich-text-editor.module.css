@@ -1,0 +1,184 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 330px;
+
+  overflow: hidden;
+
+  border: 1px solid #d8d3c9;
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.editor:focus-within {
+  border-color: #9b8354;
+  box-shadow: 0 0 0 3px rgb(155 131 84 / 10%);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  flex: 0 0 auto;
+
+  min-height: 44px;
+  padding: 6px 9px;
+
+  border-bottom: 1px solid #e5e1d9;
+
+  background: #f8f6f2;
+}
+
+.toolbarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 31px;
+  height: 31px;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  color: #5b554b;
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.toolbarButton:hover {
+  color: #302b24;
+
+  border-color: #ddd7cc;
+  background: #eeebe4;
+}
+
+.toolbarButton.active {
+  color: #ffffff;
+
+  border-color: #373128;
+  background: #373128;
+}
+
+/* =========================================
+   TIPTAP WRAPPER
+   ========================================= */
+
+.editorBody {
+  flex: 1;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+/* =========================================
+   GERÇEK YAZI ALANI
+   ========================================= */
+
+.editorContent {
+  width: 100%;
+  height: 100%;
+
+  padding: 16px 18px;
+
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  color: #342f29;
+
+  font-size: 14px;
+  line-height: 1.72;
+
+  outline: none;
+
+  scrollbar-width: thin;
+  scrollbar-color: #b7b0a4 transparent;
+}
+
+/* Chrome / Edge */
+
+.editorContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.editorContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.editorContent::-webkit-scrollbar-thumb {
+  background: #b7b0a4;
+  border-radius: 999px;
+}
+
+.editorContent::-webkit-scrollbar-thumb:hover {
+  background: #958d81;
+}
+
+/* =========================================
+   PARAGRAF
+   ========================================= */
+
+.editorContent p {
+  margin: 0 0 14px;
+}
+
+.editorContent p:empty {
+  min-height: 1.72em;
+}
+
+.editorContent p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================
+   BOLD / ITALIC / UNDERLINE
+   ========================================= */
+
+.editorContent strong {
+  font-weight: 700;
+}
+
+.editorContent em {
+  font-style: italic;
+}
+
+.editorContent u {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* =========================================
+   ALT BİLGİ
+   ========================================= */
+
+.editorHint {
+  flex: 0 0 auto;
+
+  padding: 8px 14px;
+
+  border-top: 1px solid #ece8e0;
+
+  color: #999187;
+  background: #faf9f6;
+
+  font-size: 10px;
+  line-height: 1.4;
+}

@@ -6,13 +6,19 @@ import { createClient } from "@/lib/supabase/server";
 
 import styles from "./page.module.css";
 
+type NewsTranslation = {
+  title: string;
+  summary: string | null;
+  slug: string;
+  language: "tr";
+};
+
 type NewsItem = {
   id: string;
-  title_tr: string;
-  summary_tr: string;
   cover_image_url: string;
-  url: string;
   published_at: string;
+  content_type: "news" | "announcement";
+  news_translations: NewsTranslation[];
 };
 
 function formatDate(dateValue: string) {
@@ -40,12 +46,18 @@ export default async function HaberlerPage() {
     .from("news")
     .select(`
       id,
-      title_tr,
-      summary_tr,
       cover_image_url,
-      url,
-      published_at
+      published_at,
+      content_type,
+      news_translations!inner (
+        title,
+        summary,
+        slug,
+        language
+      )
     `)
+    .eq("status", "published")
+    .eq("news_translations.language", "tr")
     .order("published_at", {
       ascending: false,
     });
@@ -69,23 +81,33 @@ export default async function HaberlerPage() {
           </section>
         ) : newsItems.length === 0 ? (
           <section className={styles.emptyState}>
-            <p>Henüz haber veya duyuru eklenmedi.</p>
+            <p>
+              Henüz haber veya duyuru eklenmedi.
+            </p>
           </section>
         ) : (
           <section className={styles.newsArchive}>
-            <div className={styles.archiveHeading}>
-              <p className={styles.archiveLabel}>
-                Güncel
-              </p>
-
-              <p className={styles.archiveCount}>
-                {newsItems.length} içerik
-              </p>
-            </div>
+          
 
             <div className={styles.newsGrid}>
               {newsItems.map((item) => {
-                const date = formatDate(item.published_at);
+                const translation =
+                  item.news_translations[0];
+
+                if (!translation) {
+                  return null;
+                }
+
+                const date =
+                  formatDate(item.published_at);
+
+                const href =
+                  `/haberler/${translation.slug}`;
+
+                const categoryLabel =
+                  item.content_type === "announcement"
+                    ? "Duyuru"
+                    : "Haber";
 
                 return (
                   <article
@@ -93,22 +115,22 @@ export default async function HaberlerPage() {
                     className={styles.newsCard}
                   >
                     <Link
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href={href}
                       className={styles.imageLink}
-                      aria-label={item.title_tr}
+                      aria-label={translation.title}
                     >
                       <div className={styles.imageWrapper}>
                         <Image
                           src={item.cover_image_url}
-                          alt={item.title_tr}
+                          alt={translation.title}
                           fill
                           sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
                           className={styles.image}
                         />
 
-                        <div className={styles.imageOverlay} />
+                        <div
+                          className={styles.imageOverlay}
+                        />
 
                         <div className={styles.dateBox}>
                           <strong>{date.day}</strong>
@@ -122,32 +144,29 @@ export default async function HaberlerPage() {
 
                     <div className={styles.content}>
                       <p className={styles.category}>
-                        Haber
+                        {categoryLabel}
                       </p>
 
                       <h2>
-                        <Link
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {item.title_tr}
+                        <Link href={href}>
+                          {translation.title}
                         </Link>
                       </h2>
 
-                      {item.summary_tr && (
+                      {translation.summary ? (
                         <p className={styles.summary}>
-                          {item.summary_tr}
+                          {translation.summary}
                         </p>
-                      )}
+                      ) : null}
 
                       <Link
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href={href}
                         className={styles.readMore}
                       >
-                        Haberi Oku
+                        {item.content_type ===
+                        "announcement"
+                          ? "Duyuruyu Oku"
+                          : "Haberi Oku"}
 
                         <span aria-hidden="true">
                           →
