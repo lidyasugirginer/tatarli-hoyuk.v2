@@ -65,8 +65,7 @@ export default async function HaberlerPage() {
     });
 
   const newsItems = (data ?? []) as NewsItem[];
-  console.log("HABERLER DATA:", data);
-  console.error("HABERLER ERROR:", error);
+
 
   return (
     <main className={styles.page}>
