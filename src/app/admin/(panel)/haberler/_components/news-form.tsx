@@ -3,6 +3,7 @@
 import {
   ChangeEvent,
   FormEvent,
+  useRef,
   useState,
 } from "react";
 
@@ -96,7 +97,6 @@ export default function NewsForm({
   news,
 }: NewsFormProps) {
   const router = useRouter();
-
   const supabase = createClient();
 
   const [values, setValues] =
@@ -109,6 +109,22 @@ export default function NewsForm({
     setActiveLanguage,
   ] =
     useState<NewsLanguage>("tr");
+
+  /*
+    Eğer düzenlenen haberde zaten İngilizce
+    çeviri varsa onu koruyoruz.
+
+    Yeni haberde ise English'e ilk geçişte
+    Türkçe içerik EN çalışma alanına kopyalanacak.
+  */
+  const englishInitializedRef = useRef(
+    Boolean(
+      news?.translations?.find(
+        (translation) =>
+          translation.language === "en"
+      )
+    )
+  );
 
   const [
     imageFile,
@@ -144,7 +160,7 @@ export default function NewsForm({
 
   const activeTranslation =
     values.translations[
-    activeLanguage
+      activeLanguage
     ];
 
   function updateSharedField(
@@ -175,13 +191,60 @@ export default function NewsForm({
 
         [activeLanguage]: {
           ...current.translations[
-          activeLanguage
+            activeLanguage
           ],
 
           [field]: value,
         },
       },
     }));
+  }
+
+  function handleLanguageChange(
+    language: NewsLanguage
+  ) {
+    if (
+      language === activeLanguage
+    ) {
+      return;
+    }
+
+    /*
+      Yeni haberde English'e İLK geçiş:
+
+      Türkçedeki Başlık + Özet + İçerik
+      birebir EN çalışma alanına kopyalanır.
+
+      Bundan sonra EN üzerinde yapılan
+      değişiklikler ayrı saklanır.
+    */
+    if (
+      language === "en" &&
+      !englishInitializedRef.current
+    ) {
+      setValues((current) => ({
+        ...current,
+
+        translations: {
+          ...current.translations,
+
+          en: {
+            title:
+              current.translations.tr.title,
+
+            summary:
+              current.translations.tr.summary,
+
+            content:
+              current.translations.tr.content,
+          },
+        },
+      }));
+
+      englishInitializedRef.current = true;
+    }
+
+    setActiveLanguage(language);
   }
 
   function handleImageChange(
@@ -218,7 +281,6 @@ export default function NewsForm({
     }
 
     setErrorMessage("");
-
     setImageFile(file);
 
     setPreviewUrl(
@@ -847,12 +909,12 @@ export default function NewsForm({
               <button
                 type="button"
                 className={`${styles.languageTab} ${activeLanguage ===
-                    "tr"
-                    ? styles.languageTabActive
-                    : ""
+                  "tr"
+                  ? styles.languageTabActive
+                  : ""
                   }`}
                 onClick={() =>
-                  setActiveLanguage(
+                  handleLanguageChange(
                     "tr"
                   )
                 }
@@ -863,12 +925,12 @@ export default function NewsForm({
               <button
                 type="button"
                 className={`${styles.languageTab} ${activeLanguage ===
-                    "en"
-                    ? styles.languageTabActive
-                    : ""
+                  "en"
+                  ? styles.languageTabActive
+                  : ""
                   }`}
                 onClick={() =>
-                  setActiveLanguage(
+                  handleLanguageChange(
                     "en"
                   )
                 }
@@ -961,7 +1023,6 @@ export default function NewsForm({
               </label>
 
               <RichTextEditor
-                key={activeLanguage}
                 value={activeTranslation.content}
                 onChange={(html) =>
                   updateTranslationField(

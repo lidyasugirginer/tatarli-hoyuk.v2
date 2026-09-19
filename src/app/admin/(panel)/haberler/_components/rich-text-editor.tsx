@@ -14,6 +14,11 @@ import {
   Underline as UnderlineIcon,
 } from "lucide-react";
 
+import {
+  useEffect,
+  useRef,
+} from "react";
+
 import styles from "./rich-text-editor.module.css";
 
 type RichTextEditorProps = {
@@ -25,6 +30,8 @@ export default function RichTextEditor({
   value,
   onChange,
 }: RichTextEditorProps) {
+  const isSyncingRef = useRef(false);
+
   const editor = useEditor({
     immediatelyRender: false,
 
@@ -40,6 +47,10 @@ export default function RichTextEditor({
     content: value,
 
     onUpdate: ({ editor }) => {
+      if (isSyncingRef.current) {
+        return;
+      }
+
       onChange(editor.getHTML());
     },
 
@@ -49,6 +60,38 @@ export default function RichTextEditor({
       },
     },
   });
+
+  /*
+    Dışarıdan gelen value değiştiğinde
+    mevcut editörü yeniden oluşturmadan
+    içeriğini güncelliyoruz.
+
+    Böylece TR / EN geçişinde editör
+    aynı yerde ve aynı instance olarak kalır.
+  */
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    const currentContent =
+      editor.getHTML();
+
+    if (currentContent === value) {
+      return;
+    }
+
+    isSyncingRef.current = true;
+
+    editor.commands.setContent(
+      value || "",
+      {
+        emitUpdate: false,
+      }
+    );
+
+    isSyncingRef.current = false;
+  }, [editor, value]);
 
   if (!editor) {
     return null;
