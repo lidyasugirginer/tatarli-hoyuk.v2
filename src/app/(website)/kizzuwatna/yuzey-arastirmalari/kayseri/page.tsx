@@ -1,5 +1,6 @@
 import KizzuwatnaPageLayout from "@/components/kizzuwatna/KizzuwatnaPageLayout";
 
+
 export default function KayseriYuzeyArastirmalariPage() {
   return (
     <KizzuwatnaPageLayout

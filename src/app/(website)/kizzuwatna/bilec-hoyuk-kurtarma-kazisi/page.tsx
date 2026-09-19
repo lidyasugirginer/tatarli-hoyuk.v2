@@ -1,4 +1,5 @@
 import InnerPageLayout from "@/components/shared/InnerPageLayout";
+import KizzuwatnaSubnav from "@/components/kizzuwatna/KizzuwatnaSubnav";
 
 export default function BilecHoyukKurtarmaKazisiPage() {
   return (
@@ -7,6 +8,7 @@ export default function BilecHoyukKurtarmaKazisiPage() {
       eyebrow="Kizzuwatna Araştırmaları Projesi"
       title="Bileç Höyük Kurtarma Kazısı"
       variant="kizzuwatna"
+      sideNavigation={<KizzuwatnaSubnav />}
       sections={[
         {
           number: "01",

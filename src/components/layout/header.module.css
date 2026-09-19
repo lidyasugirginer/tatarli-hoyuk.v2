@@ -99,6 +99,8 @@
   color: inherit;
 
   text-decoration: none;
+
+  transition: opacity 180ms ease;
 }
 
 .logo,
@@ -111,6 +113,7 @@
   object-fit: contain;
 
   transition: transform 260ms ease;
+  transition: transform 220ms ease;
 }
 
 .brand:hover .logo {
@@ -170,10 +173,12 @@
 
 .innerHeader .brandText strong {
   color: #33281f;
+  transition: color 180ms ease;
 }
 
 .innerHeader .brandText span {
   color: #796b5f;
+  transition: color 180ms ease;
 }
 
 /* =========================================================

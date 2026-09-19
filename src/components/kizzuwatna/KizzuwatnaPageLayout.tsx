@@ -1,9 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
-
-import styles from "./kizzuwatna-page-layout.module.css";
 import ImageCollage from "@/components/shared/ImageCollage";
 import PageHeader from "@/components/shared/PageHeader";
+
+import KizzuwatnaSubnav from "./KizzuwatnaSubnav";
+import styles from "./kizzuwatna-page-layout.module.css";
 
 type ContentSection = {
   number: string;
@@ -18,7 +17,7 @@ type ContentSection = {
 
 type KizzuwatnaPageLayoutProps = {
   breadcrumb: string;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   sections?: ContentSection[];
   textOnly?: boolean;
@@ -29,7 +28,6 @@ export default function KizzuwatnaPageLayout({
   eyebrow = "Kizzuwatna Araştırma Projeleri",
   title,
   sections = [],
-  textOnly = false,
 }: KizzuwatnaPageLayoutProps) {
   return (
     <main className={styles.page}>
@@ -41,34 +39,51 @@ export default function KizzuwatnaPageLayout({
           variant="kizzuwatna"
         />
 
-        {sections.length === 0 ? (
-          <section className={styles.emptySection}>
-            <p>Bu sayfanın içeriği hazırlanıyor.</p>
-          </section>
-        ) : (
-          sections.map((section) => (
-            <section className={styles.contentSection} key={section.number}>
-              <div className={styles.sectionText}>
-                <p className={styles.sectionNumber}>{section.number}</p>
-                <h2>{section.title}</h2>
+        <div className={styles.pageBody}>
+          <aside className={styles.sidebar}>
+            <KizzuwatnaSubnav />
+          </aside>
 
-                {section.paragraphs?.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
+          <div className={styles.content}>
+            {sections.length === 0 ? (
+              <section className={styles.emptySection}>
+                <p>Bu sayfanın içeriği hazırlanıyor.</p>
+              </section>
+            ) : (
+              sections.map((section) => (
+                <section
+                  className={styles.contentSection}
+                  key={section.number}
+                >
+                  <div className={styles.sectionText}>
+                    <p className={styles.sectionNumber}>
+                      {section.number}
+                    </p>
 
-              <div className={styles.visualArea}>
-                {section.images && section.images.length > 0 ? (
-                  <ImageCollage images={section.images} />
-                ) : (
-                  <div className={styles.imagePlaceholder}>
-                    <span>Görsel daha sonra eklenecek</span>
+                    <h2>{section.title}</h2>
+
+                    {section.paragraphs?.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
                   </div>
-                )}
-              </div>
-            </section>
-          ))
-        )}
+
+                  <div className={styles.visualArea}>
+                    {section.images &&
+                    section.images.length > 0 ? (
+                      <ImageCollage images={section.images} />
+                    ) : (
+                      <div className={styles.imagePlaceholder}>
+                        <span>
+                          Görsel daha sonra eklenecek
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );

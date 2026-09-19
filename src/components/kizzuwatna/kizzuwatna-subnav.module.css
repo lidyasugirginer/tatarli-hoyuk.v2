@@ -1,0 +1,237 @@
+.navigation {
+  position: sticky;
+  top: 145px;
+
+  width: 185px;
+  align-self: start;
+
+  padding-top: 2px;
+}
+
+/* =========================================================
+   BAŞLIK
+   ========================================================= */
+
+.label {
+  margin: 0 0 25px;
+
+  color: #a27c3d;
+
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+}
+
+.label span {
+  display: block;
+}
+
+/* =========================================================
+   ANA NAVİGASYON
+   ========================================================= */
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  position: relative;
+
+  display: block;
+
+  padding: 8px 26px 8px 0;
+
+  color: #75695e;
+
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.45;
+
+  text-decoration: none;
+
+  transition:
+    color 160ms ease,
+    padding-left 160ms ease;
+}
+
+.link:hover {
+  color: #2a2119;
+}
+
+.active {
+  color: #2a2119;
+  font-weight: 600;
+}
+
+.activeLine {
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  width: 20px;
+  height: 1px;
+
+  background: #b9974f;
+
+  transform: translateY(-50%);
+}
+
+/* =========================================================
+   YÜZEY ARAŞTIRMALARI
+   ========================================================= */
+
+.group {
+  margin-top: 20px;
+  padding-top: 17px;
+
+  border-top: 1px solid rgba(83, 62, 39, 0.1);
+}
+
+.groupLabel {
+  margin: 0 0 8px;
+
+  color: #a27c3d;
+
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.13em;
+
+  text-transform: uppercase;
+}
+
+.subLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.subLink {
+  padding: 7px 24px 7px 10px;
+
+  color: #82766b;
+
+  font-size: 12px;
+}
+
+.subLink::before {
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 3px;
+  height: 1px;
+
+  content: "";
+
+  background: rgba(162, 124, 61, 0.55);
+
+  transform: translateY(-50%);
+}
+
+.subLink:hover {
+  padding-left: 13px;
+}
+
+/* =========================================================
+   TABLET / MOBİL
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .navigation {
+    position: relative;
+    top: auto;
+
+    width: 100%;
+
+    margin: 0 0 30px;
+    padding: 0 0 14px;
+
+    overflow-x: auto;
+
+    border-bottom: 1px solid rgba(83, 62, 39, 0.1);
+
+    scrollbar-width: none;
+  }
+
+  .navigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .label {
+    margin-bottom: 13px;
+  }
+
+  .label span {
+    display: inline;
+    margin-left: 4px;
+  }
+
+  .links {
+    width: max-content;
+
+    flex-direction: row;
+    align-items: center;
+
+    gap: 26px;
+  }
+
+  .link {
+    padding: 7px 0;
+
+    white-space: nowrap;
+  }
+
+  .group {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    margin: 0;
+    padding: 0 0 0 24px;
+
+    border-top: 0;
+    border-left: 1px solid rgba(83, 62, 39, 0.12);
+  }
+
+  .groupLabel {
+    margin: 0;
+
+    white-space: nowrap;
+  }
+
+  .subLinks {
+    flex-direction: row;
+    align-items: center;
+
+    gap: 20px;
+  }
+
+  .subLink {
+    padding: 7px 0;
+  }
+
+  .subLink::before {
+    display: none;
+  }
+
+  .subLink:hover {
+    padding-left: 0;
+  }
+
+  .activeLine {
+    top: auto;
+    right: 0;
+    bottom: -15px;
+    left: 0;
+
+    width: 100%;
+
+    transform: none;
+  }
+}

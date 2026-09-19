@@ -43,27 +43,27 @@ export default function KizzuwatnaProject() {
                         değerlendirmektedir.
                     </p>
 
-                    <Link
-                        href="/kizzuwatna"
-                        className={styles.mainLink}
-                    >
-                        Projeyi Keşfet
-                        <span aria-hidden="true">→</span>
-                    </Link>
+                    <div className={styles.linkRow}>
+                        <div className={styles.relatedWorks}>
+                            <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
+                                Bileç Höyük Kurtarma Kazısı
+                            </Link>
 
-                    <div className={styles.relatedWorks}>
-                        <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
-                            Bileç Höyük Kurtarma Kazısı
-                            <span aria-hidden="true"></span>
-                        </Link>
+                            <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
+                                Adana Yüzey Araştırmaları
+                            </Link>
 
-                        <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
-                            Adana Yüzey Araştırmaları
-                            <span aria-hidden="true"></span>
-                        </Link>
-                        <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
-                            Kayseri Yüzey Araştırmaları
-                            <span aria-hidden="true"></span>
+                            <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
+                                Kayseri Yüzey Araştırmaları
+                            </Link>
+                        </div>
+
+                        <Link
+                            href="/kizzuwatna"
+                            className={styles.mainLink}
+                        >
+                            Projeyi Keşfet
+                            <span aria-hidden="true">→</span>
                         </Link>
                     </div>
                 </div>

@@ -1,4 +1,6 @@
 import InnerPageLayout from "@/components/shared/InnerPageLayout";
+import KizzuwatnaSubnav from "@/components/kizzuwatna/KizzuwatnaSubnav";
+
 export default function KizzuwatnaPage() {
   return (
     <InnerPageLayout
@@ -6,6 +8,7 @@ export default function KizzuwatnaPage() {
       eyebrow="Kizzuwatna Araştırmaları Projesi"
       title="Kizzuwatna Araştırmaları Projesi"
       variant="kizzuwatna"
+      sideNavigation={<KizzuwatnaSubnav />}
       sections={[
         {
           number: "01",

@@ -363,3 +363,67 @@
     min-height: 260px;
   }
 }
+
+/* =========================================================
+   KIZZUWATNA ALT NAVİGASYONLU YERLEŞİM
+   ========================================================= */
+
+.layoutWithNavigation {
+  display: grid;
+
+  grid-template-columns: 185px minmax(0, 1fr);
+
+  gap: clamp(30px, 3vw, 46px);
+
+  align-items: start;
+}
+
+.sideNavigation {
+  min-width: 0;
+}
+
+.sections {
+  min-width: 0;
+}
+
+.layoutWithNavigation .contentSection {
+  grid-template-columns:
+    minmax(340px, 0.92fr)
+    minmax(460px, 1.08fr);
+
+  gap: clamp(46px, 5vw, 76px);
+}
+
+/* =========================================================
+   ORTA EKRAN
+   ========================================================= */
+
+@media (max-width: 1180px) {
+  .layoutWithNavigation {
+    grid-template-columns: 170px minmax(0, 1fr);
+
+    gap: 30px;
+  }
+
+  .layoutWithNavigation .contentSection {
+    grid-template-columns:
+      minmax(300px, 0.95fr)
+      minmax(380px, 1.05fr);
+
+    gap: 38px;
+  }
+}
+
+/* =========================================================
+   TABLET / MOBİL
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .layoutWithNavigation {
+    display: block;
+  }
+
+  .layoutWithNavigation .contentSection {
+    grid-template-columns: 1fr;
+  }
+}
