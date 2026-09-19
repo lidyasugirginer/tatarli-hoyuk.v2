@@ -65,6 +65,8 @@ export default async function HaberlerPage() {
     });
 
   const newsItems = (data ?? []) as NewsItem[];
+  console.log("HABERLER DATA:", data);
+  console.error("HABERLER ERROR:", error);
 
   return (
     <main className={styles.page}>
@@ -89,7 +91,7 @@ export default async function HaberlerPage() {
           </section>
         ) : (
           <section className={styles.newsArchive}>
-          
+
 
             <div className={styles.newsGrid}>
               {newsItems.map((item) => {
@@ -166,7 +168,7 @@ export default async function HaberlerPage() {
                         className={styles.readMore}
                       >
                         {item.content_type ===
-                        "announcement"
+                          "announcement"
                           ? "Duyuruyu Oku"
                           : "Haberi Oku"}
 
