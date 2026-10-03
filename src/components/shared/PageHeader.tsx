@@ -3,12 +3,15 @@ import Link from "next/link";
 
 import styles from "./page-header.module.css";
 
+type Language = "tr" | "en";
+
 type PageHeaderProps = {
     breadcrumb: string;
     eyebrow: string;
     title: string;
 
     variant?: "tatarli" | "kizzuwatna";
+    language?: Language;
 };
 
 export default function PageHeader({
@@ -16,7 +19,9 @@ export default function PageHeader({
     eyebrow,
     title,
     variant = "tatarli",
+    language = "tr",
 }: PageHeaderProps) {
+    const isEnglish = language === "en";
     const friezeImage =
         variant === "kizzuwatna"
             ? "/images/kizzuwatna/kizzuwatna-frieze.png"
@@ -26,9 +31,11 @@ export default function PageHeader({
             <div className={styles.headerText}>
                 <nav
                     className={styles.breadcrumb}
-                    aria-label="Sayfa yolu"
+                    aria-label={isEnglish ? "Breadcrumb" : "Sayfa yolu"}
                 >
-                    <Link href="/">Ana Sayfa</Link>
+                    <Link href={isEnglish ? "/en" : "/"}>
+                        {isEnglish ? "Home" : "Ana Sayfa"}
+                    </Link>
 
                     <span aria-hidden="true">/</span>
 

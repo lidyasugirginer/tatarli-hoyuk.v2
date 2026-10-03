@@ -12,7 +12,7 @@ type SectionImage = {
 type ContentSection = {
   number: string;
   title: string;
-  paragraphs?: string[];
+  paragraphs?: readonly string[] | string[];
 
   // Eski sayfalar bozulmasın diye bunları koruyoruz
   image?: string;
@@ -26,8 +26,10 @@ type InnerPageLayoutProps = {
   breadcrumb: string;
   eyebrow: string;
   title: string;
-  sections?: ContentSection[];
+  sections?: readonly ContentSection[] | ContentSection[];
   variant?: "tatarli" | "kizzuwatna";
+  language?: "tr" | "en";
+  placeholderText?: string;
 
   // Sadece ihtiyaç olan sayfalarda kullanılır
   sideNavigation?: React.ReactNode;
@@ -39,6 +41,8 @@ export default function InnerPageLayout({
   title,
   sections = [],
   variant = "tatarli",
+  language = "tr",
+  placeholderText,
   sideNavigation,
 }: InnerPageLayoutProps) {
   return (
@@ -49,6 +53,7 @@ export default function InnerPageLayout({
           eyebrow={eyebrow}
           title={title}
           variant={variant}
+          language={language}
         />
 
         <div
@@ -135,7 +140,10 @@ export default function InnerPageLayout({
                       }
                     >
                       <span>
-                        İçerik daha sonra eklenecek
+                        {placeholderText ??
+                          (language === "en"
+                            ? "Content will be added later"
+                            : "İçerik daha sonra eklenecek")}
                       </span>
                     </div>
                   )}

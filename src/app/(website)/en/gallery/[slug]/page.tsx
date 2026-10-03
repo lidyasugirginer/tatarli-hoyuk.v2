@@ -6,7 +6,7 @@ type GalleryAlbumPageProps = {
   }>;
 };
 
-export default async function GalleryAlbumPage({
+export default async function EnglishGalleryAlbumPage({
   params,
 }: GalleryAlbumPageProps) {
   const { slug } = await params;
@@ -14,7 +14,8 @@ export default async function GalleryAlbumPage({
   return (
     <GalleryDetailPage
       slug={slug}
-      language="tr"
+      language="en"
     />
   );
 }
+

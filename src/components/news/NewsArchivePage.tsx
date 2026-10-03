@@ -137,6 +137,7 @@ export default async function NewsArchivePage({
           breadcrumb={t.breadcrumb}
           eyebrow={t.eyebrow}
           title={t.title}
+          language={language}
         />
 
         {error ? (
