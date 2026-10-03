@@ -273,6 +273,31 @@
   color: #ad8542;
 }
 
+/* =========================
+   İNGİLİZCE MASAÜSTÜ DÜZENİ
+   ========================= */
+
+.linkRowEn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+
+  column-gap: 28px;
+}
+
+.linkRowEn .relatedWorks {
+  flex-wrap: nowrap;
+
+  min-width: 0;
+  max-width: none;
+}
+
+.linkRowEn .mainLink {
+  margin-left: 0;
+
+  justify-self: end;
+}
+
 
 /* =========================
    TABLET

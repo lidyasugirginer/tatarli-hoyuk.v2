@@ -66,9 +66,9 @@ export default function Hero({
           eyebrow: "Kizzuwatna Research",
           title: "Tatarlı Höyük",
           descriptionLine1:
-            "Bringing thousands of years of Eastern Cilicia's past",
+            "Bringing thousands of years of",
           descriptionLine2:
-            "to light.",
+            "Eastern Cilicia's past to light.",
           arrowLabel:
             "Scroll to the about section",
         }

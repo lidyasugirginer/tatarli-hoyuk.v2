@@ -213,6 +213,12 @@
   transform: translateX(4px);
 }
 
+.allPublicationsLinkEn {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 @media (max-width: 1180px) {
   .publicationGrid {
     gap: 18px;

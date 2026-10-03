@@ -5,33 +5,80 @@ import { usePathname } from "next/navigation";
 
 import styles from "./kizzuwatna-subnav.module.css";
 
-const mainItems = [
-  {
-    label: "Hakkında",
-    href: "/kizzuwatna",
-  },
-  {
-    label: "Bileç Höyük Kurtarma Kazısı",
-    href: "/kizzuwatna/bilec-hoyuk-kurtarma-kazisi",
-  },
-];
+type Language = "tr" | "en";
 
-const surveyItems = [
-  {
-    label: "Adana İli",
-    href: "/kizzuwatna/yuzey-arastirmalari/adana",
-  },
-  {
-    label: "Kayseri İli",
-    href: "/kizzuwatna/yuzey-arastirmalari/kayseri",
-  },
-];
+type KizzuwatnaSubnavProps = {
+  language?: Language;
+};
 
-export default function KizzuwatnaSubnav() {
+const navigationData = {
+  tr: {
+    ariaLabel: "Kizzuwatna Araştırmaları",
+    brandFirst: "Kizzuwatna",
+    brandSecond: "Araştırmaları",
+    mainItems: [
+      {
+        label: "Hakkında",
+        href: "/kizzuwatna",
+      },
+      {
+        label: "Bileç Höyük Kurtarma Kazısı",
+        href: "/kizzuwatna/bilec-hoyuk-kurtarma-kazisi",
+      },
+    ],
+    groupLabel: "Yüzey Araştırmaları",
+    surveyItems: [
+      {
+        label: "Adana İli",
+        href: "/kizzuwatna/yuzey-arastirmalari/adana",
+      },
+      {
+        label: "Kayseri İli",
+        href: "/kizzuwatna/yuzey-arastirmalari/kayseri",
+      },
+    ],
+  },
+  en: {
+    ariaLabel: "Kizzuwatna Research Project",
+    brandFirst: "Kizzuwatna",
+    brandSecond: "Research Project",
+    mainItems: [
+      {
+        label: "About",
+        href: "/en/kizzuwatna",
+      },
+      {
+        label: "Bileç Höyük Rescue Excavation",
+        href: "/en/kizzuwatna/bilec-hoyuk-rescue-excavation",
+      },
+    ],
+    groupLabel: "Archaeological Surveys",
+    surveyItems: [
+      {
+        label: "Adana",
+        href: "/en/kizzuwatna/surveys/adana",
+      },
+      {
+        label: "Kayseri",
+        href: "/en/kizzuwatna/surveys/kayseri",
+      },
+    ],
+  },
+} as const;
+
+export default function KizzuwatnaSubnav({
+  language,
+}: KizzuwatnaSubnavProps = {}) {
   const pathname = usePathname();
 
+  const isEnglish = language
+    ? language === "en"
+    : pathname === "/en" || pathname.startsWith("/en/");
+  const lang: Language = isEnglish ? "en" : "tr";
+  const nav = navigationData[lang];
+
   const isActive = (href: string) => {
-    if (href === "/kizzuwatna") {
+    if (href === "/kizzuwatna" || href === "/en/kizzuwatna") {
       return pathname === href;
     }
 
@@ -41,15 +88,15 @@ export default function KizzuwatnaSubnav() {
   return (
     <nav
       className={styles.navigation}
-      aria-label="Kizzuwatna Araştırmaları"
+      aria-label={nav.ariaLabel}
     >
       <p className={styles.label}>
-        Kizzuwatna
-        <span>Araştırmaları</span>
+        {nav.brandFirst}
+        <span>{nav.brandSecond}</span>
       </p>
 
       <div className={styles.links}>
-        {mainItems.map((item) => {
+        {nav.mainItems.map((item) => {
           const active = isActive(item.href);
 
           return (
@@ -74,11 +121,11 @@ export default function KizzuwatnaSubnav() {
 
         <div className={styles.group}>
           <p className={styles.groupLabel}>
-            Yüzey Araştırmaları
+            {nav.groupLabel}
           </p>
 
           <div className={styles.subLinks}>
-            {surveyItems.map((item) => {
+            {nav.surveyItems.map((item) => {
               const active = isActive(item.href);
 
               return (

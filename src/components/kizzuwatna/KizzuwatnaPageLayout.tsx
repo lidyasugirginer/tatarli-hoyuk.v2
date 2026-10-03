@@ -4,50 +4,66 @@ import PageHeader from "@/components/shared/PageHeader";
 import KizzuwatnaSubnav from "./KizzuwatnaSubnav";
 import styles from "./kizzuwatna-page-layout.module.css";
 
+type Language = "tr" | "en";
+
+type SectionImage = {
+  src: string;
+  alt: string;
+};
+
 type ContentSection = {
   number: string;
   title: string;
-  paragraphs?: string[];
-
-  images?: {
-    src: string;
-    alt: string;
-  }[];
+  paragraphs?: readonly string[] | string[];
+  images?: readonly SectionImage[] | SectionImage[];
 };
 
 type KizzuwatnaPageLayoutProps = {
   breadcrumb: string;
   eyebrow?: string;
   title: string;
-  sections?: ContentSection[];
+  sections?: readonly ContentSection[] | ContentSection[];
   textOnly?: boolean;
+  language?: Language;
 };
 
 export default function KizzuwatnaPageLayout({
   breadcrumb,
-  eyebrow = "Kizzuwatna Araştırma Projeleri",
+  eyebrow,
   title,
   sections = [],
+  language = "tr",
 }: KizzuwatnaPageLayoutProps) {
+  const defaultEyebrow =
+    eyebrow ??
+    (language === "en"
+      ? "Kizzuwatna Research Project"
+      : "Kizzuwatna Araştırma Projeleri");
+
   return (
     <main className={styles.page}>
       <div className={styles.container}>
         <PageHeader
           breadcrumb={breadcrumb}
-          eyebrow={eyebrow}
+          eyebrow={defaultEyebrow}
           title={title}
           variant="kizzuwatna"
+          language={language}
         />
 
         <div className={styles.pageBody}>
           <aside className={styles.sidebar}>
-            <KizzuwatnaSubnav />
+            <KizzuwatnaSubnav language={language} />
           </aside>
 
           <div className={styles.content}>
             {sections.length === 0 ? (
               <section className={styles.emptySection}>
-                <p>Bu sayfanın içeriği hazırlanıyor.</p>
+                <p>
+                  {language === "en"
+                    ? "The content of this page is being prepared."
+                    : "Bu sayfanın içeriği hazırlanıyor."}
+                </p>
               </section>
             ) : (
               sections.map((section) => (
@@ -74,7 +90,9 @@ export default function KizzuwatnaPageLayout({
                     ) : (
                       <div className={styles.imagePlaceholder}>
                         <span>
-                          Görsel daha sonra eklenecek
+                          {language === "en"
+                            ? "Image will be added later"
+                            : "Görsel daha sonra eklenecek"}
                         </span>
                       </div>
                     )}

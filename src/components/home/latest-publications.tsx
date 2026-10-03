@@ -155,7 +155,9 @@ export default async function LatestPublications({
 
       <Link
         href={t.publicationsPath}
-        className={styles.allPublicationsLink}
+        className={`${styles.allPublicationsLink} ${
+          language === "en" ? styles.allPublicationsLinkEn : ""
+        }`}
       >
         {t.allPublications}
         <span aria-hidden="true">→</span>

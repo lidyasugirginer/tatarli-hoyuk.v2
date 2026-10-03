@@ -57,4 +57,17 @@ export const routePairs = [
   { tr: "/yayinlar", en: "/en/publications" },
   { tr: "/galeri", en: "/en/gallery" },
   { tr: "/iletisim", en: "/en/contact" },
+  {
+    tr: "/kizzuwatna/bilec-hoyuk-kurtarma-kazisi",
+    en: "/en/kizzuwatna/bilec-hoyuk-rescue-excavation",
+  },
+  {
+    tr: "/kizzuwatna/yuzey-arastirmalari/adana",
+    en: "/en/kizzuwatna/surveys/adana",
+  },
+  {
+    tr: "/kizzuwatna/yuzey-arastirmalari/kayseri",
+    en: "/en/kizzuwatna/surveys/kayseri",
+  },
+  { tr: "/kizzuwatna", en: "/en/kizzuwatna" },
 ] as const;

@@ -8,7 +8,7 @@ type CollageImage = {
 };
 
 type ImageCollageProps = {
-  images: CollageImage[];
+  images: readonly CollageImage[] | CollageImage[];
 };
 
 export default function ImageCollage({

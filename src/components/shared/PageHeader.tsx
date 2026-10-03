@@ -41,7 +41,7 @@ export default function PageHeader({
 
                     {variant === "kizzuwatna" && (
                         <>
-                            <Link href="/kizzuwatna">
+                            <Link href={isEnglish ? "/en/kizzuwatna" : "/kizzuwatna"}>
                                 Kizzuwatna
                             </Link>
 
