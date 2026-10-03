@@ -3,71 +3,138 @@ import Link from "next/link";
 
 import styles from "./kizzuwatna-project.module.css";
 
-export default function KizzuwatnaProject() {
-    return (
-        <section className={styles.section}>
-            <div className={styles.container}>
-                <div className={styles.logoArea}>
-                    <div className={styles.logoWrapper}>
-                        <Image
-                            src="/images/kizzuwatna-logo.png"
-                            alt="Kizzuwatna Araştırmaları Projesi logosu"
-                            width={320}
-                            height={320}
-                            className={styles.logo}
-                        />
-                    </div>
+type KizzuwatnaProjectProps = {
+  language?: "tr" | "en";
+};
 
-                </div>
+export default function KizzuwatnaProject({
+  language = "tr",
+}: KizzuwatnaProjectProps) {
+  const content =
+    language === "en"
+      ? {
+          logoAlt:
+            "Kizzuwatna Research Project logo",
 
-                <div className={styles.content}>
-                    <p className={styles.eyebrow}>
-                        Araştırma Çerçevesi
-                    </p>
+          eyebrow: "Research Framework",
 
-                    <h2>Kizzuwatna Araştırmaları Projesi</h2>
+          title:
+            "Kizzuwatna Research Project",
 
-                    <div className={styles.titleLine} />
+          lead:
+            "The Tatarlı Höyük Excavation constitutes an important part of the studies carried out within the Kizzuwatna Research Project, which aims to investigate the historical, archaeological, and cultural development of the Kizzuwatna region.",
 
-                    <p className={styles.lead}>
-                        Tatarlı Höyük Kazısı, Kizzuwatna bölgesinin tarihsel,
-                        arkeolojik ve kültürel gelişimini araştırmayı amaçlayan
-                        Kizzuwatna Araştırmaları Projesi kapsamında yürütülen
-                        çalışmaların önemli bir parçasını oluşturmaktadır.
-                    </p>
+          description:
+            "The project brings together excavations, rescue excavations, and archaeological surveys conducted at Tatarlı Höyük and across Eastern Cilicia and its surrounding regions within a common research framework.",
 
-                    <p className={styles.description}>
-                        Proje; Tatarlı Höyük başta olmak üzere Doğu Kilikya ve
-                        çevresinde gerçekleştirilen kazı, kurtarma kazısı ve yüzey
-                        araştırmalarını ortak bir araştırma çerçevesinde
-                        değerlendirmektedir.
-                    </p>
+          bilec: "Bileç Höyük Rescue Excavation",
+          adana: "Adana Archaeological Surveys",
+          kayseri: "Kayseri Archaeological Surveys",
 
-                    <div className={styles.linkRow}>
-                        <div className={styles.relatedWorks}>
-                            <Link href="/kizzuwatna/bilec-hoyuk-kurtarma-kazisi">
-                                Bileç Höyük Kurtarma Kazısı
-                            </Link>
+          explore: "Explore the Project",
 
-                            <Link href="/kizzuwatna/yuzey-arastirmalari/adana">
-                                Adana Yüzey Araştırmaları
-                            </Link>
+          links: {
+            bilec:
+              "/en/kizzuwatna/bilec-hoyuk-rescue-excavation",
+            adana:
+              "/en/kizzuwatna/surveys/adana",
+            kayseri:
+              "/en/kizzuwatna/surveys/kayseri",
+            main: "/en/kizzuwatna",
+          },
+        }
+      : {
+          logoAlt:
+            "Kizzuwatna Araştırmaları Projesi logosu",
 
-                            <Link href="/kizzuwatna/yuzey-arastirmalari/kayseri">
-                                Kayseri Yüzey Araştırmaları
-                            </Link>
-                        </div>
+          eyebrow: "Araştırma Çerçevesi",
 
-                        <Link
-                            href="/kizzuwatna"
-                            className={styles.mainLink}
-                        >
-                            Projeyi Keşfet
-                            <span aria-hidden="true">→</span>
-                        </Link>
-                    </div>
-                </div>
+          title:
+            "Kizzuwatna Araştırmaları Projesi",
+
+          lead:
+            "Tatarlı Höyük Kazısı, Kizzuwatna bölgesinin tarihsel, arkeolojik ve kültürel gelişimini araştırmayı amaçlayan Kizzuwatna Araştırmaları Projesi kapsamında yürütülen çalışmaların önemli bir parçasını oluşturmaktadır.",
+
+          description:
+            "Proje; Tatarlı Höyük başta olmak üzere Doğu Kilikya ve çevresinde gerçekleştirilen kazı, kurtarma kazısı ve yüzey araştırmalarını ortak bir araştırma çerçevesinde değerlendirmektedir.",
+
+          bilec:
+            "Bileç Höyük Kurtarma Kazısı",
+          adana:
+            "Adana Yüzey Araştırmaları",
+          kayseri:
+            "Kayseri Yüzey Araştırmaları",
+
+          explore: "Projeyi Keşfet",
+
+          links: {
+            bilec:
+              "/kizzuwatna/bilec-hoyuk-kurtarma-kazisi",
+            adana:
+              "/kizzuwatna/yuzey-arastirmalari/adana",
+            kayseri:
+              "/kizzuwatna/yuzey-arastirmalari/kayseri",
+            main: "/kizzuwatna",
+          },
+        };
+
+  return (
+    <section className={styles.section}>
+      <div className={styles.container}>
+        <div className={styles.logoArea}>
+          <div className={styles.logoWrapper}>
+            <Image
+              src="/images/kizzuwatna-logo.png"
+              alt={content.logoAlt}
+              width={320}
+              height={320}
+              className={styles.logo}
+            />
+          </div>
+        </div>
+
+        <div className={styles.content}>
+          <p className={styles.eyebrow}>
+            {content.eyebrow}
+          </p>
+
+          <h2>{content.title}</h2>
+
+          <div className={styles.titleLine} />
+
+          <p className={styles.lead}>
+            {content.lead}
+          </p>
+
+          <p className={styles.description}>
+            {content.description}
+          </p>
+
+          <div className={styles.linkRow}>
+            <div className={styles.relatedWorks}>
+              <Link href={content.links.bilec}>
+                {content.bilec}
+              </Link>
+
+              <Link href={content.links.adana}>
+                {content.adana}
+              </Link>
+
+              <Link href={content.links.kayseri}>
+                {content.kayseri}
+              </Link>
             </div>
-        </section>
-    );
+
+            <Link
+              href={content.links.main}
+              className={styles.mainLink}
+            >
+              {content.explore}
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

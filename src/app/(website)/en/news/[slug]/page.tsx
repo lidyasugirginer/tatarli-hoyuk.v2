@@ -6,7 +6,7 @@ type PageProps = {
   }>;
 };
 
-export default async function HaberDetayPage({
+export default async function NewsDetail({
   params,
 }: PageProps) {
   const { slug } = await params;
@@ -14,7 +14,7 @@ export default async function HaberDetayPage({
   return (
     <NewsDetailPage
       slug={slug}
-      language="tr"
+      language="en"
     />
   );
 }

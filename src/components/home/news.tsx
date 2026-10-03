@@ -5,11 +5,17 @@ import { createClient } from "@/lib/supabase/server";
 
 import styles from "./news.module.css";
 
+type Language = "tr" | "en";
+
+type NewsProps = {
+  language?: Language;
+};
+
 type NewsTranslation = {
   title: string;
   summary: string | null;
   slug: string;
-  language: "tr";
+  language: Language;
 };
 
 type NewsItem = {
@@ -19,27 +25,60 @@ type NewsItem = {
   news_translations: NewsTranslation[];
 };
 
-function formatDate(dateValue: string) {
+const content = {
+  tr: {
+    heading: "Son Haberler",
+    error: "Haberler şu anda görüntülenemiyor.",
+    empty: "Henüz haber eklenmedi.",
+    readNews: "Haberi oku",
+    continue: "Devamı",
+    allNews: "Tüm haberler",
+    newsPath: "/haberler",
+    locale: "tr-TR",
+  },
+
+  en: {
+    heading: "Latest News",
+    error: "News is currently unavailable.",
+    empty: "No news has been added yet.",
+    readNews: "Read the news",
+    continue: "Read more",
+    allNews: "All news",
+    newsPath: "/en/news",
+    locale: "en-GB",
+  },
+} as const;
+
+function formatDate(
+  dateValue: string,
+  language: Language
+) {
   const date = new Date(`${dateValue}T00:00:00`);
 
+  const locale = content[language].locale;
+
   return {
-    day: date.toLocaleDateString("tr-TR", {
+    day: date.toLocaleDateString(locale, {
       day: "2-digit",
     }),
 
     month: date
-      .toLocaleDateString("tr-TR", {
+      .toLocaleDateString(locale, {
         month: "short",
       })
       .replace(".", "")
-      .toLocaleUpperCase("tr-TR"),
+      .toLocaleUpperCase(locale),
 
     year: date.getFullYear().toString(),
   };
 }
 
-export default async function News() {
+export default async function News({
+  language = "tr",
+}: NewsProps) {
   const supabase = await createClient();
+
+  const t = content[language];
 
   const { data, error } = await supabase
     .from("news")
@@ -57,7 +96,10 @@ export default async function News() {
       `
     )
     .eq("status", "published")
-    .eq("news_translations.language", "tr")
+    .eq(
+      "news_translations.language",
+      language
+    )
     .order("published_at", {
       ascending: false,
     })
@@ -68,12 +110,12 @@ export default async function News() {
       <div className={styles.news}>
         <div className={styles.headingRow}>
           <div className={styles.headingGroup}>
-            <h2>Son Haberler</h2>
+            <h2>{t.heading}</h2>
             <span className={styles.headingLine} />
           </div>
         </div>
 
-        <p>Haberler şu anda görüntülenemiyor.</p>
+        <p>{t.error}</p>
       </div>
     );
   }
@@ -81,35 +123,45 @@ export default async function News() {
   const newsItems =
     (data ?? []) as NewsItem[];
 
-  const featuredNews =
-    newsItems[0];
+  const featuredNews = newsItems[0];
 
   const secondaryNews =
     newsItems.slice(1);
+
+  function getNewsHref(slug: string) {
+    return `${t.newsPath}/${slug}`;
+  }
 
   return (
     <div className={styles.news}>
       <div className={styles.headingRow}>
         <div className={styles.headingGroup}>
-          <h2>Son Haberler</h2>
+          <h2>{t.heading}</h2>
           <span className={styles.headingLine} />
         </div>
       </div>
 
       {newsItems.length === 0 ? (
-        <p>Henüz haber eklenmedi.</p>
+        <p>{t.empty}</p>
       ) : (
         <div className={styles.newsLayout}>
           {featuredNews &&
             featuredNews.news_translations[0] && (
-              <article className={styles.featuredCard}>
+              <article
+                className={styles.featuredCard}
+              >
                 <Link
-                  href={`/haberler/${featuredNews.news_translations[0].slug}`}
+                  href={getNewsHref(
+                    featuredNews
+                      .news_translations[0]
+                      .slug
+                  )}
                   className={
                     styles.featuredImageWrapper
                   }
                   aria-label={
-                    featuredNews.news_translations[0]
+                    featuredNews
+                      .news_translations[0]
                       .title
                   }
                 >
@@ -118,7 +170,8 @@ export default async function News() {
                       featuredNews.cover_image_url
                     }
                     alt={
-                      featuredNews.news_translations[0]
+                      featuredNews
+                        .news_translations[0]
                         .title
                     }
                     fill
@@ -134,7 +187,8 @@ export default async function News() {
                     <strong>
                       {
                         formatDate(
-                          featuredNews.published_at
+                          featuredNews.published_at,
+                          language
                         ).day
                       }
                     </strong>
@@ -142,7 +196,8 @@ export default async function News() {
                     <span>
                       {
                         formatDate(
-                          featuredNews.published_at
+                          featuredNews.published_at,
+                          language
                         ).month
                       }
                     </span>
@@ -150,7 +205,8 @@ export default async function News() {
                     <small>
                       {
                         formatDate(
-                          featuredNews.published_at
+                          featuredNews.published_at,
+                          language
                         ).year
                       }
                     </small>
@@ -169,7 +225,8 @@ export default async function News() {
                       }
                     </h3>
 
-                    {featuredNews.news_translations[0]
+                    {featuredNews
+                      .news_translations[0]
                       .summary ? (
                       <p>
                         {
@@ -183,7 +240,8 @@ export default async function News() {
                     <span
                       className={styles.readLink}
                     >
-                      Haberi oku
+                      {t.readNews}
+
                       <span aria-hidden="true">
                         →
                       </span>
@@ -204,7 +262,13 @@ export default async function News() {
 
               const formattedDate =
                 formatDate(
-                  item.published_at
+                  item.published_at,
+                  language
+                );
+
+              const newsHref =
+                getNewsHref(
+                  translation.slug
                 );
 
               return (
@@ -215,7 +279,7 @@ export default async function News() {
                   }
                 >
                   <Link
-                    href={`/haberler/${translation.slug}`}
+                    href={newsHref}
                     className={
                       styles.secondaryImageWrapper
                     }
@@ -260,20 +324,19 @@ export default async function News() {
                     }
                   >
                     <h3>
-                      <Link
-                        href={`/haberler/${translation.slug}`}
-                      >
+                      <Link href={newsHref}>
                         {translation.title}
                       </Link>
                     </h3>
 
                     <Link
-                      href={`/haberler/${translation.slug}`}
+                      href={newsHref}
                       className={
                         styles.secondaryLink
                       }
                     >
-                      Devamı
+                      {t.continue}
+
                       <span aria-hidden="true">
                         →
                       </span>
@@ -284,10 +347,11 @@ export default async function News() {
             })}
 
             <Link
-              href="/haberler"
+              href={t.newsPath}
               className={styles.allNewsLink}
             >
-              Tüm haberler
+              {t.allNews}
+
               <span aria-hidden="true">
                 →
               </span>

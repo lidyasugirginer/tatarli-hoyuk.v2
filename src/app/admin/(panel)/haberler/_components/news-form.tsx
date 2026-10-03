@@ -117,14 +117,34 @@ export default function NewsForm({
     Yeni haberde ise English'e ilk geçişte
     Türkçe içerik EN çalışma alanına kopyalanacak.
   */
-  const englishInitializedRef = useRef(
-    Boolean(
+  const customizedFieldsRef = useRef({
+    title: Boolean(
       news?.translations?.find(
         (translation) =>
           translation.language === "en"
-      )
-    )
-  );
+      )?.title &&
+      values.translations.en.title !==
+      values.translations.tr.title
+    ),
+
+    summary: Boolean(
+      news?.translations?.find(
+        (translation) =>
+          translation.language === "en"
+      )?.summary &&
+      values.translations.en.summary !==
+      values.translations.tr.summary
+    ),
+
+    content: Boolean(
+      news?.translations?.find(
+        (translation) =>
+          translation.language === "en"
+      )?.content &&
+      values.translations.en.content !==
+      values.translations.tr.content
+    ),
+  });
 
   const [
     imageFile,
@@ -160,7 +180,7 @@ export default function NewsForm({
 
   const activeTranslation =
     values.translations[
-      activeLanguage
+    activeLanguage
     ];
 
   function updateSharedField(
@@ -183,45 +203,15 @@ export default function NewsForm({
       | "content",
     value: string
   ) {
-    setValues((current) => ({
-      ...current,
-
-      translations: {
-        ...current.translations,
-
-        [activeLanguage]: {
-          ...current.translations[
-            activeLanguage
-          ],
-
-          [field]: value,
-        },
-      },
-    }));
-  }
-
-  function handleLanguageChange(
-    language: NewsLanguage
-  ) {
-    if (
-      language === activeLanguage
-    ) {
-      return;
-    }
-
     /*
-      Yeni haberde English'e İLK geçiş:
-
-      Türkçedeki Başlık + Özet + İçerik
-      birebir EN çalışma alanına kopyalanır.
-
-      Bundan sonra EN üzerinde yapılan
-      değişiklikler ayrı saklanır.
+      English tarafında kullanıcı bir alanı
+      değiştirdiği anda o alan artık TR'den
+      bağımsız çalışır.
     */
-    if (
-      language === "en" &&
-      !englishInitializedRef.current
-    ) {
+    if (activeLanguage === "en") {
+      customizedFieldsRef.current[field] =
+        true;
+
       setValues((current) => ({
         ...current,
 
@@ -229,20 +219,97 @@ export default function NewsForm({
           ...current.translations,
 
           en: {
-            title:
-              current.translations.tr.title,
-
-            summary:
-              current.translations.tr.summary,
-
-            content:
-              current.translations.tr.content,
+            ...current.translations.en,
+            [field]: value,
           },
         },
       }));
 
-      englishInitializedRef.current = true;
+      return;
     }
+
+    /*
+      Türkçe alan değiştiriliyor.
+  
+      İngilizce karşılığı henüz kullanıcı
+      tarafından özelleştirilmemişse aynı
+      değeri hem TR hem EN'e yaz.
+    */
+    setValues((current) => {
+      const shouldSyncEnglish =
+        !customizedFieldsRef.current[field];
+
+      return {
+        ...current,
+
+        translations: {
+          ...current.translations,
+
+          tr: {
+            ...current.translations.tr,
+            [field]: value,
+          },
+
+          en: shouldSyncEnglish
+            ? {
+              ...current.translations.en,
+              [field]: value,
+            }
+            : current.translations.en,
+        },
+      };
+    });
+  }
+
+  function handleLanguageChange(
+    language: NewsLanguage
+  ) {
+    if (language === activeLanguage) {
+      return;
+    }
+
+    setValues((current) => {
+      const source =
+        current.translations[activeLanguage];
+
+      const target =
+        current.translations[language];
+
+      /*
+        Hedef dilde henüz bir alan düzenlenmemişse,
+        ekranda gördüğümüz mevcut değeri o dile de
+        aktar.
+  
+        Böylece:
+        TR: A
+        English'e geç -> A
+  
+        English'te A'yı "A English" yap ->
+        TR'ye dön -> A
+        EN'e dön -> A English
+      */
+      return {
+        ...current,
+
+        translations: {
+          ...current.translations,
+
+          [language]: {
+            title:
+              target.title ||
+              source.title,
+
+            summary:
+              target.summary ||
+              source.summary,
+
+            content:
+              target.content ||
+              source.content,
+          },
+        },
+      };
+    });
 
     setActiveLanguage(language);
   }
@@ -1023,6 +1090,7 @@ export default function NewsForm({
               </label>
 
               <RichTextEditor
+                key={activeLanguage}
                 value={activeTranslation.content}
                 onChange={(html) =>
                   updateTranslationField(

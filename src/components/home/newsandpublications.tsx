@@ -3,24 +3,38 @@ import LatestPublications from "./latest-publications";
 
 import styles from "./news-and-publications.module.css";
 
-export default function NewsAndPublications() {
+type NewsAndPublicationsProps = {
+  language?: "tr" | "en";
+};
+
+export default function NewsAndPublications({
+  language = "tr",
+}: NewsAndPublicationsProps) {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <aside className={styles.sectionIndex} aria-hidden="true">
+        <aside
+          className={styles.sectionIndex}
+          aria-hidden="true"
+        >
           <span>07</span>
           <span className={styles.indexLine} />
         </aside>
 
         <div className={styles.content}>
           <div className={styles.newsColumn}>
-            <News />
+            <News language={language} />
           </div>
 
-          <div className={styles.verticalDivider} aria-hidden="true" />
+          <div
+            className={styles.verticalDivider}
+            aria-hidden="true"
+          />
 
           <div className={styles.publicationsColumn}>
-            <LatestPublications />
+            <LatestPublications
+              language={language}
+            />
           </div>
         </div>
       </div>
