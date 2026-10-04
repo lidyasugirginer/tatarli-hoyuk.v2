@@ -30,12 +30,6 @@ export default function Hero({
     mass: 0.35,
   });
 
-  const videoScale = useTransform(
-    smoothProgress,
-    [0, 1],
-    [1.02, 1]
-  );
-
   const contentOpacity = useTransform(
     smoothProgress,
     [0, 0.65, 1],
@@ -63,25 +57,25 @@ export default function Hero({
   const content =
     language === "en"
       ? {
-          eyebrow: "Kizzuwatna Research",
-          title: "Tatarlı Höyük",
-          descriptionLine1:
-            "Bringing thousands of years of",
-          descriptionLine2:
-            "Eastern Cilicia's past to light.",
-          arrowLabel:
-            "Scroll to the about section",
-        }
+        eyebrow: "Kizzuwatna Research",
+        title: "Tatarlı Höyük",
+        descriptionLine1:
+          "Bringing thousands of years of",
+        descriptionLine2:
+          "Eastern Cilicia's past to light.",
+        arrowLabel:
+          "Scroll to the about section",
+      }
       : {
-          eyebrow: "Kizzuwatna Araştırmaları",
-          title: "Tatarlı Höyük",
-          descriptionLine1:
-            "Doğu Kilikya’nın binlerce yıllık geçmişini",
-          descriptionLine2:
-            "gün ışığına çıkarıyoruz.",
-          arrowLabel:
-            "Hakkında bölümüne kaydır",
-        };
+        eyebrow: "Kizzuwatna Araştırmaları",
+        title: "Tatarlı Höyük",
+        descriptionLine1:
+          "Doğu Kilikya’nın binlerce yıllık geçmişini",
+        descriptionLine2:
+          "gün ışığına çıkarıyoruz.",
+        arrowLabel:
+          "Hakkında bölümüne kaydır",
+      };
 
   return (
     <section
@@ -89,7 +83,7 @@ export default function Hero({
       className={styles.hero}
     >
       <div className={styles.stickyWrapper}>
-        <motion.video
+        <video
           className={styles.backgroundVideo}
           autoPlay
           muted
@@ -97,15 +91,12 @@ export default function Hero({
           playsInline
           preload="metadata"
           poster="/images/hero.jpg"
-          style={{
-            scale: videoScale,
-          }}
         >
           <source
             src="/video/hero.mp4"
             type="video/mp4"
           />
-        </motion.video>
+        </video>
 
         <div className={styles.overlay} />
 

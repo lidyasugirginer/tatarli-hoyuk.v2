@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import type { PublicationItem } from "@/types/publication";
 
 import styles from "./latest-publications.module.css";
@@ -56,7 +56,7 @@ function getPublicationType(
 export default async function LatestPublications({
   language = "tr",
 }: LatestPublicationsProps) {
-  const supabase = await createClient();
+  const supabase = await createPublicClient();
 
   const t = content[language];
 

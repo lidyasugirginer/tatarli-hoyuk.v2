@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 import styles from "./news.module.css";
 
@@ -76,7 +76,7 @@ function formatDate(
 export default async function News({
   language = "tr",
 }: NewsProps) {
-  const supabase = await createClient();
+  const supabase = await createPublicClient();
 
   const t = content[language];
 
