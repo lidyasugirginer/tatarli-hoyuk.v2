@@ -132,6 +132,17 @@ export default function PublicationForm({
       return values.cover_image_url;
     }
 
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      throw new Error(
+        "Supabase oturumu bulunamadı. Yönetim panelinden çıkış yapıp tekrar giriş yapın."
+      );
+    }
+
     const extension =
       imageFile.name.split(".").pop()?.toLowerCase() ??
       "jpg";

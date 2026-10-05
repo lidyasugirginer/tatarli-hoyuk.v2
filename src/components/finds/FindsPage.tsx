@@ -19,14 +19,14 @@ const pageContent = {
     eyebrow: "Tatarlı Höyük Kazısı",
     title: "Buluntular",
     description:
-      "Tatarlı Höyük'te farklı dönemlere ait arkeolojik buluntular, yerleşimin kültürel gelişimini ve bölgesel ilişkilerini yansıtmaktadır.",
+      "",
   },
   en: {
     breadcrumb: "Finds",
     eyebrow: "Tatarlı Höyük Excavation",
     title: "Finds",
     description:
-      "Archaeological finds from different periods at Tatarlı Höyük reflect the cultural development of the settlement and its regional connections.",
+      "",
   },
 } as const;
 

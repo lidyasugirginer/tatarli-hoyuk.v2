@@ -74,9 +74,8 @@ export default function LoginPage() {
       return;
     }
 
-    // 3. Her şey doğruysa yönetim paneline yönlendir
-    router.push('/admin');
-    router.refresh();
+    // 3. Her şey doğruysa yönetim paneline tam sayfa yönlendir
+    window.location.href = '/admin';
   }
 
   return (

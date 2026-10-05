@@ -24,6 +24,8 @@ import styles from "../layout.module.css";
 
 type AdminShellProps = {
   children: React.ReactNode;
+  userEmail?: string;
+  userRole?: string;
 };
 
 const menuItems = [
@@ -223,6 +225,8 @@ function getBreadcrumbs(pathname: string) {
 
 export default function AdminShell({
   children,
+  userEmail,
+  userRole = "admin",
 }: AdminShellProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -256,17 +260,22 @@ export default function AdminShell({
   }
 
   async function handleLogout() {
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      window.alert("Çıkış yapılırken bir hata oluştu.");
-      return;
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch {
+      // ignore
     }
 
-    router.replace("/admin/login");
-    router.refresh();
+    try {
+      await fetch("/api/admin/logout", {
+        method: "POST",
+      });
+    } catch {
+      // ignore
+    }
+
+    window.location.replace("/admin/login");
   }
 
  return (
@@ -363,11 +372,13 @@ export default function AdminShell({
 
         <div className={styles.sidebarFooter}>
           <div className={styles.userInfo}>
-            <div className={styles.userAvatar}>SA</div>
+            <div className={styles.userAvatar}>
+              {userEmail ? userEmail.slice(0, 2).toUpperCase() : "AD"}
+            </div>
 
             <div>
-              <p className={styles.userName}>Super Admin</p>
-              <p className={styles.userRole}>super_admin</p>
+              <p className={styles.userName}>{userEmail || "Yönetici"}</p>
+              <p className={styles.userRole}>{userRole}</p>
             </div>
           </div>
 

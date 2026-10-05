@@ -3,15 +3,15 @@
 
   display: grid;
   grid-template-columns:
-    minmax(360px, 0.82fr)
-    minmax(560px, 1.18fr);
+    minmax(340px, 0.82fr)
+    minmax(500px, 1.18fr);
 
-  gap: 30px;
+  gap: 26px;
   align-items: center;
 
-  min-height: 160px;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
+  min-height: 122px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
 
   overflow: visible;
 
@@ -26,7 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 11px;
+  gap: 8px;
 }
 
 .pageHeader h1 {
@@ -38,18 +38,18 @@
     "Times New Roman",
     serif;
 
-  font-size: clamp(38px, 3.8vw, 58px);
+  font-size: clamp(35px, 3.4vw, 52px);
   font-weight: 400;
-  line-height: 1.02;
+  line-height: 1.03;
   letter-spacing: -0.015em;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
 .titleLine {
-  width: 42px;
+  width: 38px;
   height: 1px;
-  margin-top: 2px;
+  margin-top: 1px;
 
   background: #b9974f;
 }
@@ -63,7 +63,7 @@
   margin: 0;
 
   color: #9d7d45;
-  font-size: 12px;
+  font-size: 11.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -80,42 +80,48 @@
 }
 
 .eyebrow {
-  margin: 4px 0 0;
+  margin: 0;
 
   color: #a27c3d;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .frieze {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+
   display: flex;
   align-items: center;
   justify-content: flex-end;
 
-  min-height: 150px;
-  padding: 14px 0 8px 20px;
+  min-height: 120px;
+  padding: 6px 0 6px 16px;
 
   overflow: visible;
 
-  transform: translate(-4px, -2px);
+  transform: translate(-4px, -1px);
 
   pointer-events: none;
 
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 96%,
+    black 14%,
+    black 70%,
+    transparent 98%,
     transparent 100%
   );
 
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 96%,
+    black 14%,
+    black 70%,
+    transparent 98%,
     transparent 100%
   );
 }
@@ -123,7 +129,7 @@
 .frieze img {
   display: block;
 
-  width: clamp(220px, 18vw, 300px);
+  width: clamp(180px, 14.8vw, 245px);
   height: auto;
 
   flex: 0 0 auto;
@@ -131,6 +137,23 @@
   opacity: 0.095;
 
   mix-blend-mode: multiply;
+
+  /* Yumuşak dikey geçiş: alt ve üst dikdörtgen sınırları doğal şekilde yok eder */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
 
   filter:
     sepia(100%)
@@ -140,43 +163,33 @@
     contrast(0.48);
 }
 
-.kizzuwatnaFrieze img {
-  width: clamp(210px, 16vw, 275px);
-  opacity: 0.14;
-
-  filter:
-    sepia(70%)
-    saturate(150%)
-    hue-rotate(-8deg)
-    brightness(1.05)
-    contrast(0.82);
-}
-
 .kizzuwatnaFrieze {
-  min-height: 170px;
+  min-height: 135px;
 
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 92%,
+    black 14%,
+    black 70%,
+    transparent 98%,
     transparent 100%
   );
 
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 8%,
-    black 92%,
+    black 14%,
+    black 70%,
+    transparent 98%,
     transparent 100%
   );
 }
 
 .kizzuwatnaFrieze img {
-  width: clamp(270px, 21vw, 340px);
+  width: clamp(220px, 17vw, 275px);
   height: auto;
 
   opacity: 0.21;
@@ -185,16 +198,16 @@
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 12%,
-    black 76%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
 
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 12%,
-    black 76%,
+    black 8%,
+    black 92%,
     transparent 100%
   );
 
@@ -202,37 +215,43 @@
     sepia(65%)
     saturate(125%)
     contrast(0.84)
-    brightness(1.04)
-    blur(0.3px);
+    brightness(1.04);
 }
 
 @media (max-width: 1180px) {
   .pageHeader {
     grid-template-columns:
-      minmax(300px, 0.9fr)
-      minmax(420px, 1.1fr);
+      minmax(280px, 0.9fr)
+      minmax(360px, 1.1fr);
+    min-height: 115px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
   }
 
   .pageHeader h1 {
-    font-size: clamp(36px, 4.5vw, 52px);
+    font-size: clamp(32px, 3.8vw, 46px);
   }
 
   .frieze img {
-    width: 250px;
+    width: 210px;
+  }
+
+  .kizzuwatnaFrieze img {
+    width: 240px;
   }
 }
 
 @media (max-width: 900px) {
   .pageHeader {
     grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
+    gap: 14px;
 
     width: 100%;
     max-width: 100%;
 
     min-height: auto;
-    margin-bottom: 24px;
-    padding-bottom: 18px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
 
     overflow: hidden;
   }
@@ -240,12 +259,13 @@
   .headerText {
     width: 100%;
     min-width: 0;
+    gap: 7px;
   }
 
   .pageHeader h1 {
     max-width: 100%;
 
-    font-size: clamp(34px, 7vw, 48px);
+    font-size: clamp(30px, 6.2vw, 42px);
     line-height: 1.05;
 
     overflow-wrap: break-word;
@@ -257,7 +277,7 @@
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    min-height: 100px;
+    min-height: 80px;
 
     padding: 0;
 
@@ -269,7 +289,7 @@
   .frieze img {
     display: block;
 
-    width: min(100%, 260px);
+    width: min(100%, 215px);
     max-width: 100%;
     height: auto;
 
@@ -279,7 +299,7 @@
   .kizzuwatnaFrieze {
     width: 100%;
     max-width: 100%;
-    min-height: 120px;
+    min-height: 95px;
 
     padding: 0;
 
@@ -287,7 +307,7 @@
   }
 
   .kizzuwatnaFrieze img {
-    width: min(100%, 300px);
+    width: min(100%, 245px);
     max-width: 100%;
     height: auto;
   }
@@ -295,14 +315,18 @@
 
 @media (max-width: 600px) {
   .pageHeader {
-    gap: 14px;
+    gap: 12px;
 
-    margin-bottom: 20px;
-    padding-bottom: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
+  .headerText {
+    gap: 6px;
   }
 
   .pageHeader h1 {
-    font-size: clamp(32px, 10vw, 42px);
+    font-size: clamp(28px, 8.5vw, 36px);
   }
 
   .breadcrumb {
@@ -318,18 +342,18 @@
   }
 
   .frieze {
-    min-height: 88px;
+    min-height: 68px;
   }
 
   .frieze img {
-    width: min(100%, 230px);
+    width: min(100%, 185px);
   }
 
   .kizzuwatnaFrieze {
-    min-height: 105px;
+    min-height: 82px;
   }
 
   .kizzuwatnaFrieze img {
-    width: min(100%, 270px);
+    width: min(100%, 215px);
   }
 }

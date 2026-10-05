@@ -9,10 +9,16 @@ import {
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 
 import styles from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminDashboardPage() {
+  await requireAdmin();
+
   const supabase = await createClient();
 
   const [

@@ -140,6 +140,17 @@ export default function GalleryImageManager({
     setErrorMessage("");
 
     try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        throw new Error(
+          "Supabase oturumu bulunamadı. Yönetim panelinden çıkış yapıp tekrar giriş yapın."
+        );
+      }
+
       const uploadedRecords = [];
 
       for (const selected of selectedImages) {

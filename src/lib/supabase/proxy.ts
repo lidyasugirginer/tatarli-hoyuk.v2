@@ -36,27 +36,68 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isLoggedIn = Boolean(user);
+  let isAdmin = false;
+
+  if (user) {
+    const { data: adminRecord } = await supabase
+      .from("admins")
+      .select("role")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    isAdmin = Boolean(adminRecord);
+  }
 
   const pathname = request.nextUrl.pathname;
 
   const isAdminRoute = pathname.startsWith("/admin");
   const isLoginRoute = pathname === "/admin/login";
 
-  if (isAdminRoute && !isLoginRoute && !isLoggedIn) {
+  if (isAdminRoute && !isLoginRoute && !isAdmin) {
     const loginUrl = request.nextUrl.clone();
-
     loginUrl.pathname = "/admin/login";
 
-    return NextResponse.redirect(loginUrl);
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    response.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value, cookie);
+    });
+
+    redirectResponse.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    redirectResponse.headers.set("Pragma", "no-cache");
+    redirectResponse.headers.set("Expires", "0");
+
+    return redirectResponse;
   }
 
-  if (isLoginRoute && isLoggedIn) {
+  if (isLoginRoute && isAdmin) {
     const panelUrl = request.nextUrl.clone();
-
     panelUrl.pathname = "/admin";
 
-    return NextResponse.redirect(panelUrl);
+    const redirectResponse = NextResponse.redirect(panelUrl);
+    response.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie.name, cookie.value, cookie);
+    });
+
+    redirectResponse.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    redirectResponse.headers.set("Pragma", "no-cache");
+    redirectResponse.headers.set("Expires", "0");
+
+    return redirectResponse;
+  }
+
+  if (isAdminRoute) {
+    response.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
   }
 
   return response;
