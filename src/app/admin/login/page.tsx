@@ -1,14 +1,9 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
 import styles from './page.module.css';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const supabase = createClient();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -20,62 +15,33 @@ export default function LoginPage() {
     setErrorMessage('');
     setIsLoading(true);
 
-    // 1. E-posta ve şifre ile giriş yap
-    const { data: loginData, error: loginError } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password,
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
       });
 
-    console.log('LOGIN DATA:', loginData);
-    console.log('LOGIN ERROR:', loginError);
+      const data = await response.json().catch(() => null);
 
-    // Auth girişinde hata varsa
-    if (loginError || !loginData.user) {
+      if (!response.ok || !data?.success) {
+        setErrorMessage(
+          data?.error || 'E-posta veya şifre hatalı.'
+        );
+        setIsLoading(false);
+        return;
+      }
+
+      // Başarılı giriş: tam sayfa yönlendirme ile admin paneline geç
+      window.location.href = '/admin';
+    } catch {
       setErrorMessage(
-        loginError?.message ?? 'Giriş sırasında bir hata oluştu.'
+        'Giriş yapılırken bir bağlantı hatası oluştu. Lütfen tekrar deneyin.'
       );
       setIsLoading(false);
-      return;
     }
-
-    // 2. Giriş yapan kişi admins tablosunda kayıtlı mı kontrol et
-    const { data: adminData, error: adminError } = await supabase
-      .from('admins')
-      .select('role')
-      .eq('user_id', loginData.user.id)
-      .maybeSingle();
-
-    console.log('USER ID:', loginData.user.id);
-    console.log('ADMIN DATA:', adminData);
-    console.log('ADMIN ERROR:', adminError);
-
-    // Veritabanı sorgusunda hata varsa
-    if (adminError) {
-      await supabase.auth.signOut();
-
-      setErrorMessage(
-        `Yönetici kaydı kontrol edilemedi: ${adminError.message}`
-      );
-
-      setIsLoading(false);
-      return;
-    }
-
-    // Kullanıcı Auth'ta var ama admins tablosunda yoksa
-    if (!adminData) {
-      await supabase.auth.signOut();
-
-      setErrorMessage(
-        'Bu hesabın yönetim paneline erişim yetkisi yok.'
-      );
-
-      setIsLoading(false);
-      return;
-    }
-
-    // 3. Her şey doğruysa yönetim paneline tam sayfa yönlendir
-    window.location.href = '/admin';
   }
 
   return (
@@ -129,4 +95,5 @@ export default function LoginPage() {
       </div>
     </main>
   );
+}
 }
