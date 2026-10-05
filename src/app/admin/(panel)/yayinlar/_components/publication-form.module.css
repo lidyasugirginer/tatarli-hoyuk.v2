@@ -310,6 +310,94 @@
   }
 }
 
+.urlUploadSection {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.urlDivider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8c877d;
+  font-size: 12px;
+}
+
+.urlDivider::before,
+.urlDivider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e5e1d8;
+}
+
+.urlDivider span {
+  padding: 0 10px;
+  font-weight: 500;
+}
+
+.urlInputRow {
+  display: flex;
+  gap: 8px;
+}
+
+.urlInput {
+  flex: 1;
+  min-height: 40px;
+  padding: 0 12px;
+  color: #27251f;
+  background: #fff;
+  border: 1px solid #dcd8cf;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.urlInput:focus {
+  border-color: #9b8354;
+  box-shadow: 0 0 0 3px rgb(155 131 84 / 12%);
+}
+
+.urlUploadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #262219;
+  border-radius: 8px;
+  background: #262219;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 150ms ease;
+}
+
+.urlUploadButton:hover:not(:disabled) {
+  background: #3b3427;
+}
+
+.urlUploadButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.urlErrorText {
+  margin: 0;
+  color: #a43b35;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 @media (max-width: 1040px) {
   .formGrid {
     grid-template-columns: 1fr;

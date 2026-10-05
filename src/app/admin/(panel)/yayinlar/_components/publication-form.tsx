@@ -14,6 +14,7 @@ import {
   ArrowLeft,
   BookOpen,
   ImagePlus,
+  Link2,
   LoaderCircle,
   Save,
   X,
@@ -75,6 +76,10 @@ export default function PublicationForm({
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [remoteImageUrl, setRemoteImageUrl] = useState("");
+  const [isUploadingUrl, setIsUploadingUrl] = useState(false);
+  const [urlUploadError, setUrlUploadError] = useState("");
+
   function updateField(
     field: keyof PublicationFormValues,
     value: string
@@ -107,25 +112,81 @@ export default function PublicationForm({
     }
 
     setErrorMessage("");
+    setUrlUploadError("");
     setImageFile(file);
     setPreviewUrl(URL.createObjectURL(file));
   }
 
   function handleRemoveImage() {
-  if (previewUrl.startsWith("blob:")) {
-    URL.revokeObjectURL(previewUrl);
-  }
+    if (previewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(previewUrl);
+    }
 
-  setImageFile(null);
-
-  if (publication?.cover_image_url) {
-    setPreviewUrl(publication.cover_image_url);
-  } else {
+    setImageFile(null);
+    updateField("cover_image_url", "");
     setPreviewUrl("");
+    setErrorMessage("");
+    setUrlUploadError("");
   }
 
-  setErrorMessage("");
-}
+  async function handleUploadFromUrl() {
+    const trimmedUrl = remoteImageUrl.trim();
+    if (!trimmedUrl) {
+      setUrlUploadError("Lütfen bir görsel URL'si girin.");
+      return;
+    }
+
+    if (!trimmedUrl.startsWith("https://")) {
+      setUrlUploadError(
+        "Yalnızca https:// ile başlayan görsel bağlantıları kabul edilir."
+      );
+      return;
+    }
+
+    setIsUploadingUrl(true);
+    setUrlUploadError("");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch(
+        "/api/admin/publications/cover-from-url",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ imageUrl: trimmedUrl }),
+        }
+      );
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data?.success) {
+        setUrlUploadError(
+          data?.error || "Görsel indirilemedi veya yüklenemedi."
+        );
+        setIsUploadingUrl(false);
+        return;
+      }
+
+      if (previewUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
+      // Supabase Storage'a başarıyla yüklendi:
+      // Kalıcı Supabase public URL'ini form alanına ve preview'a ata
+      updateField("cover_image_url", data.publicUrl);
+      setPreviewUrl(data.publicUrl);
+      setImageFile(null);
+      setRemoteImageUrl("");
+    } catch {
+      setUrlUploadError(
+        "Görsel yüklenirken bir bağlantı hatası oluştu."
+      );
+    } finally {
+      setIsUploadingUrl(false);
+    }
+  }
 
   async function uploadCoverImage() {
     if (!imageFile) {
@@ -485,6 +546,54 @@ export default function PublicationForm({
                 onChange={handleImageChange}
               />
             </label>
+
+            <div className={styles.urlUploadSection}>
+              <div className={styles.urlDivider}>
+                <span>veya kapak URL&apos;si</span>
+              </div>
+
+              <div className={styles.urlInputRow}>
+                <input
+                  type="url"
+                  value={remoteImageUrl}
+                  onChange={(event) =>
+                    setRemoteImageUrl(event.target.value)
+                  }
+                  placeholder="https://... (Örn. Academia kapak URL'si)"
+                  disabled={isUploadingUrl}
+                  className={styles.urlInput}
+                />
+
+                <button
+                  type="button"
+                  onClick={handleUploadFromUrl}
+                  disabled={
+                    isUploadingUrl || !remoteImageUrl.trim()
+                  }
+                  className={styles.urlUploadButton}
+                >
+                  {isUploadingUrl ? (
+                    <LoaderCircle
+                      className={styles.spinner}
+                      size={15}
+                    />
+                  ) : (
+                    <Link2 size={15} />
+                  )}
+                  <span>
+                    {isUploadingUrl
+                      ? "Yükleniyor..."
+                      : "URL'den Yükle"}
+                  </span>
+                </button>
+              </div>
+
+              {urlUploadError ? (
+                <p className={styles.urlErrorText}>
+                  {urlUploadError}
+                </p>
+              ) : null}
+            </div>
           </section>
         </div>
       </div>
