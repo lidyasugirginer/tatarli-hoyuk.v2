@@ -282,6 +282,20 @@
 
 }
 
+@media (max-width: 768px) {
+  .introText p:not(.sectionNumber),
+  .sectionText p:not(.sectionNumber) {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+
+  .introText p:last-child,
+  .sectionText p:last-child {
+    margin-bottom: 0;
+  }
+}
+
 @media (max-width: 620px) {
   .page { padding-top: 88px; }
   .container { width: min(100% - 28px, 560px); padding-top: 20px; }

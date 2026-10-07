@@ -241,10 +241,11 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .pageHeader {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+    display: block;
+    grid-template-columns: 1fr;
+    gap: 0;
 
     width: 100%;
     max-width: 100%;
@@ -271,51 +272,15 @@
     overflow-wrap: break-word;
   }
 
-  .frieze {
-    justify-content: flex-start;
-
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    min-height: 80px;
-
-    padding: 0;
-
-    overflow: hidden;
-
-    transform: none;
-  }
-
-  .frieze img {
-    display: block;
-
-    width: min(100%, 215px);
-    max-width: 100%;
-    height: auto;
-
-    flex: 0 1 auto;
-  }
-
+  .frieze,
   .kizzuwatnaFrieze {
-    width: 100%;
-    max-width: 100%;
-    min-height: 95px;
-
-    padding: 0;
-
-    overflow: hidden;
-  }
-
-  .kizzuwatnaFrieze img {
-    width: min(100%, 245px);
-    max-width: 100%;
-    height: auto;
+    display: none !important;
   }
 }
 
 @media (max-width: 600px) {
   .pageHeader {
-    gap: 12px;
+    gap: 0;
 
     margin-bottom: 16px;
     padding-bottom: 12px;
@@ -339,21 +304,5 @@
   .eyebrow {
     font-size: 10px;
     letter-spacing: 0.13em;
-  }
-
-  .frieze {
-    min-height: 68px;
-  }
-
-  .frieze img {
-    width: min(100%, 185px);
-  }
-
-  .kizzuwatnaFrieze {
-    min-height: 82px;
-  }
-
-  .kizzuwatnaFrieze img {
-    width: min(100%, 215px);
   }
 }
