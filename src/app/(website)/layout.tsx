@@ -1,5 +1,6 @@
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import Supporters from "@/components/layout/supporters";
 
 export default function WebsiteLayout({
   children,
@@ -10,6 +11,7 @@ export default function WebsiteLayout({
     <>
       <Header />
       {children}
+      <Supporters />
       <Footer />
     </>
   );
