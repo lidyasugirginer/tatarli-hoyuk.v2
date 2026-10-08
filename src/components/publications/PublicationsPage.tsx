@@ -1,9 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import PageHeader from "@/components/shared/PageHeader";
 import { createClient } from "@/lib/supabase/server";
 import type { PublicationItem } from "@/types/publication";
+import PublicationsExplorer from "./PublicationsExplorer";
 
 import styles from "./PublicationsPage.module.css";
 
@@ -20,7 +18,6 @@ const content = {
     title: "Yayınlar",
     error: "Yayınlar şu anda yüklenemiyor.",
     empty: "Henüz yayın eklenmedi.",
-    coverAltSuffix: "kapak görseli",
   },
   en: {
     breadcrumb: "Publications",
@@ -28,25 +25,8 @@ const content = {
     title: "Publications",
     error: "Publications are currently unavailable.",
     empty: "No publications have been added yet.",
-    coverAltSuffix: "cover image",
   },
 } as const;
-
-function getPublicationType(type: string, language: Language) {
-  if (language === "tr") {
-    return type;
-  }
-
-  const typeTranslations: Record<string, string> = {
-    "Makale": "Article",
-    "Kitap": "Book",
-    "Kitap Bölümü": "Book Chapter",
-    "Bildiri": "Conference Paper",
-    "Tez": "Thesis",
-  };
-
-  return typeTranslations[type] ?? type;
-}
 
 export default async function PublicationsPage({
   language = "tr",
@@ -92,52 +72,10 @@ export default async function PublicationsPage({
             <p>{t.empty}</p>
           </section>
         ) : (
-          <section className={styles.publicationList}>
-            {publications.map((publication) => (
-              <article
-                key={publication.id}
-                className={styles.publicationItem}
-              >
-                <div className={styles.coverWrapper}>
-                  <Image
-                    src={publication.cover_image_url}
-                    alt={`${publication.title} ${t.coverAltSuffix}`}
-                    width={240}
-                    height={340}
-                    className={styles.cover}
-                  />
-                </div>
-
-                <div className={styles.publicationInfo}>
-                  <Link
-                    href={publication.publication_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.publicationTitle}
-                  >
-                    {publication.title}
-                  </Link>
-
-                  <p className={styles.authors}>
-                    {publication.authors}
-                  </p>
-
-                  <div className={styles.meta}>
-                    <span>{publication.publication_year}</span>
-
-                    <span className={styles.dot}>•</span>
-
-                    <span>
-                      {getPublicationType(
-                        publication.publication_type,
-                        language
-                      )}
-                    </span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </section>
+          <PublicationsExplorer
+            publications={publications}
+            language={language}
+          />
         )}
       </div>
     </main>

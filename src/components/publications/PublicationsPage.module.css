@@ -104,23 +104,238 @@
     sepia(100%) saturate(240%) hue-rotate(-14deg) brightness(1.38) contrast(0.48);
 }
 
-/* PUBLICATIONS */
+/* EXPLORER & FILTERS */
+
+.explorer {
+  width: 100%;
+  max-width: 960px;
+  margin: 0;
+}
+
+.filterSection {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.filterBar {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.8fr) minmax(130px, 1fr) minmax(140px, 1.15fr) minmax(160px, 1.25fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8c734b;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: 42px;
+  padding: 0 36px 0 38px;
+  background-color: #fffdf9;
+  border: 1px solid rgba(138, 110, 75, 0.22);
+  border-radius: 6px;
+  color: #2a2119;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.2;
+  outline: none;
+  box-sizing: border-box;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.searchInput::placeholder {
+  color: #9c8e7f;
+  opacity: 1;
+}
+
+.searchInput:hover {
+  border-color: rgba(185, 151, 79, 0.5);
+  background-color: #ffffff;
+}
+
+.searchInput:focus {
+  border-color: #b9974f;
+  box-shadow: 0 0 0 3px rgba(185, 151, 79, 0.14);
+  background-color: #ffffff;
+}
+
+.clearSearchButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #8c7865;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.clearSearchButton:hover {
+  color: #2a2119;
+  background-color: rgba(138, 110, 75, 0.12);
+}
+
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.yearWrapper,
+.typeWrapper,
+.sortWrapper {
+  min-width: 0;
+}
+
+.select {
+  width: 100%;
+  height: 42px;
+  padding: 0 32px 0 14px;
+  background-color: #fffdf9;
+  border: 1px solid rgba(138, 110, 75, 0.22);
+  border-radius: 6px;
+  color: #2a2119;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.2;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.select:hover {
+  border-color: rgba(185, 151, 79, 0.5);
+  background-color: #ffffff;
+}
+
+.select:focus {
+  border-color: #b9974f;
+  box-shadow: 0 0 0 3px rgba(185, 151, 79, 0.14);
+  background-color: #ffffff;
+}
+
+.selectArrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8c734b;
+  pointer-events: none;
+}
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  margin-bottom: 22px;
+  padding: 0 2px;
+  min-height: 26px;
+}
+
+.resultCount {
+  font-size: 13px;
+  font-weight: 500;
+  color: #7d7165;
+  letter-spacing: 0.01em;
+}
+
+.clearFiltersButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background-color: transparent;
+  border: 1px solid rgba(185, 151, 79, 0.35);
+  border-radius: 4px;
+  color: #8c734b;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.clearFiltersButton:hover {
+  color: #2a2119;
+  background-color: rgba(185, 151, 79, 0.1);
+  border-color: #b9974f;
+}
+
+.noMatches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px 20px;
+  margin: 16px 0 40px;
+  background-color: rgba(255, 253, 249, 0.65);
+  border: 1px dashed rgba(138, 110, 75, 0.3);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.noMatchesText {
+  margin: 0;
+  font-size: 15px;
+  color: #62574d;
+}
+
+/* PUBLICATIONS (Masaüstü Bibliyografik Liste) */
 
 .publicationList {
   width: 100%;
-  max-width: 920px;
+  max-width: 100%;
   margin: 0;
 }
 
 .publicationItem {
   display: grid;
-  grid-template-columns: 100px minmax(0, 1fr);
-
+  grid-template-columns: 88px minmax(0, 1fr);
   gap: 24px;
   align-items: center;
-
-  padding: 24px 0;
-
+  padding: 22px 0;
   border-bottom: 1px solid rgba(83, 62, 39, 0.12);
 }
 
@@ -131,37 +346,35 @@
 .coverWrapper {
   display: flex;
   justify-content: flex-start;
-
-  width: 100px;
+  width: 88px;
 }
 
 .cover {
   width: 88px;
-  height: 126px;
-
+  height: auto;
+  aspect-ratio: 1 / 1.42;
   object-fit: cover;
-
   border-radius: 2px;
-
   box-shadow:
-    0 8px 18px rgba(56, 42, 27, 0.12),
-    0 2px 4px rgba(56, 42, 27, 0.07);
+    0 6px 16px rgba(56, 42, 27, 0.12),
+    0 2px 4px rgba(56, 42, 27, 0.06);
 }
 
 .publicationInfo {
   min-width: 0;
-  max-width: 690px;
+  width: 100%;
 }
 
 .publicationTitle {
   margin: 0;
-
   font-family: var(--font-lora), Georgia, serif;
-  font-size: clamp(18px, 1.25vw, 23px);
+  font-size: 19px;
   font-weight: 500;
-  line-height: 1.22;
+  line-height: 1.32;
   letter-spacing: -0.008em;
-
+  color: #2a2119;
+  overflow-wrap: break-word;
+  word-break: normal;
   transition: color 180ms ease;
 }
 
@@ -170,142 +383,508 @@
 }
 
 .authors {
-  margin: 9px 0 4px;
-
-  color: #62574d;
-
-  font-size: 13px;
+  margin: 7px 0 5px;
+  color: #5c5045;
+  font-size: 13.5px;
   line-height: 1.45;
+  overflow-wrap: break-word;
 }
 
 .meta {
   display: flex;
   align-items: center;
   gap: 7px;
-
-  color: #948372;
-
-  font-size: 12px;
+  color: #8c7b6c;
+  font-size: 12.5px;
   letter-spacing: 0.02em;
 }
 
 .dot {
-  opacity: 0.55;
+  color: #b9974f;
+  opacity: 0.7;
 }
 
 .emptyState {
   padding: 48px 0;
-
   color: #7d7165;
-
   font-size: 15px;
+  text-align: center;
 }
 
-/* TABLET */
+/* PAGINATION (Sayfalama) */
 
-@media (max-width: 900px) {
+.paginationContainer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(83, 62, 39, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.paginationInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.rangeText {
+  font-size: 13px;
+  color: #6a5c4d;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.perPageSelector {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perPageLabel {
+  font-size: 12.5px;
+  color: #8c7865;
+}
+
+.perPageOptions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.perPageButton {
+  min-width: 28px;
+  height: 26px;
+  padding: 0 6px;
+  border: 1px solid rgba(138, 110, 75, 0.22);
+  border-radius: 4px;
+  background-color: #fffdf9;
+  color: #62574d;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.perPageButton:hover {
+  border-color: #b9974f;
+  color: #2a2119;
+  background-color: #ffffff;
+}
+
+.perPageButtonActive {
+  background-color: #b9974f;
+  color: #ffffff !important;
+  border-color: #b9974f !important;
+  font-weight: 600;
+}
+
+.paginationNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pageArrowButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(138, 110, 75, 0.22);
+  border-radius: 5px;
+  background-color: #fffdf9;
+  color: #5c5045;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.pageArrowButton:hover:not(:disabled) {
+  border-color: #b9974f;
+  color: #2a2119;
+  background-color: #ffffff;
+}
+
+.pageArrowButton:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  border-color: rgba(138, 110, 75, 0.14);
+}
+
+.navButtonText {
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.pageNumbers {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pageNumberButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid rgba(138, 110, 75, 0.22);
+  border-radius: 5px;
+  background-color: #fffdf9;
+  color: #5c5045;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.pageNumberButton:hover:not(.pageNumberActive) {
+  border-color: #b9974f;
+  color: #2a2119;
+  background-color: #ffffff;
+}
+
+.pageNumberActive {
+  background-color: #b9974f;
+  color: #ffffff !important;
+  border-color: #b9974f !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(185, 151, 79, 0.25);
+}
+
+.pageEllipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  color: #8c7865;
+  font-size: 13px;
+  user-select: none;
+}
+
+/* TABLET (769px - 1024px) */
+
+@media (max-width: 1024px) and (min-width: 769px) {
   .page {
     padding-top: 104px;
   }
 
   .container {
-    width: min(100% - 36px, 760px);
+    width: min(100% - 48px, 960px);
+    padding: 28px 0 80px;
   }
 
-  .pageHeader {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-
-    min-height: auto;
-  }
-
-  .frieze {
-    justify-content: flex-start;
-
-    width: 100%;
-    max-width: 100%;
-    height: 100px;
-
-    overflow: hidden;
-  }
-
-  .frieze img {
-    width: min(100%, 250px);
+  .explorer {
     max-width: 100%;
   }
 
-  .publicationList {
-    max-width: 100%;
+  .filterBar {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .searchBox {
+    grid-column: 1 / -1;
   }
 
   .publicationItem {
-    grid-template-columns: 96px minmax(0, 1fr);
-
-    gap: 22px;
-    padding: 24px 0;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 18px;
+    padding: 20px 0;
   }
 
   .coverWrapper {
-    width: 96px;
+    width: 80px;
   }
 
   .cover {
-    width: 90px;
-    height: 130px;
-  }
-
-  .publicationInfo {
-    max-width: 100%;
+    width: 80px;
   }
 
   .publicationTitle {
-    font-size: clamp(20px, 3vw, 25px);
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .authors {
+    font-size: 13px;
+  }
+
+  .meta {
+    font-size: 12px;
   }
 }
 
-/* MOBILE */
+/* MOBİL (<= 768px) */
+
+@media (max-width: 768px) {
+  .page {
+    padding-top: 96px;
+  }
+
+  .container {
+    width: min(100% - 32px, 720px);
+    padding: 20px 0 64px;
+  }
+
+  .explorer {
+    max-width: 100%;
+  }
+
+  .filterSection {
+    margin-bottom: 2px;
+  }
+
+  .filterBar {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 8px;
+    column-gap: 8px;
+  }
+
+  .searchBox {
+    grid-column: 1 / -1;
+  }
+
+  .yearWrapper {
+    grid-column: 1 / 2;
+  }
+
+  .typeWrapper {
+    grid-column: 2 / 3;
+  }
+
+  .sortWrapper {
+    grid-column: 1 / -1;
+  }
+
+  .searchInput,
+  .select {
+    height: 41px;
+    font-size: 13.5px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .searchInput {
+    padding: 0 28px 0 32px;
+  }
+
+  .select {
+    padding: 0 26px 0 10px;
+  }
+
+  .searchIcon {
+    left: 11px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .selectArrow {
+    right: 10px;
+    width: 13px;
+    height: 13px;
+  }
+
+  .clearSearchButton {
+    right: 5px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .clearSearchButton svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .statusBar {
+    margin-top: 6px;
+    margin-bottom: 12px;
+    min-height: 22px;
+  }
+
+  .resultCount {
+    font-size: 12px;
+  }
+
+  .clearFiltersButton {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
+
+  .noMatches {
+    padding: 36px 16px;
+  }
+
+  /* Mobil yayın listesi */
+  .publicationItem {
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 13px;
+    align-items: start;
+    padding: 16px 0;
+  }
+
+  .coverWrapper {
+    width: 70px;
+    padding-top: 2px;
+  }
+
+  .cover {
+    width: 70px;
+    height: auto;
+    aspect-ratio: 1 / 1.42;
+    border-radius: 2px;
+    box-shadow:
+      0 4px 10px rgba(56, 42, 27, 0.1),
+      0 1px 3px rgba(56, 42, 27, 0.05);
+  }
+
+  .publicationInfo {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .publicationTitle {
+    font-size: 15.5px;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .authors {
+    margin: 4px 0 5px;
+    font-size: 12.5px;
+    line-height: 1.42;
+    overflow-wrap: break-word;
+  }
+
+  .meta {
+    gap: 6px;
+    font-size: 11.5px;
+  }
+
+  /* Mobil Sayfalama */
+  .paginationContainer {
+    margin-top: 22px;
+    padding-top: 16px;
+    gap: 12px;
+  }
+
+  .paginationInfo {
+    gap: 8px;
+  }
+
+  .rangeText {
+    font-size: 12px;
+  }
+
+  .perPageLabel {
+    font-size: 11.5px;
+  }
+
+  .perPageButton {
+    min-width: 26px;
+    height: 24px;
+    font-size: 11.5px;
+  }
+
+  .paginationNav {
+    gap: 4px;
+  }
+
+  .pageArrowButton {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .pageNumberButton {
+    min-width: 32px;
+    height: 32px;
+    font-size: 12px;
+    padding: 0 4px;
+  }
+
+  .pageEllipsis {
+    min-width: 18px;
+    font-size: 12px;
+  }
+}
+
+/* EXTRA SMALL MOBİL (<= 560px & <= 480px, ör. 360px & 390px) */
 
 @media (max-width: 560px) {
+  .navButtonText {
+    display: none;
+  }
+
+  .pageArrowButton {
+    min-width: 32px;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
   .page {
     padding-top: 88px;
   }
 
   .container {
-    width: min(100% - 28px, 560px);
-    padding-bottom: 64px;
+    width: min(100% - 24px, 480px);
   }
 
   .publicationItem {
-    grid-template-columns: 74px minmax(0, 1fr);
-
-    gap: 16px;
-    align-items: start;
-
-    padding: 22px 0;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 12px;
+    padding: 15px 0;
   }
 
   .coverWrapper {
-    width: 74px;
+    width: 68px;
   }
 
   .cover {
-    width: 70px;
-    height: 101px;
+    width: 68px;
   }
 
   .publicationTitle {
-    font-size: 18px;
-    line-height: 1.2;
+    font-size: 15px;
+    line-height: 1.38;
   }
 
   .authors {
-    margin-top: 8px;
-
     font-size: 12px;
+    line-height: 1.4;
   }
 
   .meta {
     font-size: 11px;
+  }
+
+  .pageNumberButton {
+    min-width: 30px;
+    height: 30px;
+    font-size: 11.5px;
+  }
+
+  .pageArrowButton {
+    min-width: 30px;
+    height: 30px;
+  }
+
+  .paginationNav {
+    gap: 3px;
   }
 }
 
